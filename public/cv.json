@@ -1,0 +1,84 @@
+{
+  "main" :[
+    { "titolo": "data_di_nascita", "descrizione": "01/01/1990", "sezione": "personali" },
+    { "titolo": "indirizzo", "descrizione": "Via Roma 1, Milano", "sezione": "personali" },
+    { "titolo": "telefono", "descrizione": "+39 123 456 789", "sezione": "personali" },
+    { "titolo": "email", "descrizione": "giorgio.duscio@gmail.com", "sezione": "personali" },
+    { "titolo": "citta", "descrizione": "Palermo (PA)", "sezione": "personali" },
+
+
+    { "titolo": "Giorgio D'uscio - Front end developer", 
+      "descrizione":"Sviluppatore Front-end con esperienza in Angular, specializzato nella creazione di interfacce utente intuitive e funzionali. Appassionato di ottimizzazione dei flussi di lavoro e gestione dei dati, con l'obiettivo di contribuire a soluzioni innovative che migliorino l'esperienza utente valutando anche le condizioni ed il contesto in cui si utilizzano e l'efficienza operativa.", "sezione": "principale" },
+
+
+    { "titolo": "html", "descrizione": 8, "sezione": "competenze" },
+    { "titolo": "css", "descrizione": 7, "sezione": "competenze" },
+    { "titolo": "javascript", "descrizione": 8, "sezione": "competenze" },
+    { "titolo": "typescript", "descrizione": 7, "sezione": "competenze" },
+    { "titolo": "angular", "descrizione": 8, "sezione": "competenze" },
+    { "titolo": "git", "descrizione": 6, "sezione": "competenze" },
+    { "titolo": "react", "descrizione": 5, "sezione": "competenze" },
+    { "titolo": "sass", "descrizione": 7, "sezione": "competenze" },
+    { "titolo": "bootstrap", "descrizione": 7, "sezione": "competenze" },
+    { "titolo": "docker", "descrizione": 5, "sezione": "competenze" },
+
+
+    {
+      "titolo": "Sviluppatore Front-end",
+      "anno": "2025",
+      "sezione": "esperienze_lavorative",
+      "struttura": [
+        "Durata: 4 mesi (Marzo 2025 - Giugno 2025)",
+        "Implementazione della Pagina \"Nuova Prenotazione\": Progettazione e sviluppo di una pagina complessa per la gestione delle prenotazioni, focalizzandomi sull'ottimizzazione dell'esperienza utente e l'efficienza. Lo sviluppo ha beneficiato anche dell'assistenza di strumenti IA (chat GPT, Deepseek) per l'ottimizzazione e la generazione di porzioni di codice, facilitando l'implementazione delle seguenti funzionalità chiave:",
+        "- Gestione Prestazioni: Implementazione di logiche per la selezione multipla e deselezione di prestazioni, riepilogo dinamico e filtraggio avanzato dei risultati.",
+        "- Selezione Data e Ora: Sviluppo di un calendario interattivo per la scelta degli slot orari, con logiche di compatibilità basate sulle prestazioni selezionate e funzionalità di ricerca per la prima data disponibile.",
+        "- Gestione Pazienti: Integrazione della selezione del paziente esistente e della creazione di nuovi profili, con accesso alla visualizzazione dello storico delle prenotazioni.",
+        "- Riepilogo Dettagliato: Creazione di un modulo di riepilogo chiaro e conciso di tutte le selezioni effettuate prima della conferma della prenotazione."
+      ]
+    },
+    {
+      "titolo": "Front end developer (stage)",
+      "anno": "2024",
+      "sezione": "esperienze_lavorative",
+      "struttura": [
+        "Durata: 2 mesi (Gennaio 2025 - Febbraio 2025)",
+        "Sviluppo di un Portale CUP (Centro Unico di Prenotazione): Partecipazione allo sviluppo di un portale basato su Angular, concentrandomi su funzionalità chiave per l'interazione utente e la sicurezza:",
+        "- Sviluppo Pagine e Layout: Creazione di 2/3 pagine con layout coerente e funzionalità interattive.",
+        "- Modulo di Registrazione Avanzato: Implementazione di un form di registrazione con validazione reattiva e user-friendly, migliorando l'accuratezza dei dati inseriti.",
+        "- Gestione Accessi: Configurazione e applicazione di guardie di rotta per la protezione delle pagine, garantendo l'accesso solo a utenti autenticati e autorizzati."
+      ]
+    },
+    {
+      "titolo": "Associaz. Arces - Front end developer",
+      "anno": "2024",
+      "sezione": "esperienze_lavorative",
+      "struttura": [
+        "Durata: 8 mesi (Gennaio 2024 - Agosto 2024)",
+        "Corso di approfondimento su TypeScript, Angular, React e Bootstrap, con focus su JSON e integrazione di API. Conseguimento attestato: Marzo 2025"
+      ]
+    },
+
+
+    { "titolo": "Ascoltatore", "descrizione": "so essere paziente e comprensivo nell'osservare, ascoltare e schematizzare un determinato evento per poi elaborare un metodo per raggiungere un obiettivo comune.", "sezione": "soft_skills" },
+    { "titolo": "Fantasia", "descrizione": "so schematizzare e ideare un progetto che ho in mente e realizzarlo in maniera sempre più attinente ai miei obiettivi.", "sezione": "soft_skills" },
+
+
+    { "titolo": "github", "link": "https://github.com/giorgioduscio", "sezione": "progetti" },
+    { "titolo": "Test angular", "descrizione": "Applicazione Angular di test per varie funzionalità", "link": "https://ggg-angular.vercel.app", "sezione": "progetti" },
+
+
+    { "titolo": "musica", "sezione": "hobby" },
+    { "titolo": "scrittura", "sezione": "hobby" },
+    { "titolo": "giochi da tavolo", "descrizione": "GDR, scacchi", "sezione": "hobby" },
+    { "titolo": "serie animate", "sezione": "hobby" },
+    { "titolo": "disegno", "sezione": "hobby" },
+
+
+    { "titolo": "inglese", "descrizione": "reading: b2; speaking: b1; writing: b2; listening: b1", "sezione": "lingue" },
+
+
+    { "titolo": "disclaimer", "descrizione": "Autorizzo il trattamento dei miei dati personali presenti nel CV ai sensi del Decreto Legislativo 30 giugno 2003, n. 196 “Codice in materia di protezione dei dati personali” e dell’art. 13 del GDPR (Regolamento UE 2016/679).", "sezione": "disclaimer" }
+
+
+  ]
+}
