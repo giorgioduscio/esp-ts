@@ -1,14 +1,19 @@
 import './style.css'
-import CvPage from './pages/cv/cvPage.ts'
+import Shareds from './shareds/shareds.ts';
+import { Routes } from './routes.ts';
 
 
-function main() {
-  switch(window.location.pathname){
-    case '/cv': return new CvPage();
+function main(url:string) {
+  const match =Routes.find((route) => route.path === url)
+             ||Routes.find((route) => route.path === '**')
+  if (match) {
+    if(match.component) new match.component();
+    else if(match.redirect) window.location.pathname = match.redirect
   }
+  new Shareds();
 } 
 
 window.addEventListener("hashchange", () => {
-  console.log("Hash cambiato:", window.location.hash);
-  main()
-}); main()
+  console.log("Hash cambiato:", window.location.pathname);
+  main(window.location.pathname)
+}); main(window.location.pathname)
