@@ -1,0 +1,91 @@
+// Variabili
+$c1: #222
+$c2: #444
+$c3: #888
+$c4: #aaa
+$c5: #fff
+$st: #00000050
+
+// Stili globali
+html, body
+  margin: 0
+  min-height: 100vh
+  color: $c5
+  background: $c1
+  font-family: Roboto, "Helvetica Neue", sans-serif
+
+#app
+  *
+    transition: 0.3s
+    font-size: 20px
+    box-sizing: border-box
+
+article
+  padding: 50px 0
+  margin: 0 auto
+  max-width: 1000px
+  box-shadow: 0 0 5px 5px black
+
+  > div
+    width: min(100%, 1000px)
+    margin: 0 auto
+
+// Titoli
+h1
+  margin: 0
+  font-size: 40px
+  text-align: center
+  background: linear-gradient(30deg, $c2, $c4)
+  background-clip: text
+  color: transparent
+
+h2
+  font-size: 35px
+h3
+  font-size: 30px
+h4
+  font-size: 25px
+h5
+  font-size: 20px
+h6
+  font-size: 15px
+
+// Form
+input, button
+  padding: 10px
+  outline: 0
+  background: $c1
+  color: $c3
+  border-radius: 10px
+  border: 0
+
+  &::placeholder
+    color: inherit
+
+button
+  display: flex
+  align-items: center
+  justify-content: space-evenly
+  align-content: center
+  gap: 5px
+
+  &:hover,
+  input:hover
+    background: $c2
+
+  &:disabled
+    background: $st
+
+// Link
+a
+  color: inherit
+  text-decoration: none
+  font-weight: bold
+
+  &:hover
+    color: $c3
+
+// Input specifici
+input[type="text"],
+input[type="number"]
+  width: min(100%, 300px)

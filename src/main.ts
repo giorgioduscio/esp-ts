@@ -1,4 +1,4 @@
-import './style.css'
+import './style.sass'
 import Shareds from './shareds/shareds.ts';
 import { Routes } from './routes.ts';
 

@@ -1,5 +1,5 @@
 import { Routes } from "../routes";
-import './shareds.css'
+import './shareds.sass'
 
 export default class Shareds {
   constructor() {

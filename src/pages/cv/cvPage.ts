@@ -1,4 +1,4 @@
-import './cv.css'
+import './cv.sass'
 import { CV, type CVItem } from "../../api/cvApi";
 
 export default class CvPage{
