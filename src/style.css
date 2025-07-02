@@ -22,7 +22,6 @@ article{ padding: 50px 0; }
       width: min(100%, 1000px);
       margin: 0 auto;
   }
-header{ background: var(--c3); }
 
 .line{
   height: 50px;

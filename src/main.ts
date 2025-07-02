@@ -12,8 +12,11 @@ function main(url:string) {
   }
   new Shareds();
 } 
-
-window.addEventListener("hashchange", () => {
-  console.log("Hash cambiato:", window.location.pathname);
-  main(window.location.pathname)
-}); main(window.location.pathname)
+document.addEventListener("DOMContentLoaded", () => {
+  
+  window.addEventListener("hashchange", () => {
+    console.log("Hash cambiato:", window.location.pathname);
+    main(window.location.pathname)
+  }); main(window.location.pathname)
+  
+})
