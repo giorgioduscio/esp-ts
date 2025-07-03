@@ -1,12 +1,22 @@
-// Variabili
+//* Colori
 $c1: #222
 $c2: #444
 $c3: #888
 $c4: #aaa
-$c5: #fff
+$c5: #ddd
 $st: #00000050
 
-// Stili globali
+$primary:   #007bff
+$secondary: #6c757d
+$success:   #28a745
+$danger:    #dc3545
+$warning:   #ffc107
+$info:      #17a2b8
+$light:     #f8f9fa
+$dark:      #343a40
+
+
+//* Stili globali
 html, body
   margin: 0
   min-height: 100vh
@@ -17,75 +27,250 @@ html, body
 #app
   *
     transition: 0.3s
-    font-size: 20px
     box-sizing: border-box
 
+// Breakpoints Bootstrap-like
 article
-  padding: 50px 0
-  margin: 0 auto
-  max-width: 1000px
-  box-shadow: 0 0 5px 5px black
+  margin: auto
+  padding: 0 15px
+  width: 100%
+  max-width: 100%  // default mobile full width con padding
 
-  > div
-    width: min(100%, 1000px)
-    margin: 0 auto
+  @media (min-width: 576px)
+    max-width: 540px
 
-// Titoli
+  @media (min-width: 768px)
+    max-width: 720px
+
+  @media (min-width: 992px)
+    max-width: 960px
+
+  @media (min-width: 1140px)
+    max-width: 1140px
+
+  @media (min-width: 1320px)
+    max-width: 1320px
+
+//* Titoli stile Bootstrap-like
 h1
-  margin: 0
-  font-size: 40px
-  text-align: center
-  background: linear-gradient(30deg, $c2, $c4)
-  background-clip: text
-  color: transparent
+  font-size: 5.5rem   // 40px circa
+  font-weight: 500
+  line-height: 1.2
+  margin-top: 0
+  margin-bottom: 0.5rem
 
 h2
-  font-size: 35px
+  font-size: 2rem      // 32px
+  font-weight: 500
+  line-height: 1.3
+  margin-top: 0
+  margin-bottom: 0.5rem
+
 h3
-  font-size: 30px
+  font-size: 1.75rem   // 28px
+  font-weight: 500
+  line-height: 1.4
+  margin-top: 0
+  margin-bottom: 0.5rem
+
 h4
-  font-size: 25px
+  font-size: 1.5rem    // 24px
+  font-weight: 500
+  line-height: 1.4
+  margin-top: 0
+  margin-bottom: 0.5rem
+
 h5
-  font-size: 20px
+  font-size: 1.25rem   // 20px
+  font-weight: 500
+  line-height: 1.5
+  margin-top: 0
+  margin-bottom: 0.5rem
+
 h6
-  font-size: 15px
+  font-size: 1rem      // 16px
+  font-weight: 500
+  line-height: 1.5
+  margin-top: 0
+  margin-bottom: 0.5rem
 
-// Form
-input, button
-  padding: 10px
-  outline: 0
-  background: $c1
-  color: $c3
-  border-radius: 10px
-  border: 0
+// Paragrafi come Bootstrap
+p
+  margin-top: 0
+  margin-bottom: 1rem
+  font-size: 1rem       // 16px
+  font-weight: 400
+  line-height: 1.5
+  color: $c5
 
-  &::placeholder
-    color: inherit
-
-button
-  display: flex
-  align-items: center
-  justify-content: space-evenly
-  align-content: center
-  gap: 5px
-
-  &:hover,
-  input:hover
-    background: $c2
-
-  &:disabled
-    background: $st
-
-// Link
-a
-  color: inherit
-  text-decoration: none
+//* pulsanti
+button, select
+  cursor: pointer
   font-weight: bold
+  
+//* Input, form, button stile tipo Bootstrap
+input:not([type="checkbox"]):not([type="radio"]), 
+select, textarea, button 
+  padding: 0.375rem 0.75rem // circa 6px 12px in px
+  margin: 0.375rem
+  font-size: 1rem           // 16px base
+  line-height: 1.5
+  color: $c3                // mantiene il colore testo personalizzato
+  background-color: $c5     // sfondo chiaro come Bootstrap
+  border: 1px solid $c4     // bordo sottile grigio chiaro
+  border-radius: 0.25rem    // circa 4px, tipico Bootstrap
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
+  box-sizing: border-box
+  font-family: Roboto, "Helvetica Neue", sans-serif
 
-  &:hover
-    color: $c3
+  &::placeholder 
+    color: $c2              // placeholder un po' più scuro
+    opacity: 1              // per essere sicuro che il colore sia applicato
+  &:focus 
+    border-color: $c2
+    outline: 0
+    box-shadow: 0 0 0 0.2rem rgba(68, 68, 68, 0.25) // ombra blu-grigia leggera
+    background-color: $c5
+    color: $c1
+  &:hover:not(:disabled) 
+    background-color: scale($c5, 37.5%)
+    border-color: $c3
+  &:disabled 
+    background-color: $st
+    color: $c4
+    cursor: not-allowed
 
-// Input specifici
-input[type="text"],
-input[type="number"]
-  width: min(100%, 300px)
+  // Stili estetici
+  &.primary
+    background: $primary
+    color: $warning     // colore di contrasto leggibile
+
+  &.secondary
+    background: $secondary
+    color: $c5
+
+  &.success
+    background: $success
+    color: $c5
+
+  &.danger
+    background: $danger
+    color: $c5
+
+  &.warning
+    background: $warning
+    color: $c1
+
+  &.info
+    background: $info
+    color: $c1
+
+  &.dark
+    background: $dark
+    color: $c5
+
+  &.light
+    background: $light
+    color: $c1
+
+  &.link
+    background: transparent
+    color: $primary
+    border: none
+    text-decoration: underline
+    text-underline-position: under
+
+
+// Checkbox e Radio stile Bootstrap
+input[type="checkbox"],
+input[type="radio"]
+  appearance: none
+  width: 1.1rem
+  height: 1.1rem
+  border: 1px solid $c4
+  border-radius: 0.25rem
+  background-color: $c5
+  display: inline-block
+  position: relative
+  margin: 0.375rem
+  vertical-align: middle
+  cursor: pointer
+  transition: background-color 0.2s ease, box-shadow 0.2s ease
+
+  &:focus
+    outline: none
+    box-shadow: 0 0 0 0.3rem rgba(68, 68, 68, 0.25)
+
+  &:checked
+    background-color: blue
+    box-shadow: 0 0 0 0.3rem #0000ff80
+
+    &::after
+      content: ''
+      position: absolute
+      top: 2px
+      left: 4px
+      width: 4px
+      height: 8px
+      border: solid $c5
+      border-width: 0 2px 2px 0
+      transform: rotate(45deg)
+
+
+// Stile specifico per radio
+input[type="radio"]
+  border-radius: 50%
+  position: relative
+
+  &:checked::after
+    content: ''
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    width: 0.5rem
+    height: 0.5rem
+    background: $c5
+    border-radius: 50%
+
+
+//* DROPDOWN  
+details.dropdown
+  position: relative
+  display: inline-block
+  
+  &>summary
+    // list-style: none
+    cursor: pointer
+    padding: 0.5rem 1rem
+    border-radius: 0.25rem
+    // user-select: none
+
+  &>div
+    position: absolute
+    top: 100%
+    left: 0
+    max-width: 300px
+    padding: 0.5rem
+    background-color: $c5
+    border: 1px solid $c4
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1)
+    border-radius: 0.25rem
+    z-index: 1000
+    display: flex
+    flex-direction: column
+    gap: 0.25rem
+
+  &[open] div
+    display: flex
+
+  &:not([open]) div
+    display: none
+
+  a
+    color: $c1
+    text-decoration: none
+    padding: 0.25rem 0.5rem
+    border-radius: 0.25rem
+    &:hover
+      background-color: $c4
