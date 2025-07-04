@@ -1,66 +1,46 @@
-import Render from "./render";
+import { ST } from "./st";
+import { Routes } from "../../routes";
 
 export default class ErrorPage {
   constructor() {
-    document.title = 'Errore';
-    (window as any).app = this;
-    this.inithtml();
-    Render(this)
+    ST.page(this.template, this)
+    document.title = 'Errore 404';
   }
-  title ='Errore'
+  title=''
   setTitle(title: string) { 
-    this.title =document.title =title; 
+    this.title =title;    
+    this.result =this.pages.filter((route) => title.length >2 && route.path.includes(title.toLowerCase()))   
+    
+    ST.Render({ title, result: this.result })
   }
+  pages: typeof Routes = Routes
+  result: typeof Routes = []
+  // insert back ticks
+  template = `
+    <article id="errorPage">
 
-  list =[
-    { id:'283', title:'carote', check:false },
-    { id:'289', title:'patate', check:false },
-    { id:'233', title:'banane', check:true },
-    { id:'383', title:'mele', check:false },
-    { id:'489', title:'ferri', check:true },
-  ]
-  deleteElement(index: number) { 
-    this.list.splice(index, 1); 
-    Render({ list: this.list }) 
-  }
-  createElement(){ 
-    this.list.push({ id: Math.floor(Math.random() * 1000).toString(), title:'', check:false }); 
-    Render({ list: this.list }) 
-  }
-  updateElement(e:Event, index: number){ 
-    const { name, value, checked, type } = e.target as HTMLInputElement;
-    (this.list[index] as any)[name] =type == 'checkbox'? checked : value;
-    Render({ list: this.list })
-  }
-  inithtml(){ //@ts-ignore
-    document.getElementById('app').innerHTML = `
-      <article>
-        <h1> <input get="title" oninput="app.setTitle(this.value)" type="text" name="title" /></h1>
+      <header style="width: max-content; margin: auto;">
+        <h1>Errore 404</h1>
+        <h3>La pagina non è stata trovata</h3>
+        <input placeholder="Ricerca pagina" type="search" class="primary"
+          style="display: block; margin: 5px auto;"
+          get="title" oninput="app.setTitle(this.value)">
+      </header>
 
-        <main>
-          <div style="display: flex; align-items: center;">
-            <button onclick="app.createElement()">Aggiungi</button>
-            <h3>Main</h3>
-          </div>
+      <main style="width: max-content; margin: auto;">
+        <button if="title.length<3" class="info">ATTENZIONE: Scrivi il titolo della pagina</button>
+        <button if="title.length>2 && result.length==0" class="warning">ATTENZIONE: Nessuna pagina trovata</button>
 
-          <div for="list" onchange="app.updateElement(event, $i)">
-            <div style="display: flex; align-items: center;">
-              <button onclick="app.deleteElement($i)">Elimina</button>
-              <input get="list[$i].check" type="checkbox" name="check" />
-              <input get="list[$i].title" type="text" name="title" />
-            </div>
-          </div>
-        </main>
-
-        <div>
-          <h3>Copia</h3>
-          <div for="list" style="display: flex; align-items: center;">
-            <input get="list[$i].check" type="checkbox" name="check" />
-            <span get="list[$i].title"></span>
+        <div if="result.length>0">
+          <h3 style="margin: 20px auto 5px;">Risultati</h3>
+          <div for="result">
+            <a get="result[$i]?.path ?? ''" style="width: max-content; margin: auto; display: block;">
+              <button get="(result[$i]?.path ?? '') .substring(1) .toUpperCase()" class="primary"></button>
+            </a>
           </div>
         </div>
-        
-      </article>
-    `;
-  }
+      </main>
+      
+    </article>
+  `;
 }
