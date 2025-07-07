@@ -1,89 +1,79 @@
-export const ST = {
-  // Contesto globale dei dati della pagina
-  app: {} as { [key: string]: any },
-
-  // Funzione di caricamento del template
-  async page(html: string, data: { [key: string]: any }) {
+export class StateTemplate {
+  app: { [key: string]: any } = {};
+  async page(data: { [key: string]: any }, html: string, containerId ='app') {
     (window as any).app = data;
     this.app = data;
 
     let htmlResult = html;
     if (html.includes('</')) {
-      // già HTML completo
+      // già completo
     } else if (html.includes('/')) {
       const res = await fetch(html);
       htmlResult = await res.text();
     }
 
-    document.getElementById('app')!.innerHTML = htmlResult;
+    document.getElementById(containerId)!.innerHTML = htmlResult;
     this.Render(data);
-  },
+  }
+  Render(datas: { [key: string]: any }) {
+    this.app = { ...this.app, ...datas };
+    const allData = this.app;
+    const focusData = this.GetFocus();
 
-  GetFocus(data?: { path: number[] | null; selectionStart: number | null; selectionEnd: number | null }) {
-    if (!data) {
-      const activeEl = document.activeElement as (HTMLInputElement | HTMLTextAreaElement | HTMLElement) | null;
-      let selectionStart: number | null = null;
-      let selectionEnd: number | null = null;
-      let path: number[] | null = null;
+    this.ExecuteFor(allData);
+    this.Bind(allData);
+    this.GetFocus(focusData);
+    this.ExecuteIf(allData);
+  }
 
-      if (activeEl) {
-        path = [];
-        let current: Element | null = activeEl;
+  private ExecuteFor(allData: { [key: string]: any }) {
+    document.querySelectorAll('[for]').forEach(templateEl => {
+      const forAttr = templateEl.getAttribute('for');
+      if (!forAttr) return;
 
-        while (current && current !== document.body) {
-          const parent: HTMLElement | null = current.parentElement;
-          if (!parent) break;
-          const index = Array.from(parent.children).indexOf(current);
-          path.unshift(index);
-          current = parent;
-        }
+      const list = allData[forAttr];
+      if (!Array.isArray(list)) return;
 
-        if (activeEl instanceof HTMLInputElement || activeEl instanceof HTMLTextAreaElement) {
-          selectionStart = activeEl.selectionStart;
-          selectionEnd = activeEl.selectionEnd;
-        }
+      const parent = templateEl.parentElement;
+      if (!parent) return;
+
+      // salviamo template HTML la prima volta
+      if (!parent.dataset.template) {
+        const clone = templateEl.cloneNode(true) as HTMLElement;
+        const div = document.createElement('div');
+        div.appendChild(clone);
+        parent.dataset.template = div.innerHTML;
       }
 
-      return { path, selectionStart, selectionEnd };
-    } else {
-      const { path, selectionStart, selectionEnd } = data;
-      if (!path) return;
+      const templateHTML = parent.dataset.template!;
 
-      setTimeout(() => {
-        let current: Element | null = document.body;
-        for (const idx of path) {
-          if (!current || !current.children[idx]) {
-            current = null;
-            break;
-          }
-          current = current.children[idx];
-        }
+      // rimuovo elementi generati precedentemente
+      if (list.length) {
+        parent.querySelectorAll(`[for="${forAttr}"]`).forEach(el => el.remove());
+      }
 
-        const newActiveEl = current as (HTMLInputElement | HTMLTextAreaElement | HTMLElement) | null;
-        if (newActiveEl) {
-          newActiveEl.focus();
-          if ((newActiveEl instanceof HTMLInputElement || newActiveEl instanceof HTMLTextAreaElement) &&
-              selectionStart !== null && selectionEnd !== null) {
-            newActiveEl.setSelectionRange(selectionStart, selectionEnd);
-          }
-        }
-      }, 0);
-    }
-  },
+      // ciclo per ogni voce
+      for (let i = 0; i < list.length; i++) {
+        const html = templateHTML.replaceAll('$i', i.toString());
+        const wrapper = document.createElement('tbody');
+        wrapper.innerHTML = html;
+        const newEl = wrapper.firstElementChild;
+        if (!newEl) continue;
+        parent.appendChild(newEl);
+      }
+    });
+  }
 
-  Bind(datas: { [key: string]: any }) {
+  private Bind(datas: { [key: string]: any }) {
     const keys = Object.keys(datas);
-
-    Object.entries(datas).forEach(([key, value]) => {
+    Object.entries(datas).forEach(([key]) => {
       document.querySelectorAll('[get]').forEach(el => {
         const expr = el.getAttribute('get');
         if (!expr || !expr.includes(key)) return;
         if (expr.includes('$i') && (!datas.result || datas.result.length === 0)) return;
-
         try {
           const fn = new Function(...keys, `return ${expr};`);
           const result = fn(...keys.map(k => datas[k]));
-
           switch (el.tagName) {
             case 'INPUT':
               const input = el as HTMLInputElement;
@@ -106,75 +96,70 @@ export const ST = {
               (el as HTMLElement).innerText = result;
           }
         } catch (err) {
-          console.warn(`[Bind] Errore valutando: ${expr}`, err);
+          console.warn(`[Bind] errore evaluating ${expr}`, err);
         }
       });
     });
-  },
+  }
 
-  BindIf(datas: { [key: string]: any }) {
+  private GetFocus(data?: { path: number[] | null; selectionStart: number | null; selectionEnd: number | null }) {
+    if (!data) {
+      const activeEl = document.activeElement as (HTMLInputElement | HTMLTextAreaElement | HTMLElement) | null;
+      let selectionStart: number | null = null;
+      let selectionEnd: number | null = null;
+      let path: number[] | null = null;
+
+      if (activeEl) {
+        path = [];
+        let current: Element | null = activeEl;
+        while (current && current !== document.body) {
+          const parent: Element | null = current.parentElement;
+          if (!parent) break;
+          path.unshift(Array.from(parent.children).indexOf(current));
+          current = parent;
+        }
+        if (activeEl instanceof HTMLInputElement || activeEl instanceof HTMLTextAreaElement) {
+          selectionStart = activeEl.selectionStart;
+          selectionEnd = activeEl.selectionEnd;
+        }
+      }
+      return { path, selectionStart, selectionEnd };
+    } else {
+      const { path, selectionStart, selectionEnd } = data;
+      if (!path) return;
+      setTimeout(() => {
+        let current: Element | null = document.body;
+        for (const idx of path) {
+          if (!current || !current.children[idx]) { current = null; break; }
+          current = current.children[idx];
+        }
+        const newActiveEl = current as (HTMLInputElement | HTMLTextAreaElement | HTMLElement) | null;
+        if (newActiveEl) {
+          newActiveEl.focus();
+          if ((newActiveEl instanceof HTMLInputElement || newActiveEl instanceof HTMLTextAreaElement) &&
+              selectionStart != null && selectionEnd != null) {
+            newActiveEl.setSelectionRange(selectionStart, selectionEnd);
+          }
+        }
+      }, 0);
+    }
+  }
+
+  private ExecuteIf(datas: { [key: string]: any }) {
     const keys = Object.keys(datas);
-
     document.querySelectorAll('[if]').forEach(ele => {
       const expr = ele.getAttribute('if');
       if (!expr) return;
-
-      const matchesKey = keys.some(key => {
-        const regex = new RegExp(`(^|[^.\\w])${key}([^\\w]|$)`);
-        return regex.test(expr);
-      });
-      if (!matchesKey) return;
-
+      const matches = keys.some(key => new RegExp(`(^|[^.\\w])${key}([^\\w]|$)`).test(expr));
+      if (!matches) return;
       try {
         const fn = new Function(...keys, `return ${expr}`);
         const result = fn(...keys.map(k => datas[k]));
         (ele as HTMLElement).style.display = result ? '' : 'none';
       } catch (err) {
-        console.warn(`Errore valutando if="${expr}"`, err);
+        console.warn(`Errore evaluating if="${expr}"`, err);
       }
     });
-  },
+  }
 
-  Render(datas: { [key: string]: any }) {
-    // Merge tra i dati già esistenti (this.app) e quelli nuovi
-    this.app = { ...this.app, ...datas };
-    const allData = this.app;
-
-    const focusData = this.GetFocus();
-
-    document.querySelectorAll('[for]').forEach(templateEl => {
-      const forAttr = templateEl.getAttribute('for');
-      if (!forAttr) return;
-
-      const list = allData[forAttr];
-      if (!Array.isArray(list)) return;
-
-      const parent = templateEl.parentElement;
-      if (!parent) return;
-
-      if (!parent.dataset.template) {
-        const clone = templateEl.cloneNode(true);
-        const div = document.createElement('div');
-        div.appendChild(clone);
-        parent.dataset.template = div.innerHTML;
-      }
-
-      const templateHTML = parent.dataset.template;
-
-      if (list.length) parent.querySelectorAll(`[for="${forAttr}"]`).forEach(el => el.remove());
-
-      for (let i = 0; i < list.length; i++) {
-        const html = templateHTML.replaceAll('$i', i.toString());
-        const wrapper = document.createElement('tbody');
-        wrapper.innerHTML = html;
-        const newEl = wrapper.firstElementChild;
-        if (!newEl) return;
-        parent.appendChild(newEl);
-      }
-    });
-
-    this.Bind(allData);
-    this.GetFocus(focusData);
-    this.BindIf(allData);
-  },
-};
+}
