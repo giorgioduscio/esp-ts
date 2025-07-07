@@ -1,24 +1,28 @@
-import { ST } from "./st";
+import { StateTemplate } from "./st";
 import { Routes } from "../../routes";
+const ST = new StateTemplate();
 
-export default class ErrorPage {
+export default class ErrorPage  {
   constructor() {
-    ST.page(this.template, this)
+    ST.page(this,this.template,);
     document.title = 'Errore 404';
   }
-  title=''
-  setTitle(title: string) { 
-    this.title =title;    
-    this.result =this.pages.filter((route) => title.length >2 && route.path.includes(title.toLowerCase()))   
-    
-    ST.Render({ title, result: this.result })
+
+  title = '';
+  pages: typeof Routes = Routes;
+  result: typeof Routes = [];
+
+  setTitle(title: string) {
+    this.title = title;
+    this.result = this.pages.filter(route =>
+      title.length > 2 && route.path.includes(title.toLowerCase())
+    );
+
+    ST.Render({ title, result: this.result });
   }
-  pages: typeof Routes = Routes
-  result: typeof Routes = []
-  // insert back ticks
+
   template = `
     <article id="errorPage">
-
       <header style="width: max-content; margin: auto;">
         <h1>Errore 404</h1>
         <h3>La pagina non è stata trovata</h3>
@@ -35,12 +39,11 @@ export default class ErrorPage {
           <h3 style="margin: 20px auto 5px;">Risultati</h3>
           <div for="result">
             <a get="result[$i]?.path ?? ''" style="width: max-content; margin: auto; display: block;">
-              <button get="(result[$i]?.path ?? '') .substring(1) .toUpperCase()" class="primary"></button>
+              <button get="(result[$i]?.path ?? '').substring(1).toUpperCase()" class="primary"></button>
             </a>
           </div>
         </div>
       </main>
-      
     </article>
   `;
 }
