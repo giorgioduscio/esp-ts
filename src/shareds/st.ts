@@ -1,5 +1,5 @@
 export class StateTemplate {
-  app: { [key: string]: any } = {};
+  private app: { [key: string]: any } = {};
   async page(data: { [key: string]: any }, html: string, containerId ='app') {
     (window as any).app = data;
     this.app = data;

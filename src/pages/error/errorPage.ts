@@ -1,4 +1,4 @@
-import { StateTemplate } from "./st";
+import { StateTemplate } from "../../shareds/st";
 import { Routes } from "../../routes";
 const ST = new StateTemplate();
 
