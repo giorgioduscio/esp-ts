@@ -31,9 +31,9 @@ export default class DashboardPage {
     st.Render({ users: this.users });
     (e.target as HTMLFormElement).reset();
   }
-  updateUser(e:Event){
+  updateUser(e:Event){ 
     const {value, name} = e.target as HTMLInputElement;
-    const [context, i, field] = name.split('_');
+    const [i, field] = name.split('_');
     const userField = field as keyof User;
     const newValue =field==='role' ? parseInt(value) : value;
     // @ts-ignore
@@ -41,6 +41,11 @@ export default class DashboardPage {
     st.Render({ users: this.users });
   }
     
+  form =[
+    { type: 'text', placeholder: 'Username', name: 'username', value:'' },
+    { type: 'text', placeholder: 'Password', name: 'password', value:'' },
+    { type: 'number', placeholder: 'Role', name: 'role', value:'' },
+  ]
   template = `
     <article id="dashboard">
       <header>
@@ -50,19 +55,30 @@ export default class DashboardPage {
       <main style="margin: 20px auto; max-width: max-content">
         <form onsubmit="app.addUser(event)">
           <button class="success">A</button>
-          <input type="text"   placeholder="Username" name="username" />
-          <input type="text"   placeholder="Password" name="password" />
-          <input type="number" placeholder="Role"     name="role" />
+          <span for="form; $a">
+            <input  _tipe="form[$a]?.type" 
+                    _placeholder="form[$a]?.placeholder" 
+                    _name="form[$a]?.name"
+                    _value="form[$a]?.value"
+            />
+          </span>
         </form>
-        <div>
-          <div for="users" oninput="app.updateUser(event)">
-            <button class="danger" onclick="app.deleteUser($i)">D</button>
-            <input get="users[$i]?.username" type="text"     name="users_$i_username"/>
-            <input get="users[$i]?.password" type="password" name="users_$i_password"/>
-            <input get="users[$i]?.role"     type="number"   name="users_$i_role"/>
+
+        <div for="users; $a">
+          <div oninput="app.updateUser(event)">
+            <button class="danger" onclick="app.deleteUser($a)">D</button>
+            <input _value="users[$a]?.username" type="text"     name="$a_username"/>
+            <input _value="users[$a]?.password" type="password" name="$a_password"/>
+            <input _value="users[$a]?.role"     type="number"   name="$a_role"/>
           </div>
         </div>
       </main>
+
+      <footer>
+        <ol for="users; $a">
+          <li _innerHtml="users[$a]?.username"></li>
+        </ol>
+      </footer>
 
     </article>
   `

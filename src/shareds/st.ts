@@ -31,72 +31,79 @@ export class StateTemplate {
       const forAttr = templateEl.getAttribute('for');
       if (!forAttr) return;
 
-      const list = allData[forAttr];
+      const [variable, indexRaw] = forAttr.replaceAll(' ', '').split(';');
+      const indexToken = indexRaw || '$i'; // default: $i se non specificato
+
+      const list = allData[variable];
       if (!Array.isArray(list)) return;
 
-      const parent = templateEl.parentElement;
-      if (!parent) return;
+      const templateHTMLElement = templateEl as HTMLElement;
 
-      // salviamo template HTML la prima volta
-      if (!parent.dataset.template) {
-        const clone = templateEl.cloneNode(true) as HTMLElement;
+      // Salva il template HTML dei figli solo la prima volta
+      if (!templateHTMLElement.dataset.template) {
+        const childrenClone = Array.from(templateHTMLElement.children).map(child => child.cloneNode(true) as HTMLElement);
         const div = document.createElement('div');
-        div.appendChild(clone);
-        parent.dataset.template = div.innerHTML;
+        childrenClone.forEach(clone => div.appendChild(clone));
+        templateHTMLElement.dataset.template = div.innerHTML;
       }
 
-      const templateHTML = parent.dataset.template!;
+      const templateHTML = templateHTMLElement.dataset.template!;
+      templateHTMLElement.innerHTML = ''; // Pulisce i figli precedenti
 
-      // rimuovo elementi generati precedentemente
-      if (list.length) {
-        parent.querySelectorAll(`[for="${forAttr}"]`).forEach(el => el.remove());
-      }
-
-      // ciclo per ogni voce
+      // Itera sull'array
       for (let i = 0; i < list.length; i++) {
-        const html = templateHTML.replaceAll('$i', i.toString());
-        const wrapper = document.createElement('tbody');
+        // Sostituisci solo il token specificato
+        const html = templateHTML.replaceAll(indexToken, i.toString());
+
+        const wrapper = document.createElement('div');
         wrapper.innerHTML = html;
-        const newEl = wrapper.firstElementChild;
-        if (!newEl) continue;
-        parent.appendChild(newEl);
+
+        Array.from(wrapper.children).forEach(child => {
+          templateHTMLElement.appendChild(child);
+        });
       }
     });
   }
 
   private Bind(datas: { [key: string]: any }) {
     const keys = Object.keys(datas);
-    Object.entries(datas).forEach(([key]) => {
-      document.querySelectorAll('[get]').forEach(el => {
-        const expr = el.getAttribute('get');
-        if (!expr || !expr.includes(key)) return;
-        if (expr.includes('$i') && (!datas.result || datas.result.length === 0)) return;
+    const values = Object.values(datas);
+
+    document.querySelectorAll('*').forEach((el) => {
+      const dynamicAttrs = Array.from(el.attributes).filter(attr => attr.name.startsWith('_'));
+      if (dynamicAttrs.length === 0) return;
+
+      dynamicAttrs.forEach(attr => {
+        const attrName = attr.name.slice(1); // "_value" → "value"
+        const expr = attr.value;
+
+        // Ottimizzazione: valuta solo se l'espressione contiene una chiave
+        const matches = keys.some(key => new RegExp(`(^|[^.\\w])${key}([^\\w]|$)`).test(expr));
+        if (!matches) return;
+
         try {
           const fn = new Function(...keys, `return ${expr};`);
-          const result = fn(...keys.map(k => datas[k]));
-          switch (el.tagName) {
-            case 'INPUT':
-              const input = el as HTMLInputElement;
-              if (input.type === 'checkbox') input.checked = !!result;
-              else input.value = result;
+          const result = fn(...values);
+
+          // Applica come proprietà vera se serve
+          switch (attrName.toLowerCase()) {
+            case 'value':
+              (el as HTMLInputElement | HTMLTextAreaElement).value = result ?? '';
               break;
-            case 'TEXTAREA':
-              (el as HTMLTextAreaElement).value = result;
+            case 'checked':
+              (el as HTMLInputElement).checked = !!result;
               break;
-            case 'SELECT':
-              (el as HTMLSelectElement).value = result;
+            case 'innerhtml':
+              (el as HTMLElement).innerHTML = result ?? '';
               break;
-            case 'ABBR':
-              el.setAttribute('title', result);
-              break;
-            case 'A':
-              (el as HTMLAnchorElement).setAttribute('href', result);
+            case 'innertext':
+              (el as HTMLElement).innerText = result ?? '';
               break;
             default:
-              (el as HTMLElement).innerText = result;
+              (el as HTMLElement).setAttribute(attrName, result);
           }
         } catch (err) {
-          console.warn(`[Bind] errore evaluating ${expr}`, err);
+          console.warn(`[Bind:_${attrName}] errore evaluating "${expr}"`, err);
         }
       });
     });

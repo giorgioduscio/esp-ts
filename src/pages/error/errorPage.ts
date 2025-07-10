@@ -2,9 +2,9 @@ import { StateTemplate } from "../../shareds/st";
 import { Routes } from "../../routes";
 const ST = new StateTemplate();
 
-export default class ErrorPage  {
+export default class ErrorPage {
   constructor() {
-    ST.page(this,this.template,);
+    ST.page(this, this.template);
     document.title = 'Errore 404';
   }
 
@@ -28,18 +28,24 @@ export default class ErrorPage  {
         <h3>La pagina non è stata trovata</h3>
         <input placeholder="Ricerca pagina" type="search" class="primary"
           style="display: block; margin: 5px auto;"
-          get="title" oninput="app.setTitle(this.value)">
+          _value="title" oninput="app.setTitle(this.value)">
       </header>
 
       <main style="width: max-content; margin: auto;">
-        <button if="title.length<3" class="info">ATTENZIONE: Scrivi il titolo della pagina</button>
-        <button if="title.length>2 && result.length==0" class="warning">ATTENZIONE: Nessuna pagina trovata</button>
+        <div if="title.length < 3" class="alert info">
+          ATTENZIONE: Scrivi il titolo della pagina
+        </div>
 
-        <div if="result.length>0">
+        <div if="title.length > 2 && result.length == 0" class="alert warning">
+          ATTENZIONE: Nessuna pagina trovata
+        </div>
+
+        <div if="result.length > 0">
           <h3 style="margin: 20px auto 5px;">Risultati</h3>
-          <div for="result">
-            <a get="result[$i]?.path ?? ''" style="width: max-content; margin: auto; display: block;">
-              <button get="(result[$i]?.path ?? '').substring(1).toUpperCase()" class="primary"></button>
+          <div for="result; $i">
+            <a _href="result[$i]?.path ?? ''"
+               style="width: max-content; margin: auto; display: block;">
+              <button _innerHtml="(result[$i]?.path ?? '').substring(1).toUpperCase()" class="primary"></button>
             </a>
           </div>
         </div>

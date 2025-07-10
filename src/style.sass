@@ -124,8 +124,9 @@ select, textarea, button
   font-family: Roboto, "Helvetica Neue", sans-serif
 
   &::placeholder 
-    color: $c2              // placeholder un po' più scuro
+    color: inherit          // placeholder ereditato ma un po' più scuro
     opacity: 1              // per essere sicuro che il colore sia applicato
+    font-style: italic      // italico
   &:focus 
     border-color: $c2
     outline: 0
@@ -274,3 +275,23 @@ details.dropdown
     border-radius: 0.25rem
     &:hover
       background-color: $c4
+
+// ALERT
+.alert
+  padding: 0.5rem 1rem
+  max-width: max-content
+  border-left: 8px solid
+
+  &.primary
+    color: $primary
+  &.secondary
+    color: $secondary
+  &.success
+    color: $success
+  &.warning
+    color: $warning
+  &.info
+    color: $info
+  &.danger
+    color: $danger
+  
