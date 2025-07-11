@@ -10,11 +10,12 @@ export class StateTemplate {
     } else if (html.includes('/')) {
       const res = await fetch(html);
       htmlResult = await res.text();
-    }
+    } else console.error('html non valido');
 
     document.getElementById(containerId)!.innerHTML = htmlResult;
     this.Render(data);
   }
+
   Render(datas: { [key: string]: any }) {
     this.app = { ...this.app, ...datas };
     const allData = this.app;
@@ -88,7 +89,10 @@ export class StateTemplate {
           // Applica come proprietà vera se serve
           switch (attrName.toLowerCase()) {
             case 'value':
-              (el as HTMLInputElement | HTMLTextAreaElement).value = result ?? '';
+              if (el instanceof HTMLInputElement || 
+                  el instanceof HTMLTextAreaElement || 
+                  el instanceof HTMLSelectElement
+              ) el.value = result ?? '';
               break;
             case 'checked':
               (el as HTMLInputElement).checked = !!result;
@@ -98,6 +102,10 @@ export class StateTemplate {
               break;
             case 'innertext':
               (el as HTMLElement).innerText = result ?? '';
+              break;
+            case 'disabled':
+              if (result) el.setAttribute('disabled', 'disabled');
+              else el.removeAttribute('disabled');
               break;
             default:
               (el as HTMLElement).setAttribute(attrName, result);
