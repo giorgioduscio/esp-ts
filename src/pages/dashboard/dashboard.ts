@@ -8,10 +8,11 @@ export default class DashboardPage {
     st.page(this, this.template, 'app');
 
     UsersApi.get().then(r => {
-      this.users = r;
-      this.filteredUsers = r;
-      this.renderPage(); // nuovo metodo
+      this.users = [...r];
+      this.filteredUsers = [...r];
+      this.renderPage();
     });
+
   }
 
 //! CRUD
@@ -49,7 +50,7 @@ export default class DashboardPage {
     const [i, field] = name.split('_');
     const userField = field as keyof User;
     const newValue = field === 'role' ? parseInt(value) : value;
-    const globalIndex = Number(i) + this.page * this.limt;
+    const globalIndex = Number(i) + this.page * this.limit;
     // @ts-ignore
     this.users[globalIndex][userField] = newValue;
 
@@ -59,7 +60,7 @@ export default class DashboardPage {
   }
   // DELETE
   deleteUser(i: number) {
-    const globalIndex = i + this.page * this.limt;
+    const globalIndex = i + this.page * this.limit;
     UsersApi.delete(this.users[globalIndex].firebaseId!).then(r =>{
       this.users.splice(globalIndex, 1);
       this.filter(''); // Reapplica il filtro o reset
@@ -82,29 +83,89 @@ export default class DashboardPage {
 // PAGINAZIONE
   page = 0;
   renderPage() {
-    const start = this.page * this.limt;
-    const end = start + this.limt;
+    const start = this.page * this.limit;
+    const end = start + this.limit;
+
+    let visibleUsers = this.filteredUsers.slice(start, end);
+
+    if (this.sortField && this.sortDirection !== 'none') {
+      const field = this.sortField;
+      const direction = this.sortDirection;
+
+      visibleUsers = [...visibleUsers].sort((a, b) => {
+        const aVal = a[field]!;
+        const bVal = b[field]!;
+
+        if (typeof aVal === 'number' && typeof bVal === 'number') {
+          return direction === 'asc' ? aVal - bVal : bVal - aVal;
+        }
+
+        const aStr = String(aVal).toLowerCase();
+        const bStr = String(bVal).toLowerCase();
+
+        return direction === 'asc'
+          ? aStr.localeCompare(bStr)
+          : bStr.localeCompare(aStr);
+      });
+    }
 
     st.Render({
-      users: this.filteredUsers.slice(start, end),
+      users: visibleUsers,
       hasPrev: this.page > 0,
-      hasNext: (this.page + 1) * this.limt < this.filteredUsers.length,
+      hasNext: (this.page + 1) * this.limit < this.filteredUsers.length,
       page: this.page + 1,
-      totalPages: Math.ceil(this.filteredUsers.length / this.limt),
-      limt: this.limt
+      totalPages: Math.ceil(this.filteredUsers.length / this.limit),
+      limit: this.limit
     });
   }
+
   navigate(direction: 'next' | 'prev') {
-    if (direction === 'next' && (this.page + 1) * this.limt < this.filteredUsers.length) this.page++;
+    if (direction === 'next' && (this.page + 1) * this.limit < this.filteredUsers.length) this.page++;
     else if (direction === 'prev' &&this.page >0) this.page--;
     this.renderPage();
   }
-  limt = 4;
+  limit = 4;
   setLimit(value: string) {
-    this.limt = parseInt(value);
+    this.limit = parseInt(value);
     this.page = 0;
     this.renderPage();
   }
+
+// ORDINAMENTO
+  sortField: keyof User | null = null;
+  sortDirection: 'asc' | 'desc' | 'none' = 'none';
+  sort(e: Event) {
+    const button = (e.target as HTMLElement).closest('button');
+    const tbody = document.querySelector('tbody');
+    if (!button || !tbody) return;
+
+    const field = button.innerText.toLowerCase().trim() as keyof User;
+    const validFields: (keyof User)[] = ['username', 'email', 'role'];
+    if (!validFields.includes(field)) return;
+
+    const currentAttr = tbody.getAttribute('data-direction') || '';
+    const [currentField, currentDirection] = currentAttr.split('-');
+
+    let newDirection: 'asc' | 'desc' | 'none';
+
+    if (currentField !== field) {
+      newDirection = 'asc';
+    } else {
+      switch (currentDirection) {
+        case 'asc': newDirection = 'desc'; break;
+        case 'desc': newDirection = 'none'; break;
+        default: newDirection = 'asc'; break;
+      }
+    }
+
+    // Aggiorna stato visivo e interno
+    tbody.setAttribute('data-direction', `${field}-${newDirection}`);
+    this.sortField = newDirection === 'none' ? null : field;
+    this.sortDirection = newDirection;
+
+    this.renderPage();
+  }
+
 
   template = `
     <article id="dashboard">
@@ -118,10 +179,10 @@ export default class DashboardPage {
           />
           <div style="text-align: center;">
             <button onclick="app.navigate('prev')" _disabled="!hasPrev">←</button>
-            <span> <b _innerText="page"></b> / <b _innerText="totalPages"></b> </span>
+            <span>{ page } / { totalPages }</span>
             <button onclick="app.navigate('next')" _disabled="!hasNext">→</button>
           </div>
-          <select _value="limt" onchange="app.setLimit(this.value)">
+          <select _value="limit" onchange="app.setLimit(this.value)">
             <option>4</option>
             <option>8</option>
             <option>12</option>
@@ -141,20 +202,27 @@ export default class DashboardPage {
           </span>
         </form>
 
-        <div for="users; $a">
-          <div onchange="app.updateUser(event)">
-            <button class="danger" onclick="app.deleteUser($a)">D</button>
-            <input _value="users[$a]?.username" type="text"     name="$a_username"/>
-            <input _value="users[$a]?.email"    type="email"    name="$a_email"/>
-            <input _value="users[$a]?.role"     type="number"   name="$a_role"/>
-          </div>
-        </div>
+        <table>
+          <thead><tr onclick="app.sort(event)"><th></th>
+            <th><button> Username </button></th>
+            <th><button> Email </button></th>
+            <th><button> Role </button></th>
+          </tr></thead>
+          <tbody for="users; $a">
+            <tr>
+              <td><button class="danger" onclick="app.deleteUser($a)">D</button></td>
+              <td><input _value="users[$a]?.username" type="text"     name="$a_username"/></td>
+              <td><input _value="users[$a]?.email"    type="email"    name="$a_email"/></td>
+              <td><input _value="users[$a]?.role"     type="number"   name="$a_role"/></td>
+            </tr>
+          </tbody>  
+        </table>
 
       </main>
 
-      <footer>
+      <footer style="margin: 20px auto; max-width: max-content">
         <ol for="users; $a">
-          <li _innerHtml="users[$a]?.username"></li>
+          <li>{ users[$a]?.username }</li>
         </ol>
       </footer>
     </article>
