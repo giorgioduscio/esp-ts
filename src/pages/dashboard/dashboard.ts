@@ -222,7 +222,7 @@ export default class DashboardPage {
 
       <footer style="margin: 20px auto; max-width: max-content">
         <ol for="users; $a">
-          <li>{ users[$a]?.username }</li>
+          <li><input _value="users[$a]?.username" class="w-var"/></li>
         </ol>
       </footer>
     </article>
