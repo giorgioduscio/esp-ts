@@ -1,4 +1,4 @@
-export function ondom(targetElement :HTMLElement, htmlString: string) {
+export function ondom(targetElement: HTMLElement, htmlString: string) {
   if (!(targetElement instanceof HTMLElement)) {
     console.error('Il primo argomento deve essere un elemento HTML valido.');
     return null;
@@ -14,13 +14,12 @@ export function ondom(targetElement :HTMLElement, htmlString: string) {
   }
 
   const newContent = newDoc.body;
-
-  const updatedNodes: Node[] = []; 
+  const updatedNodes: Node[] = [];
 
   updateChildren(targetElement, newContent);
-  return updatedNodes; 
+  return updatedNodes;
 
-  // 🔽 FUNZIONI INTERNE 🔽
+  // ──────────────── FUNZIONI INTERNE ────────────────
 
   function updateChildren(currentParent: HTMLElement, newParent: HTMLElement) {
     const currentChildren = Array.from(currentParent.childNodes);
@@ -34,78 +33,81 @@ export function ondom(targetElement :HTMLElement, htmlString: string) {
       if (!currentNode && newNode) {
         const addedNode = newNode.cloneNode(true);
         currentParent.appendChild(addedNode);
-        updatedNodes.push(addedNode); // 👈 registrato come nuovo
+        updatedNodes.push(addedNode);
       } else if (currentNode && !newNode) {
         currentParent.removeChild(currentNode);
-        updatedNodes.push(currentNode); // 👈 registrato come rimosso
-      } else {
+        updatedNodes.push(currentNode);
+      } else if (currentNode && newNode) {
         diffAndUpdate(currentNode, newNode);
       }
     }
   }
 
   function diffAndUpdate(currentNode: ChildNode, newNode: ChildNode) {
-    if (!currentNode || !newNode || currentNode.nodeType !== newNode.nodeType) {
+    if (currentNode.nodeType !== newNode.nodeType) {
       const newClone = newNode.cloneNode(true);
       currentNode.replaceWith(newClone);
-      updatedNodes.push(newClone); // 👈 registrato come rimpiazzato
+      updatedNodes.push(newClone);
       return;
     }
 
     if (currentNode.nodeType === Node.TEXT_NODE) {
       if (currentNode.textContent !== newNode.textContent) {
         currentNode.textContent = newNode.textContent;
-        updatedNodes.push(currentNode); // 👈 registrato come aggiornato
+        updatedNodes.push(currentNode);
       }
       return;
     }
 
-    if (
-      currentNode.nodeType === Node.ELEMENT_NODE &&
-      newNode.nodeType === Node.ELEMENT_NODE &&
-      (currentNode as Element).tagName !== (newNode as Element).tagName
-    ) {
-      const newClone = newNode.cloneNode(true);
-      currentNode.replaceWith(newClone);
-      updatedNodes.push(newClone); // 👈 registrato come rimpiazzato
+    // nodeType === ELEMENT_NODE da qui in poi
+    const currentEl = currentNode as Element;
+    const newEl = newNode as Element;
+
+    if (currentEl.tagName !== newEl.tagName) {
+      const newClone = newEl.cloneNode(true);
+      currentEl.replaceWith(newClone);
+      updatedNodes.push(newClone);
       return;
     }
 
-    // Aggiorna attributi se necessario
-    if (
-      currentNode.nodeType === Node.ELEMENT_NODE &&
-      newNode.nodeType === Node.ELEMENT_NODE
-    ) {
-      const attrsChanged = updateAttributes(currentNode as Element, newNode as Element);
-      if (attrsChanged) {
-        updatedNodes.push(currentNode); // 👈 registrato per aggiornamento attributi
+    if (currentEl.tagName === 'INPUT') {
+      const currentInput = currentEl as HTMLInputElement;
+      const newInput = newEl as HTMLInputElement;
+      if (currentInput.type === newInput.type && currentInput.name === newInput.name) {
+        if (currentInput.value !== newInput.value) {
+          currentInput.value = newInput.value;
+          updatedNodes.push(currentInput);
+        }
+        return; // stop qui, non ricorsione sugli input
       }
     }
+
+    // Aggiorna attributi, skip 'value' perché gestito sopra
+    const attrsChanged = updateAttributes(currentEl, newEl);
+    if (attrsChanged) updatedNodes.push(currentEl);
 
     // Ricorsione sui figli
-    if (
-      currentNode.nodeType === Node.ELEMENT_NODE &&
-      newNode.nodeType === Node.ELEMENT_NODE
-    ) {
-      updateChildren(currentNode as HTMLElement, newNode as HTMLElement);
-    }
+    updateChildren(currentEl as HTMLElement, newEl as HTMLElement);
   }
 
   function updateAttributes(current: Element, updated: Element) {
+    let changed = false;
     const oldAttrs = current.attributes;
     const newAttrs = updated.attributes;
-    let changed = false;
 
     // Rimuovi attributi mancanti
-    for (const { name } of Array.from(oldAttrs)) {
+    for (let i = oldAttrs.length - 1; i >= 0; i--) {
+      const name = oldAttrs[i].name;
       if (!updated.hasAttribute(name)) {
         current.removeAttribute(name);
         changed = true;
       }
     }
 
-    // Aggiungi/aggiorna nuovi attributi
-    for (const { name, value } of Array.from(newAttrs)) {
+    // Aggiungi o aggiorna, saltando 'value'
+    for (let i = 0; i < newAttrs.length; i++) {
+      const { name, value } = newAttrs[i];
+      if (name === 'value') continue;
       if (current.getAttribute(name) !== value) {
         current.setAttribute(name, value);
         changed = true;

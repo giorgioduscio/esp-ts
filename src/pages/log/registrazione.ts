@@ -58,8 +58,8 @@ export default class Registrazione {
   reset(btn: HTMLButtonElement) {
     const form = btn.closest('form'); if (!form) return;
     this.form.forEach(f =>{ 
-      const input :HTMLInputElement|null =form.querySelector(`input[name="${f.name}"]`);
-      if (input) input.value =f.value = ''
+      const input :HTMLInputElement|null =form.querySelector(`input[name="${f.name}"]`); if(!input) return;
+      input.value =f.value = ''
     });
     this.submitted = false;
     this.render();
@@ -80,7 +80,8 @@ export default class Registrazione {
                      placeholder="${field.label}"
                      name="${field.name}" id="${field.name}"
                      value="${field.value}"
-                     oninput="app.change(event, app.form[${i}])" />
+                     oninput="app.change(event, app.form[${i}])" 
+                     class="w-var"/>
               ${ this.submitted && !field.validation(field.value!) ?`
                 <div class="error">${field.errorMessage}</div>
               `:''}
