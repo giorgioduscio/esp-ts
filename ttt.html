@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tik Tak Toe</title>
+  <style>
+    :root {
+      --x-color: #3498db;
+      --o-color: #e74c3c;
+      --bg-color: #f0f2f5;
+      --board-bg: #ffffff;
+      --cell-border: #d0d0d0;
+      --cell-hover: #f0f0f0;
+      --reset-color: #2c3e50;
+      --reset-hover: #34495e;
+      --shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      user-select: none;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      color: #333;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+
+    #status {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    #game-container {
+      position: relative;
+      width: min(90vmin, 500px);
+      height: min(90vmin, 500px);
+      background-color: var(--board-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    #game-board {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .cell {
+      border: 1px solid var(--cell-border);
+      font-size: 3.5rem;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      background: white;
+      transition: background-color 0.25s ease, transform 0.1s;
+    }
+
+    .cell:hover:not(:disabled) {
+      background-color: var(--cell-hover);
+      transform: scale(1.03);
+    }
+
+    .cell.x {
+      color: var(--x-color);
+      text-shadow: 1px 1px 2px rgba(52, 152, 219, 0.2);
+    }
+    .cell.o {
+      color: var(--o-color);
+      text-shadow: 1px 1px 2px rgba(231, 76, 60, 0.2);
+    }
+    .cell:disabled {
+      cursor: default;
+      background: #f8f8f8;
+    }
+
+    .win-line {
+      position: absolute;
+      height: 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      transform-origin: center;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      box-shadow: 0 0 10px rgba(0, 114, 255, 0.6);
+      opacity: 0;
+      animation: appear 0.4s forwards ease-out;
+    }
+
+    @keyframes appear {
+      to {
+        opacity: 1;
+      }
+    }
+
+    #reset-btn {
+      margin-top: 25px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      background-color: var(--reset-color);
+      color: white;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    #reset-btn:hover {
+      background-color: var(--reset-hover);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <h1>Tik Tak Toe</h1>
+  <div id="status">Turno di: X</div>
+  <div id="game-container">
+    <div id="game-board"></div>
+  </div>
+  <button id="reset-btn">Reset</button>
+
+  <script>
+    const board = document.getElementById('game-board');
+    const statusDiv = document.getElementById('status');
+    const resetBtn = document.getElementById('reset-btn');
+
+    let currentPlayer = 'X';
+    let cells = [];
+    let gameOver = false;
+
+    const winningCombos = [
+      [0,1,2], [3,4,5], [6,7,8],
+      [0,3,6], [1,4,7], [2,5,8],
+      [0,4,8], [2,4,6]
+    ];
+
+    function createBoard() {
+      board.innerHTML = '';
+      cells = [];
+      gameOver = false;
+      currentPlayer = 'X';
+      statusDiv.textContent = `Turno di: ${currentPlayer}`;
+
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('button');
+        cell.classList.add('cell');
+        cell.dataset.index = i;
+        cell.addEventListener('click', handleMove);
+        board.appendChild(cell);
+        cells.push(cell);
+      }
+    }
+
+    function handleMove(e) {
+      if (gameOver) return;
+
+      const index = e.target.dataset.index;
+      const cell = cells[index];
+
+      if (cell.textContent !== '') return;
+
+      cell.textContent = currentPlayer;
+      cell.classList.add(currentPlayer.toLowerCase());
+      cell.disabled = true;
+
+      const winnerCombo = checkWinner();
+      if (winnerCombo) {
+        gameOver = true;
+        statusDiv.textContent = `Vincitore: ${currentPlayer}!`;
+        disableAll();
+        return;
+      }
+
+      if (cells.every(c => c.textContent !== '')) {
+        gameOver = true;
+        statusDiv.textContent = "Pareggio!";
+        return;
+      }
+
+      currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
+      statusDiv.textContent = `Turno di: ${currentPlayer}`;
+    }
+
+    function checkWinner() {
+      for (const combo of winningCombos) {
+        const [a, b, c] = combo;
+        if (
+          cells[a].textContent !== '' &&
+          cells[a].textContent === cells[b].textContent &&
+          cells[a].textContent === cells[c].textContent
+        ) {
+          drawWinLine(combo);
+          return combo;
+        }
+      }
+      return null;
+    }
+
+    function drawWinLine(combo) {
+      const [a, , c] = combo;
+
+      const boardRect = board.getBoundingClientRect();
+      const cellA = cells[a].getBoundingClientRect();
+      const cellC = cells[c].getBoundingClientRect();
+
+      const x1 = cellA.left + cellA.width / 2 - boardRect.left;
+      const y1 = cellA.top + cellA.height / 2 - boardRect.top;
+      const x2 = cellC.left + cellC.width / 2 - boardRect.left;
+      const y2 = cellC.top + cellC.height / 2 - boardRect.top;
+
+      const length = Math.hypot(x2 - x1, y2 - y1);
+      const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+      const centerX = (x1 + x2) / 2;
+      const centerY = (y1 + y2) / 2;
+
+      const line = document.createElement('div');
+      line.classList.add('win-line');
+      line.style.width = `${length}px`;
+      line.style.left = `${centerX - length / 2}px`;
+      line.style.top = `${centerY - 3}px`;
+      line.style.transform = `rotate(${angle}deg)`;
+
+      board.appendChild(line);
+    }
+
+    function disableAll() {
+      cells.forEach(cell => cell.disabled = true);
+    }
+
+    resetBtn.addEventListener('click', createBoard);
+
+    createBoard();
+  </script>
+</body>
+</html>
