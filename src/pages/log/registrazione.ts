@@ -81,7 +81,7 @@ export default class Registrazione {
                      name="${field.name}" id="${field.name}"
                      value="${field.value}"
                      oninput="app.change(event, app.form[${i}])" 
-                     class="w-var"/>
+              />
               ${ this.submitted && !field.validation(field.value!) ?`
                 <div class="error">${field.errorMessage}</div>
               `:''}

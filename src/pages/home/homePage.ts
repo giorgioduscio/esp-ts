@@ -8,11 +8,11 @@ export default class HomePage {
 
   value =''
   valueElemets ?: NodeListOf<HTMLElement>
-  onInput(e: Event, word: string, number: number) {
+  onInput(e: Event) {
     this.value =(e.target as HTMLInputElement).value;
     this.render();
   }
-  onClick(e: Event, message: string) {
+  onClick(message: string) {
     console.log('Click: ', message);
   }
 
@@ -22,8 +22,8 @@ export default class HomePage {
       <article>
         <div>
           <h1>valore: ${this.value} </h1>
-          <input type="search" placeholder="Cerca" onchange="app.onInput(event, 'parametro', 101)" />
-          <button onclick="app.onClick(123, 'parametro')"> Invio ${this.value}</button>
+          <input type="search" placeholder="Cerca" onchange="app.onInput(event)" />
+          <button onclick="app.onClick('parametro')"> Invio ${this.value}</button>
         </div>
       </article>
     `;

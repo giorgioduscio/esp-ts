@@ -54,14 +54,14 @@ export default class DashboardPage {
     // @ts-ignore
     this.users[globalIndex][userField] = newValue;
 
-    UsersApi.update(this.users[globalIndex]).then(r =>{      
+    UsersApi.update(this.users[globalIndex]).then(()=>{      
       this.renderPage();
     });
   }
   // DELETE
   deleteUser(i: number) {
     const globalIndex = i + this.page * this.limit;
-    UsersApi.delete(this.users[globalIndex].firebaseId!).then(r =>{
+    UsersApi.delete(this.users[globalIndex].firebaseId!).then(()=>{
       this.users.splice(globalIndex, 1);
       this.filter(''); // Reapplica il filtro o reset
     });
