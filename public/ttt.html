@@ -1,256 +1,430 @@
+<style>
+  :root {
+    --x-color: #3498db; /* azzurro */
+    --o-color: #e74c3c; /* rosso */
+    --z-color: #27ae60; /* verde */
+    --y-color: #8e44ad; /* viola */
+    --bg-color: #f0f2f5;
+    --board-bg: #ffffff;
+    --cell-border: #d0d0d0;
+    --cell-hover: #f0f0f0;
+    --reset-color: #b02020;
+    --reset-hover: #c0392b;
+    --shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    user-select: none;
+  }
+
+  h1 {
+    margin: 20px 0 10px;
+    color: #333;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+  }
+
+  .player-legend {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+
+  #game-container {
+    position: relative;
+    width: min(90vmin, 500px);
+    height: min(90vmin, 500px);
+    background-color: var(--board-bg);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+
+  #game-board {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .cell {
+    border: 1px solid var(--cell-border);
+    font-size: clamp(1rem, 4vw, 2rem);
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: white;
+    transition: background-color 0.25s ease, transform 0.1s;
+  }
+
+  .cell:hover:not(:disabled) {
+    background-color: var(--cell-hover);
+    transform: scale(1.03);
+  }
+
+  .cell.x { background: var(--x-color) !important; }
+  .cell.o { background: var(--o-color) !important; }
+  .cell.z { background: var(--z-color) !important; }
+  .cell.y { background: var(--y-color) !important; }
+
+  .cell:disabled {
+    cursor: default;
+    background: #f8f8f8;
+  }
+
+  .win-line {
+    position: absolute;
+    height: 8px;
+    border-radius: 4px;
+    pointer-events: none;
+    transform-origin: center;
+    opacity: 0;
+    animation: appear 0.4s forwards ease-out;
+  }
+
+  @keyframes appear {
+    to {
+      opacity: 1;
+    }
+  }
+
+  #reset-btn {
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background-color: var(--reset-color);
+    color: white;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, transform 0.2s;
+  }
+
+  #reset-btn:hover {
+    background-color: var(--reset-hover);
+    transform: translateY(-2px);
+  }
+
+  .status-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #status {
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+
+  .grid-input label,
+  .player-select label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .grid-input span,
+  .player-select span {
+    font-size: 0.9rem;
+    color: #333;
+  }
+
+  input[type="number"],
+  select {
+    width: 60px;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    text-align: center;
+  }
+</style>
+
 <!DOCTYPE html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tik Tak Toe</title>
-  <style>
-    :root {
-      --x-color: #3498db;
-      --o-color: #e74c3c;
-      --bg-color: #f0f2f5;
-      --board-bg: #ffffff;
-      --cell-border: #d0d0d0;
-      --cell-hover: #f0f0f0;
-      --reset-color: #2c3e50;
-      --reset-hover: #34495e;
-      --shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tik Tak Toe</title>
+  </head>
+</html>
+
+<script type="module">
+  class App {
+    constructor() {
+      // Collego l'istanza globale per poterla usare dal DOM
+      window.app = this;
+      this.init(); // Avvio il gioco
     }
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--bg-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      user-select: none;
-    }
+    // Configurazione griglia: valore di default e range consentito
+    grid = {
+      value: 3,  // griglia 3x3 iniziale
+      min: 3,    // min dimensione
+      max: 8,    // max dimensione
+    };
 
-    h1 {
-      margin: 20px 0 10px;
-      color: #333;
-      font-size: 2.2rem;
-      letter-spacing: 1px;
-    }
-
-    #status {
-      font-size: 1.3rem;
-      margin-bottom: 15px;
-      color: #555;
-      font-weight: 500;
-    }
-
-    #game-container {
-      position: relative;
-      width: min(90vmin, 500px);
-      height: min(90vmin, 500px);
-      background-color: var(--board-bg);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    #game-board {
-      width: 100%;
-      height: 100%;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      box-sizing: border-box;
-      position: relative;
-    }
-
-    .cell {
-      border: 1px solid var(--cell-border);
-      font-size: 3.5rem;
-      font-weight: bold;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      background: white;
-      transition: background-color 0.25s ease, transform 0.1s;
-    }
-
-    .cell:hover:not(:disabled) {
-      background-color: var(--cell-hover);
-      transform: scale(1.03);
-    }
-
-    .cell.x {
-      color: var(--x-color);
-      text-shadow: 1px 1px 2px rgba(52, 152, 219, 0.2);
-    }
-    .cell.o {
-      color: var(--o-color);
-      text-shadow: 1px 1px 2px rgba(231, 76, 60, 0.2);
-    }
-    .cell:disabled {
-      cursor: default;
-      background: #f8f8f8;
-    }
-
-    .win-line {
-      position: absolute;
-      height: 8px;
-      border-radius: 4px;
-      pointer-events: none;
-      transform-origin: center;
-      background: linear-gradient(90deg, #00c6ff, #0072ff);
-      box-shadow: 0 0 10px rgba(0, 114, 255, 0.6);
-      opacity: 0;
-      animation: appear 0.4s forwards ease-out;
-    }
-
-    @keyframes appear {
-      to {
-        opacity: 1;
-      }
-    }
-
-    #reset-btn {
-      margin-top: 25px;
-      padding: 12px 28px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-      background-color: var(--reset-color);
-      color: white;
-      border-radius: 6px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      transition: background-color 0.3s ease, transform 0.2s;
-    }
-
-    #reset-btn:hover {
-      background-color: var(--reset-hover);
-      transform: translateY(-2px);
-    }
-  </style>
-</head>
-<body>
-  <h1>Tik Tak Toe</h1>
-  <div id="status">Turno di: X</div>
-  <div id="game-container">
-    <div id="game-board"></div>
-  </div>
-  <button id="reset-btn">Reset</button>
-
-  <script>
-    const board = document.getElementById('game-board');
-    const statusDiv = document.getElementById('status');
-    const resetBtn = document.getElementById('reset-btn');
-
-    let currentPlayer = 'X';
-    let cells = [];
-    let gameOver = false;
-
-    const winningCombos = [
-      [0,1,2], [3,4,5], [6,7,8],
-      [0,3,6], [1,4,7], [2,5,8],
-      [0,4,8], [2,4,6]
+    // Definisco i giocatori con simboli e variabili CSS per i colori
+    allPlayers = [
+      { symbol: 'X', colorVar: '--x-color' },
+      { symbol: 'O', colorVar: '--o-color' },
+      { symbol: 'Z', colorVar: '--z-color' },
+      { symbol: 'Y', colorVar: '--y-color' },
     ];
 
-    function createBoard() {
-      board.innerHTML = '';
-      cells = [];
-      gameOver = false;
-      currentPlayer = 'X';
-      statusDiv.textContent = `Turno di: ${currentPlayer}`;
-
-      for (let i = 0; i < 9; i++) {
-        const cell = document.createElement('button');
-        cell.classList.add('cell');
-        cell.dataset.index = i;
-        cell.addEventListener('click', handleMove);
-        board.appendChild(cell);
-        cells.push(cell);
+    /**
+     * Imposta il numero di giocatori.
+     * Prende i primi N giocatori dall'array allPlayers.
+     * @param {string|number} count - Numero di giocatori da 2 a 4
+     */
+    setPlayerCount(count) {
+      const num = parseInt(count, 10);
+      if (num >= 2 && num <= 4) {
+        this.players = this.allPlayers.slice(0, num);
+        this.init();  // Riavvio il gioco con nuovo numero giocatori
       }
     }
 
-    function handleMove(e) {
-      if (gameOver) return;
+    /**
+     * Inizializza o resetta il gioco.
+     * Resetta lo stato, la griglia, e il giocatore corrente.
+     */
+    init() {
+      // Se non definito, default a 2 giocatori
+      this.players = this.players || this.allPlayers.slice(0, 2);
 
-      const index = e.target.dataset.index;
-      const cell = cells[index];
+      this.currentPlayerIndex = 0;            // Indice del giocatore attivo
+      this.currentPlayer = this.players[0].symbol; // Simbolo del giocatore attivo
+      this.gameOver = false;                   // Flag partita terminata
+      this.winnerInfo = null;                  // Info su vittoria
 
-      if (cell.textContent !== '') return;
+      // Creo la griglia come array 2D con celle vuote
+      this.cells = Array.from({ length: this.grid.value }, () =>
+        Array(this.grid.value).fill('')
+      );
 
-      cell.textContent = currentPlayer;
-      cell.classList.add(currentPlayer.toLowerCase());
-      cell.disabled = true;
-
-      const winnerCombo = checkWinner();
-      if (winnerCombo) {
-        gameOver = true;
-        statusDiv.textContent = `Vincitore: ${currentPlayer}!`;
-        disableAll();
-        return;
-      }
-
-      if (cells.every(c => c.textContent !== '')) {
-        gameOver = true;
-        statusDiv.textContent = "Pareggio!";
-        return;
-      }
-
-      currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
-      statusDiv.textContent = `Turno di: ${currentPlayer}`;
+      // Renderizzo tutto nel DOM
+      this.render();
     }
 
-    function checkWinner() {
-      for (const combo of winningCombos) {
-        const [a, b, c] = combo;
-        if (
-          cells[a].textContent !== '' &&
-          cells[a].textContent === cells[b].textContent &&
-          cells[a].textContent === cells[c].textContent
-        ) {
-          drawWinLine(combo);
-          return combo;
+    /**
+     * Cambia la dimensione della griglia e riavvia il gioco.
+     * @param {string|number} numberParam - Nuova dimensione griglia (tra min e max)
+     */
+    setGrid(numberParam) {
+      const value = parseInt(numberParam, 10);
+      if (!isNaN(value) && value >= this.grid.min && value <= this.grid.max) {
+        this.grid.value = value;
+        this.init(); // Reinizializza gioco con nuova dimensione
+      } else {
+        alert(`Inserisci un numero tra ${this.grid.min} e ${this.grid.max}`);
+      }
+    }
+
+    /**
+     * Rende l'interfaccia di gioco aggiornata nel DOM.
+     * Include griglia, info turno, pulsanti e linea vittoria se presente.
+     */
+    render() {
+      // Testo di stato a seconda se partita finita o meno
+      const statusText = this.gameOver
+        ? this.winnerInfo
+          ? `Vincitore: ${this.currentPlayer}!`
+          : 'Pareggio!'
+        : `Turno di: ${this.currentPlayer}`;
+
+      // Colore del testo in base al giocatore attivo
+      const statusColor = this.getColor();
+
+      // Ombra della griglia cambia se gioco finito o meno
+      const shadowColor = this.gameOver
+        ? 'var(--shadow)'
+        : `0 0 25px ${statusColor}`;
+
+      // Costruisco HTML dinamico del gioco con template literal
+      document.body.innerHTML = `
+        <h1>Tik Tak Toe</h1>
+        <header class="status-container">
+          <div id="status" style="color:${statusColor}">${statusText}</div>
+
+          <!-- Select numero griglia -->
+          <div class="grid-input">
+            <label>
+              <span>Griglia:</span>
+              <select onchange="app.setGrid(this.value)">
+                ${Array.from({ length: this.grid.max - this.grid.min + 1 }, (_, i) => {
+                  const val = this.grid.min + i;
+                  return `<option value="${val}" ${this.grid.value === val ? 'selected' : ''}>${val}</option>`;
+                }).join('')}
+              </select>
+            </label>
+          </div>
+
+          <!-- Select numero giocatori -->
+          <div class="grid-input">
+            <label>
+              <span>Giocatori:</span>
+              <select onchange="app.setPlayerCount(this.value)">
+                ${[2, 3, 4]
+                  .map(
+                    (n) =>
+                      `<option value="${n}" ${
+                        this.players.length === n ? 'selected' : ''
+                      }>${n}</option>`
+                  )
+                  .join('')}
+              </select>
+            </label>
+          </div>
+
+          <!-- Bottone reset -->
+          <button id="reset-btn" onclick="app.init()">Reset</button>
+        </header>
+
+        <!-- Contenitore griglia con ombra e dimensione variabile -->
+        <div id="game-container" style="box-shadow: ${shadowColor}">
+          <div id="game-board" 
+              style="grid-template-columns: repeat(${this.grid.value}, 1fr); grid-template-rows: repeat(${this.grid.value}, 1fr);">
+            
+            <!-- Crea i pulsanti delle celle della griglia -->
+            ${this.cells
+              .map((row, i) =>
+                row
+                  .map(
+                    (cell, j) => `
+              <button onclick="app.handleMove(event)" 
+                      class="cell ${cell.toLowerCase()}" 
+                      data-row="${i}" 
+                      data-col="${j}" 
+                      ${cell || this.gameOver ? 'disabled' : ''}>
+                ${cell}
+              </button>`
+                  )
+                  .join('')
+              )
+              .join('')}
+            
+            <!--TODO Se esiste vincitore, disegno la linea vincente -->
+          </div>
+        </div>
+      `;
+    }
+
+    /**
+     * Gestisce il click su una cella per fare la mossa.
+     * @param {Event} e - Evento click
+     */
+    handleMove(e) {
+      if (this.gameOver) return; // Non fare nulla se partita finita
+
+      // Rilevo coordinate cella cliccata
+      const row = +e.target.dataset.row;
+      const col = +e.target.dataset.col;
+
+      // Ignora se cella già piena
+      if (this.cells[row][col]) return;
+
+      // Imposto simbolo giocatore attivo in quella cella
+      this.cells[row][col] = this.currentPlayer;
+
+      // Controllo se la mossa ha fatto vincere
+      const winner = this.checkWinner();
+
+      if (winner) {
+        // Se vittoria, salvo info e termino partita
+        this.winnerInfo = winner;
+        this.gameOver = true;
+      } else if (this.cells.flat().every((c) => c)) {
+        // Se tutte le celle piene e nessun vincitore, pareggio
+        this.gameOver = true;
+      } else {
+        // Passo al prossimo giocatore in loop
+        this.currentPlayerIndex =
+          (this.currentPlayerIndex + 1) % this.players.length;
+        this.currentPlayer = this.players[this.currentPlayerIndex].symbol;
+      }
+
+      // Aggiorno interfaccia
+      this.render();
+    }
+
+    /**
+     * Controlla se il giocatore attivo ha una combinazione vincente di 3 simboli consecutivi.
+     * Supporta righe, colonne e diagonali.
+     * @returns {object|null} Informazioni sulla vittoria o null se nessuna
+     */
+    checkWinner() {
+      const c = this.cells;          // griglia
+      const g = this.grid.value;     // dimensione
+      const inRow = 3;               // numero simboli consecutivi da vincere
+
+      // Controllo righe
+      for (let i = 0; i < g; i++) {
+        for (let j = 0; j <= g - inRow; j++) {
+          if ([...Array(inRow).keys()].every((k) => c[i][j + k] === this.currentPlayer)) {
+            return { type: 'row', index: i, start: j };
+          }
         }
       }
+
+      // Controllo colonne
+      for (let j = 0; j < g; j++) {
+        for (let i = 0; i <= g - inRow; i++) {
+          if ([...Array(inRow).keys()].every((k) => c[i + k][j] === this.currentPlayer)) {
+            return { type: 'col', index: j, start: i };
+          }
+        }
+      }
+
+      // Controllo diagonale principale (↘)
+      for (let i = 0; i <= g - inRow; i++) {
+        for (let j = 0; j <= g - inRow; j++) {
+          if ([...Array(inRow).keys()].every((k) => c[i + k][j + k] === this.currentPlayer)) {
+            return { type: 'diag', index: 0, startRow: i, startCol: j };
+          }
+        }
+      }
+
+      // Controllo diagonale secondaria (↙)
+      for (let i = 0; i <= g - inRow; i++) {
+        for (let j = inRow - 1; j < g; j++) {
+          if ([...Array(inRow).keys()].every((k) => c[i + k][j - k] === this.currentPlayer)) {
+            return { type: 'diag', index: 1, startRow: i, startCol: j };
+          }
+        }
+      }
+
+      // Nessuna combinazione vincente trovata
       return null;
     }
 
-    function drawWinLine(combo) {
-      const [a, , c] = combo;
-
-      const boardRect = board.getBoundingClientRect();
-      const cellA = cells[a].getBoundingClientRect();
-      const cellC = cells[c].getBoundingClientRect();
-
-      const x1 = cellA.left + cellA.width / 2 - boardRect.left;
-      const y1 = cellA.top + cellA.height / 2 - boardRect.top;
-      const x2 = cellC.left + cellC.width / 2 - boardRect.left;
-      const y2 = cellC.top + cellC.height / 2 - boardRect.top;
-
-      const length = Math.hypot(x2 - x1, y2 - y1);
-      const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
-      const centerX = (x1 + x2) / 2;
-      const centerY = (y1 + y2) / 2;
-
-      const line = document.createElement('div');
-      line.classList.add('win-line');
-      line.style.width = `${length}px`;
-      line.style.left = `${centerX - length / 2}px`;
-      line.style.top = `${centerY - 3}px`;
-      line.style.transform = `rotate(${angle}deg)`;
-
-      board.appendChild(line);
+    /**
+     * Ritorna il colore CSS del giocatore attivo, usato per testo e linea vittoria.
+     * @returns {string} Variabile CSS del colore giocatore attivo
+     */
+    getColor() {
+      return `var(${this.players[this.currentPlayerIndex].colorVar})`;
     }
 
-    function disableAll() {
-      cells.forEach(cell => cell.disabled = true);
-    }
+  }
 
-    resetBtn.addEventListener('click', createBoard);
-
-    createBoard();
-  </script>
-</body>
-</html>
+  // Creo nuova istanza dell'app per far partire il gioco
+  new App();
+</script>
