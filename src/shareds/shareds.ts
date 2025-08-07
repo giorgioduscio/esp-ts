@@ -27,8 +27,9 @@ export default class Shareds {
   }
 
   // imposta la larghezza dell'input al proprio contenuto
-  autoWidth(targets) {
+  autoWidth(targets?: HTMLInputElement[] | HTMLInputElement | undefined) {
     const classSelector = 'w-var';
+    const self = this; // Capture 'this' context for use in nested functions
   
     // Se sono stati passati dei target, applica solo a quelli validi
     if (targets) {
@@ -44,7 +45,7 @@ export default class Shareds {
      * Calcola e aggiorna la larghezza di un singolo input.w-var
      * @param {HTMLInputElement} input 
      */
-    function resizeInput(input) {
+    function resizeInput(input: HTMLInputElement) {
       // Verifica che l'elemento sia un input HTML
       if (!(input instanceof HTMLInputElement)) return;
       // Verifica che l'input abbia la classe w-var
@@ -82,14 +83,14 @@ export default class Shareds {
      */
     function init() {
       // Ridimensiona tutti gli input.w-var già presenti nella pagina
-      document.querySelectorAll(`.${classSelector}`).forEach(resizeInput);
+      document.querySelectorAll(`.${classSelector}`).forEach(el => resizeInput(el as HTMLInputElement));
   
       // Aggiunge un listener globale per gestire digitazioni su input.w-var
       document.addEventListener('input', event => {
         // Verifica che il target sia input.w-var
         if (event.target instanceof HTMLInputElement && event.target.classList.contains(classSelector)) {
           // Ridimensiona solo l'input interessato
-          autoWidth([event.target]);
+          self.autoWidth([event.target]);
         }
       });
   
@@ -97,7 +98,7 @@ export default class Shareds {
        * Funzione per osservare modifiche inline allo stile di un singolo input.w-var
        * @param {HTMLInputElement} el 
        */
-      const observeStyleAttr = el => {
+      const observeStyleAttr = (el: HTMLInputElement) => {
         // Solo per input.w-var validi
         if (!(el instanceof HTMLInputElement)) return;
         if (!el.classList.contains(classSelector)) return;
@@ -106,7 +107,7 @@ export default class Shareds {
         const attrObserver = new MutationObserver(mutations => {
           for (const mutation of mutations) {
             // Se lo stile cambia, ridimensiona l'input interessato
-            if (mutation.type =='attributes' && mutation.attributeName =='style') autoWidth([el]);
+            if (mutation.type =='attributes' && mutation.attributeName =='style') self.autoWidth([el]);
           }
         });
   
@@ -118,7 +119,7 @@ export default class Shareds {
       };
   
       // Applica l'observer a tutti gli input.w-var già esistenti
-      document.querySelectorAll(`.${classSelector}`).forEach(observeStyleAttr);
+      document.querySelectorAll(`.${classSelector}`).forEach(el => observeStyleAttr(el as HTMLInputElement));
   
       // Observer globale per rilevare nuovi nodi aggiunti al DOM
       const globalObserver = new MutationObserver(mutations => {
@@ -129,14 +130,14 @@ export default class Shareds {
   
             // Se il nodo stesso è un input.w-var, processalo
             if (node.matches(`.${classSelector}`)) {
-              resizeInput(node);
-              observeStyleAttr(node);
+              resizeInput(node as HTMLInputElement);
+              observeStyleAttr(node as HTMLInputElement);
             }
   
             // Cerca input.w-var anche nei discendenti del nodo aggiunto
             node.querySelectorAll?.(`.${classSelector}`).forEach(el => {
-              resizeInput(el);
-              observeStyleAttr(el);
+              resizeInput(el as HTMLInputElement);
+              observeStyleAttr(el as HTMLInputElement);
             });
           });
         }
