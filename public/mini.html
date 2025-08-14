@@ -1,0 +1,404 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+  * {
+    box-sizing: border-box;
+    font-family: 'Share Tech Mono', monospace !important;
+  }
+  html, body {
+    margin: 0;
+    background: #121212;
+    color: #eee;
+  }
+  h1 {
+    font-size: 24px;
+    margin: 0px;
+    font-weight: 700;
+    text-align: center;
+    color: #82aaff;
+  }
+  article {
+    margin: auto;
+    padding: 10px;
+    width: clamp(300px, 100%, 650px);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  section {
+    width: clamp(200px, 100%, 300px);
+    padding: 10px;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 10px;
+    background: #2e2e4280;
+  }
+  .options, .head {
+    width: 100%;
+  }
+    .options div {
+      display: flex;
+      align-items: center; 
+      gap: 10px;
+    }
+
+  .i-group {
+    width: clamp(60px, 100%, 80px);
+  }
+  .i-group.nome{
+    width: 200px;
+  }
+  div.i-group.lingue{
+    min-width: 100%;
+  }
+  label {
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+  }
+  label::first-letter {
+    text-transform: uppercase;
+  }
+  input, textarea, select, .input {
+    width: clamp(40px, 100%, 200px);
+    padding: 8px 10px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-size: 14px;
+    background: #2e2e42;
+    color: #eee;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: inherit;
+  }
+  input:focus, textarea:focus, select:focus {
+    display: block;
+    border-color: #82aaff;
+    outline: none;
+    box-shadow: 0 0 6px rgba(130, 170, 255, 0.7);
+    background: #3a3a5c;
+  }
+  .input {
+    background: transparent;
+  }
+  [role="list"] {
+    width: clamp(300px, 100%, 400px);
+  }
+  .row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 10px;
+    align-items: start;
+    margin-bottom: 8px;
+  }
+  button {
+    background-color: #3a3a5c;
+    border: none;
+    color: #82aaff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  button:hover {
+    background-color: #5060b2;
+    color: #d0dbff;
+  }
+  button:active {
+    background-color: #2c2f59;
+    color: #aab8ff;
+    transform: scale(0.95);
+  }
+  button:focus {
+    outline: 2px solid #82aaff;
+    outline-offset: 2px;
+  }
+  button.remove-btn {
+    background-color: #ff6b6b;
+    color: white;
+  }
+
+  /* Save indicator */
+  #save-indicator {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: #2e7d32;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    font-weight: bold;
+    display: none;
+    z-index: 9999;
+  }
+</style>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini RPG</title>
+</head>
+</html>
+<script type="module">
+  // Classe principale dell'applicazione che gestisce stato, rendering e persistenza
+  class App {
+    // Costruttore: inizializza lo stato da localStorage o con valori di default e renderizza l'interfaccia
+    constructor() {
+      window.app = this;
+
+      // Prova a leggere i dati salvati in precedenza dal localStorage
+      const localdata = localStorage.getItem('localdata');
+      if (localdata) {
+        try {
+          // Se il JSON è valido, popoliamo lo stato del personaggio
+          this.character = JSON.parse(localdata);
+        } catch (e) {
+          console.error('Errore parsing localdata:', e);
+          // In caso di errore di parsing, ripristiniamo lo stato di default
+          this.initDefault();
+        }
+      } else {
+        // Nessun dato salvato: creiamo uno stato iniziale
+        this.initDefault();
+      }
+
+      // Primo rendering dell'interfaccia
+      this.render();
+    }
+
+    // Inizializza la scheda con valori di esempio / default
+    initDefault() {
+      this.character = [
+        { section: 'head', key: 'nome', value: 'Nome' },
+        { section: 'head', key: 'ispirazione', value: 1 },
+        { section: 'head', key: 'vita attuale', value: 10 },
+        { section: 'head', key: 'monete', value: 5 },
+        { section: 'head', key: 'protezione', value: 2 },
+        { section: 'left', key: 'costituzione', value: 'D6' },
+        { section: 'left', key: 'destrezza', value: 'D8' },
+        { section: 'left', key: 'forza', value: 'D6' },
+        { section: 'left', key: 'carisma', value: 'D6' },
+        { section: 'left', key: 'intelligenza', value: 'D4' },
+        { section: 'left', key: 'saggezza', value: 'D4' },
+        { section: 'left', key: 'bonus condizionali', value: [{ amount: 1, description: 'Es. bonus' }] },
+        { section: 'right', key: 'lingue', value: 'Italiano' },
+        { section: 'right', key: 'equipaggiamento', value: [{ amount: 1, description: 'Oggetto' }] },
+      ];
+    }
+
+
+
+    // Aggiorna un campo singolo (numero o testo) e salva
+    updateValue(section, key, newValue) {
+      const obj = this.character.find(c => c.section === section && c.key === key);
+      if (!obj) return;
+      if (typeof obj.value === 'number') {
+        // Conversione sicura a numero per i campi numerici
+        const num = Number(newValue);
+        obj.value = isNaN(num) ? obj.value : num;
+      } else {
+        obj.value = newValue;
+      }
+      this.render();
+      this.saveLocal();
+    }
+
+    // Aggiorna un elemento all'interno di una lista (array) e salva
+    updateArrayValue(section, key, index, prop, newValue) {
+      const obj = this.character.find(c => c.section === section && c.key === key);
+      if (!obj || !Array.isArray(obj.value)) return;
+      // Se si modifica la quantità, convertiamo a numero; altrimenti trattiamo come stringa
+      if (prop === 'amount') {
+        const num = Number(newValue);
+        obj.value[index][prop] = isNaN(num) ? obj.value[index][prop] : num;
+      } else {
+        obj.value[index][prop] = newValue;
+      }
+      this.saveLocal();
+    }
+
+    // Gestisce l'invio del form per aggiungere un nuovo elemento ad una lista
+    addArrayItem(section, key, event) {
+      event.preventDefault();
+      // Recupero dei riferimenti ai campi del form (quantità e descrizione)
+      const form = event.target;
+      const amountInput = form.querySelector('input[name="amount"]');
+      const descInput = form.querySelector('input[name="description"], textarea[name="description"]');
+      // Normalizzazione dei valori: quantità come numero e descrizione ripulita
+      const amount = Number(amountInput?.value) || 1;
+      const description = (descInput?.value || '').trim();
+      if (description === '') return;
+      const obj = this.character.find(c => c.section === section && c.key === key);
+      if (!obj || !Array.isArray(obj.value)) return;
+      obj.value.push({ amount, description });
+      if (amountInput) amountInput.value = '1';
+      if (descInput) descInput.value = '';
+      // Render prima, poi salvataggio per mostrare correttamente il save-indicator
+      this.render();
+      this.saveLocal();
+    }
+
+    // Rimuove un elemento da una lista previa conferma dell'utente
+    removeArrayItem(section, key, index) {
+      const obj = this.character.find(c => c.section === section && c.key === key);
+      if (!obj || !Array.isArray(obj.value)) return;
+      // Conferma di eliminazione per evitare rimozioni accidentali
+      if (!confirm('Eliminare il componente?')) return;
+      const itemName = obj.value[index]?.description || 'elemento';
+      obj.value.splice(index, 1);
+      // Render prima, poi salvataggio per mostrare correttamente il save-indicator
+      this.render();
+      this.saveLocal();
+    }
+
+    // Salva lo stato corrente nel localStorage e mostra l'indicatore di salvataggio
+    saveLocal() {
+      localStorage.setItem('localdata', JSON.stringify(this.character));
+      const indicator = document.getElementById('save-indicator');
+      if (indicator) {
+        // Mostra l'indicatore di salvataggio (auto-hide dopo 2s)
+        indicator.style.display = 'block';
+        clearTimeout(this.saveTimeout);
+        this.saveTimeout = setTimeout(() => {
+          indicator.style.display = 'none';
+        }, 2000);
+      }
+    }
+
+    // Copia lo stato corrente negli appunti come JSON
+    getLocal() {
+      const localdata = localStorage.getItem('localdata');
+      if (!localdata) return;
+      navigator.clipboard.writeText(localdata)
+        .then(() => console.warn("Dati copiati negli appunti!"))
+        .catch(err => console.error("Errore durante la copia:", err));
+    }
+
+    // Legge un JSON dagli appunti, lo valida e sovrascrive lo stato salvato
+    setLocal() {
+      navigator.clipboard.readText()
+        .then(text => {
+          // Heuristica veloce per evitare input palesemente non-JSON
+          const requiredChars = ['{', '}', '[', ']', ':'];
+          const hasRequiredChars = requiredChars.every(char => text.includes(char));
+          if (!hasRequiredChars) {
+            alert("Il contenuto degli appunti non sembra essere un JSON valido.");
+            return;
+          }
+          let parsed;
+          try {
+            // Parsing del JSON dagli appunti
+            parsed = JSON.parse(text);
+          } catch (e) {
+            alert("Errore nel parsing del JSON incollato.");
+            return;
+          }
+          localStorage.setItem('localdata', JSON.stringify(parsed));
+          // Ricarica la pagina per applicare il nuovo stato
+          location.reload();
+        })
+        .catch(err => {
+          console.error("Errore durante la lettura degli appunti:", err);
+          alert("Impossibile leggere dagli appunti.");
+        });
+    }
+
+    // Render dell'interfaccia sulla base dello stato corrente this.character
+    render() {
+      // Funzione d'aiuto per calcolare il valore numerico della costituzione (es. "D6" -> 6)
+      const costituzioneValue = () => {
+        const c = this.character.find(c => c.key && c.key.includes('cost'));
+        return c ? Number(c.value.substring(1)) : 0;
+      }
+
+      // Raggruppa gli elementi per sezione (head/left/right) per il rendering
+      const grouped = this.character.reduce((acc, cur) => {
+        acc[cur.section] = [...(acc[cur.section] || []), cur];
+        return acc;
+      }, {});
+
+      // Costruzione del markup principale dell'app
+      document.body.innerHTML = `
+        <div id="save-indicator">
+          ✓ Salvato!
+        </div>
+
+        <article>
+          <section class="options">
+            <div>
+              <h1>Mini RPG</h1>
+              <button type="button" onclick="app.getLocal()">Copia</button>
+              <button type="button" onclick="app.setLocal()">Incolla</button>
+            </div>
+          </section>
+
+          ${['head', 'left', 'right'].map((section, index) => `
+            <section class="${section}">
+              ${grouped[section]?.map(({ key, value }) =>
+                Array.isArray(value) ? `
+                  <div role="list">
+                    <div>
+                      <label>${key}</label>
+                    </div>
+                    <form class="row" onsubmit="app.addArrayItem('${section}', '${key}', event)">
+                      <input type="number" name="amount" min="1" placeholder="Qtà" />
+                      <input name="description" placeholder="Descrizione" />
+                      <button type="submit">Aggiungi</button>
+                    </form>
+                    ${value.map((v, i) => `
+                      <div class="row">
+                        <input type="number" value="${v.amount}" onchange="app.updateArrayValue('${section}', '${key}', ${i}, 'amount', this.value)">
+                        <textarea onchange="app.updateArrayValue('${section}', '${key}', ${i}, 'description', this.value)">${v.description}</textarea>
+                        <button type="button" class="remove-btn" onclick="app.removeArrayItem('${section}', '${key}', ${i})">Elimina</button>
+                      </div>
+                    `).join('')}
+                  </div>
+
+                `/*input group*/:`
+                  <div class="i-group ${key}">
+                    <label for="${key}">${key}</label>
+                    ${['forza', 'destrezza', 'costituzione', 'intelligenza', 'saggezza', 'carisma'].includes(key) ? `
+                      <select id="${key}" onchange="app.updateValue('${section}', '${key}', this.value)">
+                        ${[12, 10, 8, 6].map(opt => `
+                          <option value="${opt}" ${value == opt ? 'selected' : ''}>D${opt}</option>
+                        `).join('')}
+                      </select>
+                    ` : key === 'lingue' ? `
+                      <textarea id="${key}" onchange="app.updateValue('${section}', '${key}', this.value)">${value}</textarea>
+                    ` : `
+                      <input id="${key}" type="${typeof value === 'number' ? 'number' : 'text'}"
+                             value="${value}" onchange="app.updateValue('${section}', '${key}', this.value)">
+                    `}
+                  </div>
+
+                  ${key === 'vita attuale' ? `
+                    <div class="i-group">
+                      <label>Vita massima</label>
+                      <div class="input">${costituzioneValue() * 4}</div>
+                    </div>
+                  ` : ``}
+                `).join('') || ''}
+            </section>
+          `).join('')}
+        </article>
+      `;
+    }
+  }
+
+  // Avvio dell'applicazione al caricamento della finestra
+  window.onload = () => {
+    new App();
+  };
+</script>

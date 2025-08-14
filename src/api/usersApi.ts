@@ -51,7 +51,6 @@ export const UsersApi = {
       method: 'PUT', // Sostituisce completamente il nodo
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
-    }).then(r =>{
     })
     return user;
   },
@@ -59,7 +58,7 @@ export const UsersApi = {
   // DELETE: Rimuove un utente (serve `firebaseId`)
   async delete(firebaseId: string) {
     await fetch(`${this.url}/${firebaseId}.json`, { method: 'DELETE' }).then(r =>{
-      console.log('delete');
+      console.log('delete', r);
     });
   },
 };

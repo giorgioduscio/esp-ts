@@ -6,6 +6,7 @@ import Accesso from "./pages/log/accesso";
 import Registrazione from "./pages/log/registrazione";
 
 export interface Route{
+  label?: string,
   path: string,
   component?: any,
   redirect?: string
@@ -13,14 +14,15 @@ export interface Route{
 }
 
 export const Routes :Route[] =[
-  { path: '/cv', component: CvPage, show:true },
-  { path: '/home', component: HomePage, show:true },
-  { path: '/dashboard', component: DashboardPage, show:true },
-  { path: '/error', component: ErrorPage },
+  { label:'Curriculum', path: '/cv', component: CvPage, show:true },
+  { label:'Home', path: '/home', component: HomePage, show:true },
+  { label:'Dashboard', path: '/dashboard', component: DashboardPage, show:true },
+  { label:'Error', path: '/error', component: ErrorPage },
+  { label:'Tic Tac Toe', path: '/ttt.html', show:true },
+  { label:'Mini GDR', path: '/mini.html', show:true },
   // login
-  { path: '/accesso', component: Accesso, show:true }, 
-  { path: '/registrazione', component: Registrazione, show:true },
-
+  { label:'Accesso', path: '/accesso', component: Accesso, show:true }, 
+  { label:'Registrazione', path: '/registrazione', component: Registrazione, show:true },
 
   { path: '/', redirect: '/home' },
   { path: '**', redirect: '/error' },
