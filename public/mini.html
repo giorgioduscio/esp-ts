@@ -1,8 +1,15 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <title>Mini RPG</title>
+</head>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
   * {
     box-sizing: border-box;
-    font-family: 'Share Tech Mono', monospace !important;
+    font-family: Arial, Helvetica, sans-serif
   }
   html, body {
     margin: 0;
@@ -25,33 +32,33 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  section {
-    width: clamp(200px, 100%, 300px);
-    padding: 10px;
-    display: flex;
-    flex-flow: wrap;
-    justify-content: center;
-    gap: 10px;
-    border-radius: 10px;
-    background: #2e2e4280;
-  }
-  .options, .head {
-    width: 100%;
-  }
-    .options div {
-      display: flex;
-      align-items: center; 
-      gap: 10px;
+    section.left, section.right {
+      flex-grow: 1;
     }
+    section {
+      width: clamp(200px, 100%, 300px);
+      padding: 10px;
+      display: flex;
+      flex-flow: wrap;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 10px;
+      background: #2e2e4280;
+    }
+    .options, .head {
+      width: 100%;
+    }
+      .options div {
+        display: flex;
+        align-items: center; 
+        gap: 10px;
+      }
 
   .i-group {
     width: clamp(60px, 100%, 80px);
   }
   .i-group.nome{
     width: 200px;
-  }
-  div.i-group.lingue{
-    min-width: 100%;
   }
   label {
     margin-bottom: 10px;
@@ -84,16 +91,19 @@
   .input {
     background: transparent;
   }
-  [role="list"] {
-    width: clamp(300px, 100%, 400px);
+  [role="list"], div.i-group.lingue {
+    width: clamp(300px, 100%, 300px);
   }
   .row {
-    width: 100%;
+    width: clamp(200px, 100%, 300px);
     display: grid;
-    grid-template-columns: 40px 1fr auto;
-    gap: 10px;
+    grid-template-columns: 50px 1fr auto;
+    gap: 5px;
     align-items: start;
     margin-bottom: 8px;
+  }
+  form.row>[type="submit"]{
+    height: 100%;
   }
   button {
     background-color: #3a3a5c;
@@ -142,15 +152,8 @@
     display: none;
     z-index: 9999;
   }
+  
 </style>
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mini RPG</title>
-</head>
-</html>
 <script type="module">
   // Classe principale dell'applicazione che gestisce stato, rendering e persistenza
   class App {
@@ -186,27 +189,34 @@
         { section: 'head', key: 'vita attuale', value: 10 },
         { section: 'head', key: 'monete', value: 5 },
         { section: 'head', key: 'protezione', value: 2 },
-        { section: 'left', key: 'costituzione', value: 'D6' },
-        { section: 'left', key: 'destrezza', value: 'D8' },
-        { section: 'left', key: 'forza', value: 'D6' },
-        { section: 'left', key: 'carisma', value: 'D6' },
-        { section: 'left', key: 'intelligenza', value: 'D4' },
-        { section: 'left', key: 'saggezza', value: 'D4' },
+        { section: 'left', key: 'costituzione', value: 6 },
+        { section: 'left', key: 'destrezza', value: 8 },
+        { section: 'left', key: 'forza', value: 6 },
+        { section: 'left', key: 'carisma', value: 6 },
+        { section: 'left', key: 'intelligenza', value: 4 },
+        { section: 'left', key: 'saggezza', value: 4 },
         { section: 'left', key: 'bonus condizionali', value: [{ amount: 1, description: 'Es. bonus' }] },
         { section: 'right', key: 'lingue', value: 'Italiano' },
         { section: 'right', key: 'equipaggiamento', value: [{ amount: 1, description: 'Oggetto' }] },
       ];
     }
 
-
-
     // Aggiorna un campo singolo (numero o testo) e salva
     updateValue(section, key, newValue) {
+      console.log(section, key, newValue);
+      
       const obj = this.character.find(c => c.section === section && c.key === key);
       if (!obj) return;
-      if (typeof obj.value === 'number') {
-        // Conversione sicura a numero per i campi numerici
-        const num = Number(newValue);
+      // Inlined: determinazione campi numerici, sostituisce isNumericKey
+      const numericKeys = [
+        'ispirazione', 'vita attuale', 'monete', 'protezione',
+        'forza', 'destrezza', 'costituzione', 'intelligenza', 'saggezza', 'carisma'
+      ];
+      const mustBeNumber = numericKeys.includes(key) || typeof obj.value === 'number';
+      if (mustBeNumber) {
+        // Conversione sicura a numero per i campi numerici (supporto anche a formati tipo "D6")
+        const match = String(newValue).match(/\d+/);
+        const num = match ? Number(match[0]) : Number(newValue);
         obj.value = isNaN(num) ? obj.value : num;
       } else {
         obj.value = newValue;
@@ -320,7 +330,12 @@
       // Funzione d'aiuto per calcolare il valore numerico della costituzione (es. "D6" -> 6)
       const costituzioneValue = () => {
         const c = this.character.find(c => c.key && c.key.includes('cost'));
-        return c ? Number(c.value.substring(1)) : 0;
+        if (!c) return 0;
+        const v = c.value;
+        if (typeof v === 'number') return v;
+        // Gestione stringhe tipo "D6" o simili: estraiamo la parte numerica
+        const match = String(v).match(/\d+/);
+        return match ? Number(match[0]) : 0;
       }
 
       // Raggruppa gli elementi per sezione (head/left/right) per il rendering
@@ -331,9 +346,7 @@
 
       // Costruzione del markup principale dell'app
       document.body.innerHTML = `
-        <div id="save-indicator">
-          ✓ Salvato!
-        </div>
+        <div id="save-indicator">✓ Salvato</div>
 
         <article>
           <section class="options">
@@ -347,7 +360,7 @@
           ${['head', 'left', 'right'].map((section, index) => `
             <section class="${section}">
               ${grouped[section]?.map(({ key, value }) =>
-                Array.isArray(value) ? `
+                /*ARRAY*/ Array.isArray(value) ? `
                   <div role="list">
                     <div>
                       <label>${key}</label>
@@ -355,18 +368,20 @@
                     <form class="row" onsubmit="app.addArrayItem('${section}', '${key}', event)">
                       <input type="number" name="amount" min="1" placeholder="Qtà" />
                       <input name="description" placeholder="Descrizione" />
-                      <button type="submit">Aggiungi</button>
+                      <button type="submit"><span class="material-symbols-outlined">add</span></button>
                     </form>
                     ${value.map((v, i) => `
                       <div class="row">
                         <input type="number" value="${v.amount}" onchange="app.updateArrayValue('${section}', '${key}', ${i}, 'amount', this.value)">
                         <textarea onchange="app.updateArrayValue('${section}', '${key}', ${i}, 'description', this.value)">${v.description}</textarea>
-                        <button type="button" class="remove-btn" onclick="app.removeArrayItem('${section}', '${key}', ${i})">Elimina</button>
+                        <button type="button" class="remove-btn" onclick="app.removeArrayItem('${section}', '${key}', ${i})">
+                          <span class="material-symbols-outlined">delete</span>
+                        </button>
                       </div>
                     `).join('')}
                   </div>
 
-                `/*input group*/:`
+                `/*TESTO E NUMERICO*/:`
                   <div class="i-group ${key}">
                     <label for="${key}">${key}</label>
                     ${['forza', 'destrezza', 'costituzione', 'intelligenza', 'saggezza', 'carisma'].includes(key) ? `
@@ -398,7 +413,6 @@
   }
 
   // Avvio dell'applicazione al caricamento della finestra
-  window.onload = () => {
-    new App();
-  };
+  window.onload =_=>new App();
 </script>
+</html>
