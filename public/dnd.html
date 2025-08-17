@@ -1,354 +1,827 @@
 <style>
-    /* Usa il blocco :root sottostante come tema unico */
-    :root {
-      --input: #fdf6e3;
-      /* Colori di testo */
-      --testo-base: #4a3f35;
-      --testo-forte: #3b2f27;
-      --testo-etichetta: #6a5a49;
-      /* Colori di sfondo */
-      --sfondo-chiaro: #f4eade;
-      /* Bordi */
-      --bordo-base: #c8b89e;
-      --bordo-tratteggiato: #d3c0a5;
-      /* Colori interattivi */
-      --accento-base: #8c7b62;
-      /* Colori di stato */
-      --verde-chiaro: #d4edda;
-      --verde-scuro: #155724;
-      --bordo-verde: #c3e6cb;
-      --rosso-chiaro: #f8d7da;
-      --rosso-scuro: #721c24;
-      --bordo-rosso: #f5c6cb;
-    }
+  /* Usa il blocco :root sottostante come tema unico */
+  :root {
+    --input: #fdf6e3;
+    /* Colori di testo */
+    --testo-base: #4a3f35;
+    --testo-forte: #3b2f27;
+    --testo-etichetta: #6a5a49;
+    /* Colori di sfondo */
+    --sfondo-chiaro: #f4eade;
+    /* Bordi */
+    --bordo-base: #c8b89e;
+    --bordo-tratteggiato: #d3c0a5;
+    /* Colori interattivi */
+    --accento-base: #8c7b62;
+    /* Colori di stato */
+    --verde-chiaro: #d4edda;
+    --verde-scuro: #155724;
+    --bordo-verde: #c3e6cb;
+    --rosso-chiaro: #f8d7da;
+    --rosso-scuro: #721c24;
+    --bordo-rosso: #f5c6cb;
+  }
+
   
-  
-    /* STRUTTURA DOCUMENTO */
-    body {
-      font-family: 'Times New Roman', Times, serif !important;
-      background-color: var(--input);
-      color: var(--testo-base);
-      margin: 0;
-      padding: 1vw;
-      font-size: 0.8em;
-    }
-  
-    article {
-      display: flex;
-      gap: 5px;
-      max-width: 1000px;
-      margin: auto;
-      padding: 5px;
-      background: var(--sfondo-chiaro);
-      border: 2px solid var(--bordo-base);
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-      border-radius: 5px;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: flex-start;
-    }
-  
-    header {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      gap: 5px;
-      border-bottom: 2px solid var(--bordo-base);
-      padding-bottom: 15px;
-    }
-      header>*:last-child {
-        flex: 1;
-      }
-        header>*:last-child input{
-          max-width: 80px;
-        }
-  
-    section {
+
+
+  /* STRUTTURA DOCUMENTO */
+  body {
+    font-family: 'Times New Roman', Times, serif !important;
+    background-color: var(--input);
+    color: var(--testo-base);
+    margin: 0;
+    padding: 1vw;
+    font-size: 0.8em;
+  }
+
+  article {
+    display: flex;
+    gap: 5px;
+    max-width: 1000px;
+    margin: auto;
+    padding: 5px;
+    background: var(--sfondo-chiaro);
+    border: 2px solid var(--bordo-base);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  header {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 5px;
+    border-bottom: 2px solid var(--bordo-base);
+    padding-bottom: 15px;
+  }
+    header>*:last-child {
       flex: 1;
-      min-width: 250px;
-      width: clamp(250px, 100%, 400px);
-      display: flex;
-      gap: 10px;
-      background: transparent;
-      flex-wrap: wrap;
-      justify-content: center;
     }
-      section>*{
-        flex:auto;
+      header>*:last-child input{
+        max-width: 80px;
       }
-  
-    .score, section > details > main {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
+
+  section {
+    flex: 1;
+    min-width: 250px;
+    width: clamp(250px, 100%, 400px);
+    display: flex;
+    gap: 10px;
+    background: transparent;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+    section>*{
+      flex:auto;
     }
-  
-    /* DETAILS/SUMMARY STYLING */
-    section > details {
-      width: 100%;
-      border: 1px solid var(--bordo-base);
-      border-radius: 10px;
-      box-shadow: 0 2px 6px #0000000f;
-      overflow: hidden;
+
+  .score, section > details > main {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  /* DETAILS/SUMMARY STYLING */
+  section > details {
+    width: 100%;
+    border: 1px solid var(--bordo-base);
+    border-radius: 10px;
+    box-shadow: 0 2px 6px #0000000f;
+    overflow: hidden;
+  }
+  section > details:not(:first-child) { margin-top: 8px; }
+
+  section > details > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    font-weight: 700;
+    color: var(--testo-forte);
+    background: linear-gradient(180deg, #fffaf0 0%, #fff5e6 100%);
+    border-bottom: 1px solid var(--bordo-base);
+    position: relative;
+    user-select: none;
+  }
+  /* Remove default marker */
+  section > details > summary::-webkit-details-marker { display: none; }
+  section > details > summary::marker { content: ''; }
+
+  /* Custom caret */
+  section > details > summary::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--testo-etichetta);
+    border-bottom: 2px solid var(--testo-etichetta);
+    transform: rotate(-45deg);
+    transition: transform 160ms ease;
+  }
+  section > details[open] > summary::after { transform: rotate(45deg); }
+
+  section > details > summary:hover {
+    background: linear-gradient(180deg, #fff8ea 0%, #fff1db 100%);
+  }
+  section > details > summary:focus-visible {
+    outline: 2px solid var(--accento-base);
+    outline-offset: 2px;
+  }
+  section > details > main {
+    padding: 10px;
+  }
+  /* solo per schermi grandi > 805px */
+  @media (min-width: 805px) {
+    details.privilegi > * {
+      max-height: 630px;
+      overflow-y: auto;
     }
-    section > details:not(:first-child) { margin-top: 8px; }
-  
-    section > details > summary {
-      list-style: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 10px 12px;
-      font-weight: 700;
-      color: var(--testo-forte);
-      background: linear-gradient(180deg, #fffaf0 0%, #fff5e6 100%);
-      border-bottom: 1px solid var(--bordo-base);
-      position: relative;
-      user-select: none;
+  }
+
+  /* PICCOLI COMPONENTI */
+  form.row{
+    display: flex;
+    gap: 10px
+  }
+
+  .mono > input{
+    width: 40px;
+  }
+
+  /* COLONNA SINISTRA */
+  .mono {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    border: 1px solid var(--bordo-tratteggiato);
+    border-radius: 10px;
+  }
+    .mono>*:last-child{
+      max-width: 30px;
+      font-weight: bold;
+      text-align: center;
     }
-    /* Remove default marker */
-    section > details > summary::-webkit-details-marker { display: none; }
-    section > details > summary::marker { content: ''; }
-  
-    /* Custom caret */
-    section > details > summary::after {
-      content: '';
-      width: 8px;
-      height: 8px;
-      border-right: 2px solid var(--testo-etichetta);
-      border-bottom: 2px solid var(--testo-etichetta);
-      transform: rotate(-45deg);
-      transition: transform 160ms ease;
+
+  .punteggi {
+    padding: 0 10px;
+    height: max-content;
+    width: 60px;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    border: 1px solid var(--bordo-tratteggiato);
+    border-radius: 10px;
+  }
+    .punteggi>*{
+      transform: translateY(10px);
     }
-    section > details[open] > summary::after { transform: rotate(45deg); }
-  
-    section > details > summary:hover {
-      background: linear-gradient(180deg, #fff8ea 0%, #fff1db 100%);
-    }
-    section > details > summary:focus-visible {
-      outline: 2px solid var(--accento-base);
-      outline-offset: 2px;
-    }
-    section > details > main {
-      padding: 10px;
-    }
-  
-    form.row{
-      display: flex;
-      gap: 10px
-    }
-  
-    .mono > input{
-      width: 40px;
-    }
-  
-    /* COLONNA SINISTRA */
-    .mono {
-      display: flex;
-      flex-direction: row;
-      gap: 5px;
-      align-items: center;
-      justify-content: space-between;
-      padding: 5px 10px;
-      border: 1px solid var(--bordo-tratteggiato);
-      border-radius: 10px;
-    }
-      .mono>*:last-child{
-        max-width: 30px;
-        font-weight: bold;
-        text-align: center;
-      }
-  
-    .punteggi {
-      padding: 0 10px;
-      height: max-content;
-      width: 60px;
-      display: flex; 
-      flex-direction: column; 
-      align-items: center;
-      border: 1px solid var(--bordo-tratteggiato);
-      border-radius: 10px;
-    }
-      .punteggi>*{
-        transform: translateY(10px);
-      }
-      .punteggi>*:nth-child(1) {
-        max-width: 60px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .punteggi>*:nth-child(2) {
-        font-size: 1.5em;
-        font-weight: bold;
-      }
-      .punteggi>input {
-        width: 40px;
-        padding: 5px;
-        display: block;
-        text-align: center;
-        border: 1px solid var(--bordo-tratteggiato) !important;
-        border-radius: 10px;
-        background: var(--input) !important;
-      }
-  
-    input, textarea, .input {
-      width: clamp(40px, 100%, 300px);
-      padding: 5px;
-      border: none;
-      border-radius: 0;
-      color: var(--testo-forte);
-      font-family: 'Times New Roman', Times, serif !important;
-      box-sizing: border-box;
-      text-align: inherit;
-      border-bottom: 1px solid var(--bordo-tratteggiato);
-    }
-    input, textarea {
-      background: var(--input);
-    }
-    textarea {
-      resize: none;
-      min-height: 60px;
-      border: 0;
-      border-left: 1px dotted var(--accento-base);
-    }
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--accento-base);
-    }
-  
-    label {
-      letter-spacing: 1px;
-      color: var(--testo-etichetta);
-      white-space: nowrap;
+    .punteggi>*:nth-child(1) {
+      max-width: 60px;
       overflow: hidden;
       text-overflow: ellipsis;
-      display: inline-block;
-      max-width: 100%;
     }
-      label::first-letter {
-        text-transform: uppercase !important;
-      }
-  
-      label::first-letter {
-        text-transform: uppercase !important;
-      }
-  
-    h4 {
-      font-weight: 700;
-      text-align: center;
-      border-bottom: 2px solid var(--bordo-base);
-      padding-bottom: 5px;
-      margin: 10px 0;
-      text-transform: uppercase;
+    .punteggi>*:nth-child(2) {
+      font-size: 1.5em;
+      font-weight: bold;
     }
-  
-    input[type="checkbox"] {
-      width: auto;
-      accent-color: var(--accento-base);
-    }
-  
-    button {
-      background: var(--accento-base);
-      color: var(--input);
-      border: 1px solid var(--testo-base);
-      border-radius: 3px;
-      cursor: pointer;
-      padding: 0;
-    }
-    button:hover {
-      background: var(--testo-etichetta);
-    }
-    /* Limita la larghezza di input/select con classe .add */
-    input.add, select.add {
-      max-width: 150px;
-      width: 100%;
-    }
-  
-    button.add {
-      background-color: var(--verde-chiaro);
-      color: var(--verde-scuro);
-      border-color: var(--bordo-verde);
-    }
-  
-    button.delete {
-      background-color: var(--rosso-chiaro);
-      color: var(--rosso-scuro);
-      border-color: var(--bordo-rosso);
-    }
-  
-    select {
-      background: var(--input);
-      border: 1px solid var(--bordo-tratteggiato);
-      border-radius: 4px;
+    .punteggi>input {
+      width: 40px;
       padding: 5px;
-      color: var(--testo-base);
-      width: 100%;
+      display: block;
+      text-align: center;
+      border: 1px solid var(--bordo-tratteggiato) !important;
+      border-radius: 10px;
+      background: var(--input) !important;
     }
-  
-    strong {
-      color: var(--testo-forte);
-      font-weight: 700;
+
+  input, textarea, .input {
+    width: clamp(40px, 100%, 300px);
+    padding: 5px;
+    border: none;
+    border-radius: 0;
+    color: var(--testo-forte);
+    font-family: 'Times New Roman', Times, serif !important;
+    box-sizing: border-box;
+    text-align: inherit;
+    border-bottom: 1px solid var(--bordo-tratteggiato);
+  }
+  input, textarea {
+    background: var(--input);
+  }
+  textarea {
+    resize: none;
+    min-height: 60px;
+    border: 0;
+    border-left: 1px dotted var(--accento-base);
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accento-base);
+  }
+
+  label {
+    letter-spacing: 1px;
+    color: var(--testo-etichetta);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 100%;
+  }
+    label::first-letter {
+      text-transform: uppercase !important;
     }
-  
-    ul {
-      list-style-type: none;
-      padding-left: 15px;
-      margin: 0;
+
+    label::first-letter {
+      text-transform: uppercase !important;
     }
-  
-    .list-item {
-      display: flex;
-      gap: 5px;
-      align-items: center;
-      margin-bottom: 5px;
+
+  h4 {
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 2px solid var(--bordo-base);
+    padding-bottom: 5px;
+    margin: 10px 0;
+    text-transform: uppercase;
+  }
+
+  input[type="checkbox"] {
+    width: auto;
+    accent-color: var(--accento-base);
+  }
+
+  button {
+    background: var(--accento-base);
+    color: var(--input);
+    border: 1px solid var(--testo-base);
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 0;
+  }
+  button:hover {
+    background: var(--testo-etichetta);
+  }
+  /* Limita la larghezza di input/select con classe .add */
+  input.add, select.add {
+    max-width: 150px;
+    width: 100%;
+  }
+
+  button.add {
+    background-color: var(--verde-chiaro);
+    color: var(--verde-scuro);
+    border-color: var(--bordo-verde);
+  }
+
+  button.delete {
+    background-color: var(--rosso-chiaro);
+    color: var(--rosso-scuro);
+    border-color: var(--bordo-rosso);
+  }
+
+  select {
+    background: var(--input);
+    border: 1px solid var(--bordo-tratteggiato);
+    border-radius: 4px;
+    padding: 5px;
+    color: var(--testo-base);
+    width: 100%;
+    font-family: 'Times New Roman', Times, serif !important;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 15px;
+    margin: 0;
+  }
+
+  .list-item {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  .list-item > input {
+    flex-grow: 1;
+  }
+  .list-item > button {
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    line-height: 25px;
+  }
+
+  /* Titoli con layout flessibile (testo + pulsanti) */
+  .flexTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .list-item {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  .list-item > input {
+    flex-grow: 1;
+  }
+  .list-item > button {
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    line-height: 25px;
+  }
+
+  /* Toast "Modificato" */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    background: var(--verde-scuro);
+    color: var(--verde-chiaro);
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+    pointer-events: none;
+  }
+  .toast.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px);
+  }
+</style>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scheda personaggio</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+</head>
+<script type="module">
+
+/*
+  Autocomplete (modulo minimale e indipendente)
+
+  Obiettivo
+  - Fornire un comportamento di autocomplete per input di tipo "search" SENZA caricare dati esterni.
+  - Le opzioni sono già presenti nel DOM come <li> dentro un <ul [autocomplete]> abbinato all'input.
+
+  Comportamento
+  - Focus (focusin): mostra la lista del campo e applica subito il filtro in base al valore corrente.
+    • Se l'input è vuoto: mostra tutte le <li>.
+    • Se l'input contiene testo: mostra solo le <li> che includono parzialmente quel testo (case-insensitive).
+  - Input (oninput): filtra le <li> della lista associata confrontando il testo digitato con il contenuto delle <li>.
+  - Click su <li>: imposta il valore dell'input con il contenuto della <li> selezionata ed emette gli eventi standard
+    (input, change, click). La lista si nasconde.
+  - Blur (focusout): nasconde la lista con un leggero ritardo per permettere il click sugli elementi.
+  - Posizionamento: la lista viene posizionata e dimensionata per allinearsi all'input.
+
+  Requisiti di markup (per ciascun campo con autocomplete)
+  - Input:  <input type="search" name="NOME">  (name obbligatorio)
+  - Lista:  <ul autocomplete="NOME"> <li>Opzione 1</li> <li>Opzione 2</li> ... </ul>
+    • L'ul deve essere nello STESSO contenitore (parent) dell'input.
+    • Il contenitore dovrebbe avere position: relative (il modulo lo imposta se è static).
+    • Il valore dell'attributo autocomplete dell'ul deve corrispondere esattamente al name dell'input.
+    • Non è richiesto alcun attributo id o name sull'ul.
+
+  Cosa NON fa
+  - Non ricerca/crea voci dinamicamente e non dipende da moduli esterni.
+  - Non usa resolver o sorgenti dati: filtra solo le <li> già presenti nel DOM.
+
+  API
+  - Autocomplete.init(): registra una volta i listener globali su document e attiva lo stile.
+  - Metodi interni usati dal modulo: updateListGeometry, handleChange, handleFocusin, handleFocusout, handleClick.
+
+  Nota
+  - Il modulo è agnostico rispetto all'app: basta rispettare la convenzione input/ul e includere questo file.
+*/
+export const Autocomplete = {
+    // Mappa per riportare l'ul al suo contenitore originale quando viene "portaled" in <body>
+    _portal: new WeakMap(),
+    // ---------------------------
+    // Helpers
+    // ---------------------------
+    _container(input, ul){
+      const container = input?.parentElement;
+      if (!container || !container.contains(ul)) return null;
+      const cs = getComputedStyle(container);
+      if (cs.position === 'static') container.style.position = 'relative';
+      return container;
+    },
+    // Determina se è necessario spostare la lista nel <body> per evitare clipping da overflow
+    _shouldPortal(container){
+      if (!container) return false;
+      if (container === document.body || container === document.documentElement) return false;
+      const cs = getComputedStyle(container);
+      const ov = `${cs.overflow} ${cs.overflowY} ${cs.overflowX}`;
+      return /(auto|scroll|hidden)/.test(ov);
+    },
+    // Sposta la lista nel body preservando la posizione originale (placeholder)
+    _toPortal(input, ul){
+      if (Autocomplete._portal.has(ul)) return;
+      const parent = ul.parentElement;
+      if (!parent) return;
+      const placeholder = document.createComment('ac-placeholder');
+      parent.insertBefore(placeholder, ul);
+      document.body.appendChild(ul);
+      Autocomplete._portal.set(ul, { parent, placeholder });
+      ul.dataset.portal = '1';
+    },
+    // Riporta la lista al contenitore originale
+    _fromPortal(ul){
+      const info = Autocomplete._portal.get(ul);
+      if (!info) return;
+      try {
+        info.parent.insertBefore(ul, info.placeholder);
+        info.placeholder.remove();
+      } catch {}
+      Autocomplete._portal.delete(ul);
+      delete ul.dataset.portal;
+    },
+    // Trova il primo antenato scrollabile; fallback: window
+    _scrollParent(el){
+      let p = el?.parentElement;
+      while (p && p !== document.body) {
+        const cs = getComputedStyle(p);
+        const canScroll = /(auto|scroll)/.test(cs.overflowY || '') && p.scrollHeight > p.clientHeight;
+        if (canScroll) return p;
+        p = p.parentElement;
+      }
+      return window;
+    },
+    _listFor(input){
+      if (!input) return null;
+      // 1) prova nel contenitore originale
+      const local = input.parentElement?.querySelector(`ul[autocomplete="${CSS.escape(input.name)}"]`);
+      if (local) return local;
+      // 2) se è stato portato nel body, ricollega tramite data-for = input.id
+      const id = input.id;
+      if (id) {
+        const byId = document.querySelector(`ul[autocomplete="${CSS.escape(input.name)}"][data-for="${CSS.escape(id)}"]`);
+        if (byId) return byId;
+      }
+      // 3) fallback (potenzialmente ambiguo): primo ul che combacia l'attributo
+      return document.querySelector(`ul[autocomplete="${CSS.escape(input.name)}"]`);
+    },
+    _measureContentHeight(ul){
+      const prevD = ul.style.display, prevV = ul.style.visibility;
+      ul.style.visibility = 'hidden';
+      ul.style.display = 'block';
+      const maxH = parseInt(getComputedStyle(ul).maxHeight || '180', 10) || 180;
+      const h = Math.min(ul.scrollHeight || maxH, maxH);
+      ul.style.visibility = prevV || '';
+      ul.style.display = prevD || '';
+      return { content: h, max: maxH };
+    },
+    // ARIA: crea/recupera live region per annunci
+    _getLive(){
+      let el = document.getElementById('autocomplete-live-region');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = 'autocomplete-live-region';
+        el.setAttribute('role', 'status');
+        el.setAttribute('aria-live', 'polite');
+        el.style.position = 'absolute';
+        el.style.width = '1px';
+        el.style.height = '1px';
+        el.style.margin = '-1px';
+        el.style.border = '0';
+        el.style.padding = '0';
+        el.style.clip = 'rect(0 0 0 0)';
+        el.style.overflow = 'hidden';
+        el.style.whiteSpace = 'nowrap';
+        document.body.appendChild(el);
+      }
+      return el;
+    },
+    // ARIA: garantisce ruoli/attributi e ID coerenti
+    _ensureOptionIds(ul){
+      if (!ul.id) ul.id = `ac-${Math.random().toString(36).slice(2, 8)}`;
+      const items = Array.from(ul.querySelectorAll('li'));
+      items.forEach((li, i) => {
+        if (!li.id) li.id = `${ul.id}-opt-${i}`;
+        if (li.getAttribute('role') !== 'option') li.setAttribute('role', 'option');
+        if (!li.hasAttribute('aria-selected')) li.setAttribute('aria-selected', 'false');
+      });
+      if (ul.getAttribute('role') !== 'listbox') ul.setAttribute('role', 'listbox');
+    },
+    _ensureAria(input, ul){
+      Autocomplete._ensureOptionIds(ul);
+      // collega input <-> lista per recupero anche quando "portaled"
+      if (!input.id) input.id = `ac-input-${Math.random().toString(36).slice(2,8)}`;
+      ul.dataset.for = input.id;
+      input.setAttribute('role', 'combobox');
+      input.setAttribute('aria-autocomplete', 'list');
+      input.setAttribute('aria-controls', ul.id);
+      const expanded = ul.style.display !== 'none';
+      input.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      ul.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+    },
+    // Garantisce che input + lista siano visibili nel viewport o nel contenitore scrollabile
+    _ensureVisible(input, ul){
+      // Mostra temporaneamente per misurare correttamente
+      const prevDisplay = ul.style.display;
+      if (prevDisplay === 'none') ul.style.display = 'block';
+      // Rettangolo unione tra input e lista
+      const rIn = input.getBoundingClientRect();
+      const rUl = ul.getBoundingClientRect();
+      const unionTop = Math.min(rIn.top, rUl.top);
+      const unionBottom = Math.max(rIn.bottom, rUl.bottom);
+      const margin = 6;
+      const sp = Autocomplete._scrollParent(input);
+      if (sp === window) {
+        const vh = window.innerHeight;
+        if (unionTop < margin) window.scrollBy({ top: unionTop - margin, behavior: 'auto' });
+        else if (unionBottom > vh - margin) window.scrollBy({ top: unionBottom - (vh - margin), behavior: 'auto' });
+      } else {
+        // Calcola delta rispetto al contenitore scrollabile
+        const spRect = sp.getBoundingClientRect();
+        const topInSp = unionTop - spRect.top; // posizione relativa
+        const bottomInSp = unionBottom - spRect.top;
+        if (topInSp < margin) sp.scrollTop += topInSp - margin;
+        else if (bottomInSp > sp.clientHeight - margin) sp.scrollTop += bottomInSp - (sp.clientHeight - margin);
+      }
+      // Ripristina display se necessario (non forziamo la visibilità qui)
+      ul.style.display = prevDisplay;
+    },
+    _place(input, ul){
+      const container = Autocomplete._container(input, ul);
+      if (!container) return;
+      const needPortal = Autocomplete._shouldPortal(container);
+      if (needPortal) Autocomplete._toPortal(input, ul); else Autocomplete._fromPortal(ul);
+      const cr = needPortal ? { top: 0, left: 0 } : container.getBoundingClientRect();
+      const ir = input.getBoundingClientRect();
+      const left = Math.round(needPortal ? ir.left : (ir.left - cr.left));
+      const { content, max } = Autocomplete._measureContentHeight(ul);
+      const viewportH = window.innerHeight;
+      const spaceBelow = Math.max(0, viewportH - ir.bottom);
+      const spaceAbove = Math.max(0, ir.top);
+      const gap = 2;
+      const below = !(spaceBelow < content + gap && spaceAbove > spaceBelow);
+      ul.style.position = needPortal ? 'fixed' : 'absolute';
+      ul.style.left = `${left}px`;
+      ul.style.width = `${Math.round(ir.width)}px`;
+      ul.style.zIndex = '1000';
+      ul.dataset.position = below ? 'below' : 'above';
+      if (below) {
+        const top = needPortal ? Math.round(ir.bottom + gap) : Math.round(ir.bottom - cr.top + gap);
+        ul.style.top = `${top}px`;
+        ul.style.maxHeight = `${Math.max(60, Math.min(max, spaceBelow - gap))}px`;
+      } else {
+        const maxAbove = Math.max(60, Math.min(max, spaceAbove - gap));
+        ul.style.maxHeight = `${maxAbove}px`;
+        const ulH = Math.min(content, maxAbove);
+        const top = needPortal ? Math.round(ir.top - gap - ulH) : Math.round(ir.top - cr.top - gap - ulH);
+        ul.style.top = `${top}px`;
+      }
+      // Assicura che input e lista siano immediatamente visibili quando la lista si apre
+      Autocomplete._ensureVisible(input, ul);
+      // Aggiorna attributi ARIA in base allo stato corrente
+      Autocomplete._ensureAria(input, ul);
+    },
+    // Aggiorna larghezza e posizione della lista in base all'input
+    updateListGeometry(input, ul){ if (input && ul) Autocomplete._place(input, ul); },
+    // Filtra le opzioni esistenti nella lista in base al valore dell'input
+    handleChange(e){
+      const el = e.target;
+      if (!(el instanceof HTMLInputElement) || el.type !== 'search') return;
+      const listEl = Autocomplete._listFor(el);
+      if (!listEl) return;
+      Autocomplete._ensureAria(el, listEl);
+      const term = (el.value || '').toLowerCase().trim();
+      // Se il valore corrisponde esattamente a una delle opzioni, non mostrare la lista
+      const allItems = Array.from(listEl.querySelectorAll('li'));
+      const exactMatch = term !== '' && allItems.some(li => (li.textContent || '').toLowerCase().trim() === term);
+      if (exactMatch) {
+        // reset visuale e ARIA
+        allItems.forEach(li => { li.style.display = 'none'; li.setAttribute('aria-selected', 'false'); });
+        listEl.style.display = 'none';
+        el.setAttribute('aria-expanded', 'false');
+        listEl.setAttribute('aria-hidden', 'true');
+        el.removeAttribute('aria-activedescendant');
+        // live region: nessun suggerimento quando il valore è già una scelta valida
+        try { Autocomplete._getLive().textContent = ''; } catch {}
+        return;
+      }
+      let shown = 0;
+      allItems.forEach(li => {
+        const match = term === '' || (li.textContent || '').toLowerCase().includes(term);
+        li.style.display = match ? '' : 'none';
+        if (match) shown++;
+        li.setAttribute('aria-selected', 'false');
+      });
+      Autocomplete.updateListGeometry(el, listEl);
+      listEl.style.display = shown ? 'block' : 'none';
+      // ARIA: stato espanso/nascosto + annuncio risultati
+      el.setAttribute('aria-expanded', shown ? 'true' : 'false');
+      listEl.setAttribute('aria-hidden', shown ? 'false' : 'true');
+      const live = Autocomplete._getLive();
+      live.textContent = shown ? `${shown} opzioni disponibili` : 'Nessuna opzione disponibile';
+      // reset active descendant
+      if (!shown) el.removeAttribute('aria-activedescendant');
+    },
+    // Mostra la lista al focus e applica subito il filtro corrente
+    handleFocusin(e){
+      const el = e.target;
+      if (el instanceof HTMLInputElement && el.type === 'search') {
+        const listEl = Autocomplete._listFor(el);
+        if (listEl) Autocomplete._ensureAria(el, listEl);
+        Autocomplete.handleChange({ target: el });
+      }
+    },
+    // Nasconde la lista poco dopo la perdita di focus (per permettere il click sui <li>)
+    handleFocusout(e){
+      const el = e.target;
+      setTimeout(() => {
+        const active = document.activeElement;
+        const listEl = el instanceof HTMLInputElement ? Autocomplete._listFor(el) : null;
+        const stillInside = active && (active === el || (listEl && listEl.contains(active)));
+        if (!stillInside && listEl) {
+          listEl.style.display = 'none';
+          // se era in portal, riportalo al contenitore originale
+          Autocomplete._fromPortal(listEl);
+          if (el instanceof HTMLInputElement) {
+            el.setAttribute('aria-expanded', 'false');
+            el.removeAttribute('aria-activedescendant');
+          }
+          listEl.setAttribute('aria-hidden', 'true');
+        }
+      }, 120);
+    },
+    handleClick(e){
+      // Previeni il blur dell'input prima della selezione
+      e.preventDefault?.();
+      e.stopPropagation?.();
+      const li = e.target;
+      if (!(li && li.tagName === 'LI')) return;
+      const ul = li.closest('ul[autocomplete]');
+      if (!ul) return;
+      const name = ul.getAttribute('autocomplete');
+      const input = ul.parentElement?.querySelector(`input[name="${CSS.escape(name)}"]`);
+      if (!input) return;
+      // Imposta valore completo
+      input.value = li.textContent || '';
+      // Mantiene focus e caret alla fine
+      input.focus();
+      try { const len = input.value.length; input.setSelectionRange?.(len, len); } catch {}
+      // Notifica gli eventi standard
+      input.dispatchEvent(new InputEvent('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      input.dispatchEvent(new Event('click', { bubbles: true }));
+      // ARIA: selezione e stato
+      try {
+        // marca l'opzione selezionata
+        Array.from(ul.querySelectorAll('li')).forEach(n => n.setAttribute('aria-selected', n === li ? 'true' : 'false'));
+        Autocomplete._ensureAria(input, ul);
+        if (li.id) input.setAttribute('aria-activedescendant', li.id);
+      } catch {}
+      // Nasconde la lista
+      ul.style.display = 'none';
+      input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
+      ul.setAttribute('aria-hidden', 'true');
+      // se era in portal, riportalo al contenitore originale
+      Autocomplete._fromPortal(ul);
+      // Annuncio
+      try { Autocomplete._getLive().textContent = `Selezionato: ${li.textContent?.trim() || ''}`; } catch {}
+    },
+    // Evidenzia l'elemento attivo e lo rende visibile nella lista (pattern aria-activedescendant)
+    setActive(listEl, items, index){
+      items.forEach((li, i) => li.classList.toggle('active', i === index));
+      listEl.dataset.activeIndex = String(index);
+      // ARIA: selezione logica sull'opzione attiva
+      items.forEach((li, i) => li.setAttribute('aria-selected', i === index ? 'true' : 'false'));
+      const input = listEl.previousElementSibling instanceof HTMLInputElement ? listEl.previousElementSibling : listEl.parentElement?.querySelector('input[type="search"]');
+      if (input) {
+        Autocomplete._ensureAria(input, listEl);
+        const active = items[index];
+        if (active) input.setAttribute('aria-activedescendant', active.id || '');
+      }
+      const active = items[index];
+      if (active) active.scrollIntoView({ block: 'nearest' });
+    },
+    // Restituisce le <li> visibili (non display:none)
+    visibleItems(listEl){
+      return Array.from(listEl.querySelectorAll('li')).filter(li => li.style.display !== 'none');
+    },
+    getStyle(){
+      // crea un elemento nel dom <style> e lo appende al <head>
+      const style = document.createElement('style');
+      style.textContent =`
+        /* Autocomplete dropdown */
+        ul[autocomplete] {
+          position: absolute;
+          z-index: 1000;
+          list-style: none;
+          margin: 0; /* gestiamo il gap via JS */
+          padding: 0;
+          background: var(--input);
+          border: 1px solid var(--bordo-tratteggiato);
+          border-radius: 4px;
+          width: 100%;
+          left: 0;
+          max-height: 180px;
+          overflow: auto;
+          display: none;
+          text-transform: none; /* override h4 uppercase */
+        }
+        /* Opzionale: cambia raggio per posizione sopra/sotto */
+        ul[autocomplete][data-position="above"] { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; }
+        ul[autocomplete][data-position="below"] { border-top-left-radius: 4px; border-top-right-radius: 4px; }
+        ul[autocomplete] > li {
+          padding: 4px 8px;
+          cursor: pointer;
+          text-transform: none; /* ensure item text case preserved */
+        }
+        ul[autocomplete] > li:hover {
+          background: var(--sfondo-chiaro);
+        }
+        ul[autocomplete] > li.active {
+          background: var(--bordo-tratteggiato);
+          outline: 1px solid var(--bordo-base);
+        }
+      `;
+      document.head.appendChild(style);
+    },
+    _bound: false, // per evitare di bindare più volte
+    init(){
+      if (Autocomplete._bound) return;
+      Autocomplete._bound = true;
+      Autocomplete.getStyle()
+      // Delegated input -> filtro
+      document.addEventListener('input', (e) => Autocomplete.handleChange(e));
+      // Delegated focusin -> mostra e filtra
+      document.addEventListener('focusin', (e) => Autocomplete.handleFocusin(e));
+      // Delegated focusout -> nascondi
+      document.addEventListener('focusout', (e) => Autocomplete.handleFocusout(e));
+      // Delegated mousedown on suggestions (prima del blur)
+      document.addEventListener('mousedown', (e) => {
+        const li = e.target;
+        if (li instanceof HTMLElement && li.closest('ul[autocomplete]')) Autocomplete.handleClick(e);
+      });
+      // Keydown su input[type=search] per navigazione
+      document.addEventListener('keydown', (e) => {
+        const el = e.target;
+        if (!(el instanceof HTMLInputElement) || el.type !== 'search') return;
+        const listEl = Autocomplete._listFor(el);
+        if (!listEl) return;
+        const isOpen = listEl.style.display !== 'none';
+        const items = Autocomplete.visibleItems(listEl);
+        const n = items.length;
+        if (!n) return;
+        const current = parseInt(listEl.dataset.activeIndex || '-1', 10);
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          const next = e.key === 'ArrowDown' ? (current + 1) % n : (current <= 0 ? n - 1 : current - 1);
+          Autocomplete.setActive(listEl, items, next);
+          if (!isOpen) listEl.style.display = 'block';
+        } else if (e.key === 'Enter') {
+          const idx = parseInt(listEl.dataset.activeIndex || '-1', 10);
+          if (idx >= 0 && isOpen) {
+            e.preventDefault();
+            const li = items[idx];
+            if (li) Autocomplete.handleClick({ preventDefault(){}, stopPropagation(){}, target: li });
+          }
+        } else if (e.key === 'Escape') {
+          listEl.style.display = 'none';
+          el.setAttribute('aria-expanded', 'false');
+          el.removeAttribute('aria-activedescendant');
+          listEl.setAttribute('aria-hidden', 'true');
+        }
+      });
+      // Riposiziona su scroll/resize in cattura
+      const reflowActive = () => {
+        const active = document.activeElement;
+        if (active instanceof HTMLInputElement && active.type === 'search') {
+          const listEl = Autocomplete._listFor(active);
+          if (listEl) Autocomplete.updateListGeometry(active, listEl);
+        }
+      };
+      window.addEventListener('scroll', reflowActive, true);
+      window.addEventListener('resize', reflowActive, true);
     }
-    .list-item > input {
-      flex-grow: 1;
-    }
-    .list-item > button {
-      flex-shrink: 0;
-      width: 25px;
-      height: 25px;
-      padding: 0;
-      line-height: 25px;
-    }
-  
-    /* Titoli con layout flessibile (testo + pulsanti) */
-    .flexTitle {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  
-    .list-item {
-      display: flex;
-      gap: 5px;
-      align-items: center;
-      margin-bottom: 5px;
-    }
-    .list-item > input {
-      flex-grow: 1;
-    }
-    .list-item > button {
-      flex-shrink: 0;
-      width: 25px;
-      height: 25px;
-      padding: 0;
-      line-height: 25px;
-    }
-  </style>
-  <!DOCTYPE html>
-  <html lang="it">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scheda personaggio</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  </head>
-  <script type="module">
+  }
+
+
 /**
  * Elemento dei privilegi base (lista classi principali)
  * @typedef {Object} BasePrivilegioItem
@@ -371,7 +844,7 @@
  * @typedef {Object.<string, Object.<string, PrivilegioItem[]>>} SottoclassiMap
  */
 
- export const Classi = {
+ export const DND = {
   /** @type {BasePrivilegioItem[]} */
   classi: [
     {
@@ -2229,8 +2702,423 @@
       ]
     }, //monaco
   },
-  
 
+  sottorazze: [
+    {
+      nome: "dragonide",
+      velocita: [
+        { key: 'camminare', value: 9 },
+        { key: 'nuotare', value: 4.5 },
+        { key: 'scalare', value: 4.5 }
+      ],
+      eta: "Maturità: 15 anni, Vita media: 80 anni",
+      taglia: "Media",
+      linguaggi: ["Comune", "Draconico"],
+      privilegi: [
+        { name: "arma a soffio", description: "Potete usare la vostra azione per esalare energia distruttiva..." },
+        { name: "resistenza al danno", description: "Avete resistenza a un tipo di danno associato..." }
+      ]
+    },
+    {
+      nome: "elfo alto",
+      velocita: [
+        { key: 'camminare', value: 9 },
+        { key: 'nuotare', value: 4.5 },
+        { key: 'scalare', value: 4.5 }
+      ],
+      eta: "Maturità: ca. 100 anni (adulto culturale), Vita media: fino a 750 anni",
+      taglia: "Media",
+      linguaggi: ["Comune", "Elfico"],
+      privilegi: [
+        { name: "scurovisione", description: "Potete vedere in condizioni di buio o luce fioca..." },
+        { name: "trance", description: "Meditazione profonda di 4 h al posto del sonno umano..." },
+        { name: "retaggio fatato", description: "Vantaggio contro affascinato e immunità al sonno magico..." },
+        { name: "sensi acuti", description: "Competenza nell’abilità Percezione." },
+        { name: "addestramento armi elfiche", description: "Competenza con spada lunga, spada corta, arco corto e lungo." },
+        { name: "trucchetto", description: "Conoscete un trucchetto da mago; Intelligenza è la caratteristica usata." },
+        { name: "linguaggio extra", description: "Potete parlare, leggere e scrivere un linguaggio extra." }
+      ]
+    },
+    {
+      nome: "elfo dei boschi",
+      velocita: [
+        { key: 'camminare', value: 10.5 },
+        { key: 'nuotare', value: 6 },
+        { key: 'scalare', value: 6 }
+      ],
+      eta: "Maturità: ca. 100 anni (adulto culturale), Vita media: fino a 750 anni",
+      taglia: "Media",
+      linguaggi: ["Comune", "Elfico"],
+      privilegi: [
+        { name: "scurovisione", description: "Potete vedere in condizioni di buio o luce fioca..." },
+        { name: "trance", description: "Meditazione profonda di 4 h al posto del sonno umano..." },
+        { name: "retaggio fatato", description: "Vantaggio contro affascinato e immunità al sonno magico..." },
+        { name: "sensi acuti", description: "Competenza nell’abilità Percezione." },
+        { name: "addestramento armi elfiche", description: "Competenza con spada lunga, spada corta, arco corto e lungo." },
+        { name: "piede lesto", description: "Velocità base aumentata (es. 10,5 m per elfo dei boschi)." },
+        { name: "maschera della selva", description: "Potete nascondervi da sporadiche oscurazioni naturali." }
+      ]
+    },
+    {
+      nome: "elfo oscuro (Drow)",
+      velocita: [
+        { key: 'camminare', value: 9 },
+        { key: 'nuotare', value: 4.5 },
+        { key: 'scalare', value: 4.5 }
+      ],
+      eta: "Maturità: ca. 100 anni (adulto culturale), Vita media: fino a 750 anni",
+      taglia: "Media",
+      linguaggi: ["Comune", "Elfico", "Sottocomune"],
+      privilegi: [
+        { name: "scurovisione", description: "Potete vedere in condizioni di buio o luce fioca..." },
+        { name: "trance", description: "Meditazione profonda di 4 h al posto del sonno umano..." },
+        { name: "retaggio fatato", description: "Vantaggio contro affascinato e immunità al sonno magico..." },
+        { name: "incantesimi innati", description: "Potete lanciare magie innate (es. Luci Danzanti, Oscurità) usando Carisma." },
+        { name: "sensibilità alla luce del sole", description: "Svantaggio ai tiri per colpire e Percezione quando esposti alla luce solare." }
+      ]
+    },
+    {
+      nome: "gnomo delle rocce",
+      velocita: [
+        { key: 'camminare', value: 7.5 },
+        { key: 'nuotare', value: 3 },
+        { key: 'scalare', value: 3 }
+      ],
+      eta: "Maturità: simile agli umani (ca. 40 anni), Vita media: 350‑500 anni",
+      taglia: "Piccola",
+      linguaggi: ["Comune", "Gnomesco"],
+      privilegi: [
+        { name: "scurovisione", description: "Potete vedere in condizioni di buio o luce fioca..." },
+        { name: "astuzia gnomesca", description: "Vantaggio ai tiri salvezza su Intelligenza, Saggezza e Carisma contro la magia." },
+        { name: "sapere da artefice", description: "Raddoppiate il bonus di competenza su prove di Storia per oggetti magici/alchemici." },
+        { name: "inventore", description: "Competenza con strumenti da inventore e conoscenza per creare congegni ad orologeria." }
+      ]
+    },
+    {
+      nome: "gnomo delle foreste",
+      velocita: [
+        { key: 'camminare', value: 7.5 },
+        { key: 'nuotare', value: 3 },
+        { key: 'scalare', value: 3 }
+      ],
+      eta: "Maturità: simile agli umani (ca. 40 anni), Vita media: 350‑500 anni",
+      taglia: "Piccola",
+      linguaggi: ["Comune", "Gnomesco"],
+      privilegi: [
+        { name: "scurovisione", description: "Potete vedere in condizioni di buio o luce fioca..." },
+        { name: "astuzia gnomesca", description: "Vantaggio ai tiri salvezza su Intelligenza, Saggezza e Carisma contro la magia." },
+        { name: "illusionista naturale", description: "Conoscete il trucchetto Illusione Minore; Intelligenza è la caratteristica usata." },
+        { name: "parla con gli animali", description: "Potete comunicare idee semplici con animali Piccoli tramite suoni e gesti." }
+      ]
+    },
+    {
+      nome: "halfling piedelesto",
+      velocita: [
+        { key: 'camminare', value: 7.5 },
+        { key: 'nuotare', value: 3 },
+        { key: 'scalare', value: 3 }
+      ],
+      eta: "Maturità: 20 anni, Vita media: circa 100 anni",
+      taglia: "Piccola",
+      linguaggi: ["Comune", "Halfling"],
+      privilegi: [
+        { name: "fortunato", description: "Se tirate un 1, potete ritirare il dado e usare il nuovo risultato." },
+        { name: "coraggioso", description: "Vantaggio ai tiri salvezza contro l’essere spaventato." },
+        { name: "versatilità halfling", description: "Potete muovervi attraverso lo spazio di creature di taglia maggiore." },
+        { name: "naturalmente furtivo", description: "Potete nascondervi anche quando siete oscurati da una creatura più grande." }
+      ]
+    },
+    {
+      nome: "halfling tozzo",
+      velocita: [
+        { key: 'camminare', value: 7.5 },
+        { key: 'nuotare', value: 3 },
+        { key: 'scalare', value: 3 }
+      ],
+      eta: "Maturità: 20 anni, Vita media: circa 100 anni",
+      taglia: "Piccola",
+      linguaggi: ["Comune", "Halfling"],
+      privilegi: [
+        { name: "fortunato", description: "Se tirate un 1, potete ritirare il dado e usare il nuovo risultato." },
+        { name: "coraggioso", description: "Vantaggio ai tiri salvezza contro l’essere spaventato." },
+        { name: "versatilità halfling", description: "Potete muovervi attraverso lo spazio di creature di taglia maggiore." },
+        { name: "resistenza del tozzo", description: "Vantaggio ai tiri salvezza contro il veleno e resistenza ai danni da veleno." }
+      ]
+    },
+    {
+      nome: "mezzelfo",
+      velocita: [
+        { key: 'camminare', value: 9 },
+        { key: 'nuotare', value: 4.5 },
+        { key: 'scalare', value: 4.5 }
+      ],
+      eta: "Maturità: circa 20 anni, Vita media: oltre 180 anni",
+      taglia: "Media (150–180 cm)",
+      linguaggi: ["Comune", "Elfico", "linguaggio extra a scelta"],
+      privilegi: [
+        { name: "scurovisione", description: "Potete vedere in condizioni di buio o luce fioca..." },
+        { name: "stirpe fatata", description: "Vantaggio contro affascinato e immunità al sonno magico." },
+        { name: "versatilità", description: "Competenza in due abilità a scelta." }
+      ]
+    },
+    {
+      nome: "mezzorco",
+      velocita: [
+        { key: 'camminare', value: 9 },
+        { key: 'nuotare', value: 4.5 },
+        { key: 'scalare', value: 4.5 }
+      ],
+      eta: "Maturità: circa 14 anni, Vita media: fino a ~75 anni",
+      taglia: "Media (150–oltre 180 cm)",
+      linguaggi: ["Comune", "Orchesco"],
+      privilegi: [
+        { name: "scurovisione", description: "Potete vedere in condizioni di buio o luce fioca..." },
+        { name: "minaccioso", description: "Competenza nell’abilità Intimidire." },
+        { name: "resistenza inesorabile", description: "Se ridotto a 0 PF (non ucciso sul colpo), potete tornare a 1 PF una volta per riposo lungo." },
+        { name: "attacchi selvaggi", description: "Al critico con arma da mischia, tirate un dado aggiuntivo per il danno." }
+      ]
+    },
+    {
+      nome: "umano",
+      velocita: [
+        { key: 'camminare', value: 9 },
+        { key: 'nuotare', value: 4.5 },
+        { key: 'scalare', value: 4.5 }
+      ],
+      eta: "Maturità: ~18 anni, Vita media: ~80 anni",
+      taglia: "Media",
+      linguaggi: ["Comune", "linguaggio extra a scelta"],
+      privilegi: []
+    },
+    {
+      nome: "nano delle colline",
+      velocita: [
+        { key: 'camminare', value: 7.5 },
+        { key: 'nuotare', value: 3 },
+        { key: 'scalare', value: 3 }
+      ],
+      eta: "Maturità: simile agli umani (giovani fino a 50 anni), Vita media: circa 350 anni",
+      taglia: "Media (120–150 cm, circa 70 kg)",
+      linguaggi: ["Comune", "Nanico"],
+      privilegi: [
+        { name: "scurovisione", description: "Potete vedere in condizioni di buio o luce fioca..." },
+        { name: "resilienza nanica", description: "Vantaggio ai tiri salvezza contro il veleno e resistenza ai danni da veleno." },
+        { name: "addestramento combattimento nanico", description: "Competenza con ascia da battaglia/lancio, martello da lancio/guerra." },
+        { name: "competenza strumenti nanici", description: "Competenza con strumenti da fabbro, birraio o muratore." },
+        { name: "esperto minatore", description: "Raddoppio del bonus di competenza su Storia relativa a muratura." },
+        { name: "robustezza nanica", description: "PF massimi aumentano di 1 e continuano a incrementare di 1 a ogni livello." }
+      ]
+    },
+    {
+      nome: "nano delle montagne",
+      velocita: [
+        { key: 'camminare', value: 7.5 },
+        { key: 'nuotare', value: 3 },
+        { key: 'scalare', value: 3 }
+      ],
+      eta: "Maturità: simile agli umani (giovani fino a 50 anni), Vita media: circa 350 anni",
+      taglia: "Media (120–150 cm, circa 70 kg)",
+      linguaggi: ["Comune", "Nanico"],
+      privilegi: [
+        { name: "scurovisione", description: "Potete vedere in condizioni di buio o luce fioca..." },
+        { name: "resilienza nanica", description: "Vantaggio ai tiri salvezza contro il veleno e resistenza ai danni da veleno." },
+        { name: "addestramento combattimento nanico", description: "Competenza con ascia da battaglia/lancio, martello da lancio/guerra." },
+        { name: "competenza strumenti nanici", description: "Competenza con strumenti da fabbro, birraio o muratore." },
+        { name: "esperto minatore", description: "Raddoppio del bonus di competenza su Storia relativa a muratura." }
+      ]
+    }
+  ],
+  
+  /** @type {{name: string, abilita: string[], strumenti: string[], linguaggi: string, equipaggiamento: string, privilegi: {name: string, description: string}[]}[]} */
+  background :[
+    {
+      name: "accolito",
+      abilita: ["intuizione", "religione"],
+      strumenti: [],
+      linguaggi: "due a scelta",
+      equipaggiamento: "Un simbolo sacro (donatogli quando è stato ordinato come sacerdote), un libro di preghiere o una ruota della preghiera, 5 bastoncini di incenso, vesti, un abito comune, una borsa con 15 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Rifugio del Fedele",
+          description: "Grazie al rispetto di coloro che condividono la sua fede, l'Accolito e i suoi compagni possono ricevere cure gratuite all’interno di un tempio o santuario. Se la sua reputazione è buona, può anche ottenere assistenza dai sacerdoti."
+        }
+      ]
+    },
+    {
+      name: "artigiano della gilda",
+      abilita: ["intuizione", "persuasione"],
+      strumenti: ["uno strumento da artigiano a scelta"],
+      linguaggi: "uno a scelta",
+      equipaggiamento: "Una serie di strumenti da artigiano (a scelta), una lettera di presentazione della gilda, un abito da viaggiatore, una borsa con 15 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Appartenenza alla Gilda",
+          description: "La gilda garantisce protezione e supporto legale. Per mantenere questi benefici, l’artigiano deve pagare 5 monete oro al mese."
+        }
+      ]
+    },
+    {
+      name: "ciarlatano",
+      abilita: ["inganno", "rapidità di mano"],
+      strumenti: ["arnesi da falsario", "trucchi per il camuffamento"],
+      linguaggi: "",
+      equipaggiamento: "Un abito pregiato, trucchi per il camuffamento, uno strumento da truffatore a scelta (es. dadi truccati, bottiglie di liquido colorato, ecc.), una borsa con 15 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Falsa Identità",
+          description: "Possiede una seconda identità completa di documenti, travestimenti e la capacità di falsificare qualsiasi documento dopo averne visto uno originale."
+        }
+      ]
+    },
+    {
+      name: "criminale",
+      abilita: ["furtività", "inganno"],
+      strumenti: ["arnesi da scasso", "un tipo di gioco a scelta"],
+      linguaggi: "",
+      equipaggiamento: "Un piede di porco, un abito comune con cappuccio, una borsa con 15 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Contatto Criminale",
+          description: "Ha una rete di contatti criminali affidabili. Può inviare o ricevere messaggi in ogni luogo tramite marinai, mercanti o carovanieri corrotti."
+        }
+      ]
+    },
+    {
+      name: "eremita",
+      abilita: ["medicina", "religione"],
+      strumenti: ["borsa da erborista"],
+      linguaggi: "uno a scelta",
+      equipaggiamento: "Un bastone, una coperta invernale, un abito comune, un kit da erborista, una borsa con 5 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Scoperta",
+          description: "Durante il proprio isolamento, ha scoperto qualcosa di molto importante riguardante il mondo, il cosmo o una conoscenza dimenticata."
+        }
+      ]
+    },
+    {
+      name: "eroe popolare",
+      abilita: ["addestrare animali", "sopravvivenza"],
+      strumenti: ["uno strumento da artigiano a scelta", "veicoli (terrestri)"],
+      linguaggi: "",
+      equipaggiamento: "Uno strumento da artigiano (a scelta), una pala, un vaso di ferro, un abito comune, una borsa con 10 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Ospitalità Rurale",
+          description: "Benvoluto dalla gente comune, che lo ospita volentieri e lo protegge. Può sempre trovare un rifugio sicuro tra i popolani."
+        }
+      ]
+    },
+    {
+      name: "forestiero",
+      abilita: ["atletica", "sopravvivenza"],
+      strumenti: ["uno strumento musicale a scelta"],
+      linguaggi: "uno a scelta",
+      equipaggiamento: "Un bastone, una tagliola, un trofeo di un animale ucciso, un abito da viaggiatore, una borsa con 10 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Viandante",
+          description: "Conosce sempre la posizione geografica e può trovare cibo e acqua per sé e i suoi compagni, a meno che non si trovi in un luogo completamente inospitale."
+        }
+      ]
+    },
+    {
+      name: "intrattenitore",
+      abilita: ["acrobazia", "intrattenere"],
+      strumenti: ["trucchi per il camuffamento", "uno strumento musicale a scelta"],
+      linguaggi: "",
+      equipaggiamento: "Uno strumento musicale (a scelta), un pegno di un ammiratore, un costume, una borsa con 15 monete oro (mo)",
+      privilegi: [
+        {
+          name: "A Grande Richiesta",
+          description: "Riceve vitto e alloggio gratuiti in cambio di una performance giornaliera in taverne, locande o teatri."
+        }
+      ]
+    },
+    {
+      name: "marinaio",
+      abilita: ["atletica", "percezione"],
+      strumenti: ["strumenti da navigatore", "veicoli (acquatici)"],
+      linguaggi: "",
+      equipaggiamento: "Una galloccia da marinaio, corda di seta (15 m), un portafortuna, un abito comune, una borsa con 10 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Passaggio Via Nave",
+          description: "Può ottenere passaggi gratuiti via mare per sé e il gruppo, a condizione di aiutare l’equipaggio durante il viaggio."
+        },
+      ]
+    },
+    {
+      name: "pirata",
+      abilita: ["atletica", "percezione"],
+      strumenti: ["strumenti da navigatore", "veicoli (acquatici)"],
+      linguaggi: "",
+      equipaggiamento: "Una galloccia da marinaio, corda di seta (15 m), un portafortuna, un abito comune, una borsa con 10 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Pessima Fama",
+          description: "Temuto per la sua reputazione, riesce spesso a evitare punizioni per reati minori."
+        }
+      ]
+    },
+    {
+      name: "monello",
+      abilita: ["furtività", "rapidità di mano"],
+      strumenti: ["arnesi da scasso", "trucchi per il camuffamento"],
+      linguaggi: "",
+      equipaggiamento: "Un coltellino, una mappa della città, un topolino addomesticato, un ciondolo dei genitori, un abito comune, una borsa con 10 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Segreti Cittadini",
+          description: "Conosce vicoli, scorciatoie e passaggi nascosti che permettono a lui (e al gruppo) di muoversi in città al doppio della velocità normale."
+        }
+      ]
+    },
+    {
+      name: "nobile",
+      abilita: ["persuasione", "storia"],
+      strumenti: ["un tipo di gioco a scelta"],
+      linguaggi: "uno a scelta",
+      equipaggiamento: "Un abito pregiato, un anello con sigillo, una pergamena con albero genealogico, una borsa con 25 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Posizione Privilegiata",
+          description: "Viene trattato con rispetto da popolani e pari. Può accedere a luoghi di potere e ricevere udienza da altri nobili."
+        },
+        {
+          name: "Privilegio Alternativo: Servitù",
+          description: "Accompagnato da tre servitori fedeli che eseguono compiti semplici, ma non lo seguono in luoghi pericolosi né combattono."
+        }
+      ]
+    },
+    {
+      name: "sapiente",
+      abilita: ["arcano", "storia"],
+      strumenti: [],
+      linguaggi: "due a scelta",
+      equipaggiamento: "Un calamaio d’inchiostro nero, un pennino, un coltellino, una lettera di un collega defunto, un abito comune, una borsa con 10 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Ricercatore",
+          description: "Quando non conosce un'informazione, sa sempre dove trovarla, come in una biblioteca o presso un esperto. Il luogo è determinato dal Dungeon Master."
+        }
+      ]
+    },
+    {
+      name: "soldato",
+      abilita: ["atletica", "intimidire"],
+      strumenti: ["un tipo di gioco", "veicoli (terrestri)"],
+      linguaggi: "",
+      equipaggiamento: "Una mostrina con i gradi, un trofeo strappato a un nemico abbattuto (un pugnale, una lama spezzata o un pezzo di una bandiera), una serie di dadi in osso o un mazzo di carte, un abito comune, una borsa con 10 monete oro (mo)",
+      privilegi: [
+        {
+          name: "Grado militare",
+          description: "Grazie alla sua carriera in ambito militare, il Soldato vede ancora riconosciuta la sua autorità fra i suoi ex commilitoni e sono ancora soggetti alla sua influenza. Inoltre, sempre dove il suo grado viene riconosciuto, il Soldato può accedere ad accampamenti e fortezze amiche."
+        }
+      ]
+    }
+  ],
+  
   /**
    * Cerca i privilegi dato classe, sottoclasse e livello.
    * - Se esiste una sottoclasse per la classe data, ritorna l'array di privilegi della sottoclasse per quel livello.
@@ -2284,13 +3172,9 @@
       subs.forEach(sc => out.push(full ? `${cl} ${sc}` : sc));
     });
     return Array.from(new Set(out)).sort((a, b) => a.localeCompare(b));
-  }
+  },
 
-};
-  
-  
-  export const oggetti = {
-  dati:[
+  oggetti:[
     { key: "abaco", prezzo: "2 mo", peso: 1 },
     { key: "abito comune", prezzo: "5 mo", peso: 1.5 },
     { key: "abito costume", prezzo: "5 mo", peso: 2 },
@@ -2460,7 +3344,7 @@
   peso(param=''){
     // se è una stringa
     if(typeof param === 'string' && param){
-      const oggetto = this.dati.find(d => param.toLocaleLowerCase().includes(d.key.toLocaleLowerCase()));
+      const oggetto = this.oggetti.find(d => param.toLocaleLowerCase().includes(d.key.toLocaleLowerCase()));
       return oggetto ? oggetto.peso : 0;
 
     // se è un array di stringhe
@@ -2469,1328 +3353,1215 @@
     }
     return 0;
   },
+  
   danno(nomeArma =''){
-    const arma = this.dati.find(d => nomeArma.toLocaleLowerCase().includes(d.key.toLocaleLowerCase()));
+    const arma = this.oggetti.find(d => nomeArma.toLocaleLowerCase().includes(d.key.toLocaleLowerCase()));
     if(!arma || !arma.arma) return {dadi: '', tipo: ''};
     const [dadi, tipo] = arma.danno.split(' ');
     return {dadi, tipo};
   },
-  // Ritorna solo le voci che sono armi
-  getArmi(){
-    return this.dati.filter(d => !!d.arma);
-  },
-  // Ritorna solo i nomi (key) delle armi
-  getArmiKeys(){
-    return this.getArmi().map(d => d.key);
-  },
 
+};
+  
+class App {
+  constructor() {
+    window.app = this;
+    this.init();
+    Autocomplete.init();
+    // Re-apply details state on window resize
+    window.addEventListener('resize', () => this.applyDetails());
+  }
 
-}
-
-
-/*
-  Autocomplete (modulo minimale e indipendente)
-
-  Obiettivo
-  - Fornire un comportamento di autocomplete per input di tipo "search" SENZA caricare dati esterni.
-  - Le opzioni sono già presenti nel DOM come <li> dentro un <ul [autocomplete]> abbinato all'input.
-
-  Comportamento
-  - Focus (focusin): mostra la lista del campo e applica subito il filtro in base al valore corrente.
-    • Se l'input è vuoto: mostra tutte le <li>.
-    • Se l'input contiene testo: mostra solo le <li> che includono parzialmente quel testo (case-insensitive).
-  - Input (oninput): filtra le <li> della lista associata confrontando il testo digitato con il contenuto delle <li>.
-  - Click su <li>: imposta il valore dell'input con il contenuto della <li> selezionata ed emette gli eventi standard
-    (input, change, click). La lista si nasconde.
-  - Blur (focusout): nasconde la lista con un leggero ritardo per permettere il click sugli elementi.
-  - Posizionamento: la lista viene posizionata e dimensionata per allinearsi all'input.
-
-  Requisiti di markup (per ciascun campo con autocomplete)
-  - Input:  <input type="search" name="NOME">  (name obbligatorio)
-  - Lista:  <ul autocomplete name="NOME"> <li>Opzione 1</li> <li>Opzione 2</li> ... </ul>
-    • L'ul deve essere nello STESSO contenitore (parent) dell'input.
-    • Il contenitore dovrebbe avere position: relative (il modulo lo imposta se è static).
-    • Il name dell'ul deve corrispondere esattamente al name dell'input.
-
-  Cosa NON fa
-  - Non ricerca/crea voci dinamicamente e non dipende da moduli esterni.
-  - Non usa resolver o sorgenti dati: filtra solo le <li> già presenti nel DOM.
-
-  API
-  - Autocomplete.init(): registra una volta i listener globali su document e attiva lo stile.
-  - Metodi interni usati dal modulo: updateListGeometry, handleChange, handleFocusin, handleFocusout, handleClick.
-
-  Nota
-  - Il modulo è agnostico rispetto all'app: basta rispettare la convenzione input/ul e includere questo file.
-*/
-export const Autocomplete = {
-    // Aggiorna larghezza e posizione della lista in base all'input
-    updateListGeometry(input, ul){
-      if (!input || !ul) return;
-      // Trova un contenitore di riferimento che contenga sia input che ul
-      let container = input.parentElement;
-      if (!container || !container.contains(ul)) return;
-      // Assicura che il contenitore sia il riferimento di positioning
-      const cs = getComputedStyle(container);
-      if (cs.position === 'static') container.style.position = 'relative';
-      // Calcola posizioni relative al contenitore
-      const cr = container.getBoundingClientRect();
-      const ir = input.getBoundingClientRect();
-      const left = Math.round(ir.left - cr.left);
-      const top = Math.round(ir.bottom - cr.top);
-      ul.style.position = 'absolute';
-      ul.style.left = `${left}px`;
-      ul.style.top = `${top}px`;
-      ul.style.width = `${Math.round(ir.width)}px`;
-      ul.style.zIndex = '1000';
+  local = {
+    get: async () => {
+      const characterData = localStorage.getItem('character');
+      if (characterData) {
+        this.character = JSON.parse(characterData);
+      }
     },
-    // Filtra le opzioni esistenti nella lista in base al valore dell'input
-    handleChange(e){
-      const el = e.target;
-      if (!(el instanceof HTMLInputElement) || el.type !== 'search') return;
-      const listEl = el.parentElement?.querySelector(`ul[autocomplete][name="${CSS.escape(el.name)}"]`);
-      if (!listEl) return;
-      const term = (el.value || '').toLowerCase().trim();
-      const items = Array.from(listEl.querySelectorAll('li'));
-      let shown = 0;
-      items.forEach(li => {
-        const txt = (li.textContent || '').toLowerCase();
-        const match = term === '' || txt.includes(term);
-        li.style.display = match ? '' : 'none';
-        if (match) shown++;
-      });
-      // aggiorna geometria prima di mostrare
-      Autocomplete.updateListGeometry(el, listEl);
-      listEl.style.display = shown ? 'block' : 'none';
+    set: () => {
+      localStorage.setItem('character', JSON.stringify(this.character));
     },
-    // Mostra la lista al focus e applica subito il filtro corrente
-    handleFocusin(e){
-      const el = e.target;
-      if (!(el instanceof HTMLInputElement) || el.type !== 'search') return;
-      Autocomplete.handleChange({ target: el });
+    copy: () => {
+      const data = JSON.stringify(this.character, null, 2);
+      navigator.clipboard.writeText(data);
     },
-    // Nasconde la lista poco dopo la perdita di focus (per permettere il click sui <li>)
-    handleFocusout(e){
-      const el = e.target;
-      if (!(el instanceof HTMLInputElement) || el.type !== 'search') return;
-      const listEl = el.parentElement?.querySelector(`ul[autocomplete][name="${CSS.escape(el.name)}"]`);
-      if (!listEl) return;
-      setTimeout(() => { listEl.style.display = 'none'; }, 120);
-    },
-    handleClick(e){
-      // Previeni il blur dell'input prima della selezione
-      e.preventDefault?.();
-      e.stopPropagation?.();
-      const li = e.target;
-      if (!(li && li.tagName === 'LI')) return;
-      const ul = li.closest('ul[autocomplete]');
-      if (!ul) return;
-      const name = ul.getAttribute('name');
-      const input = ul.parentElement?.querySelector(`input[name="${CSS.escape(name)}"]`);
-      if (!input) return;
-      // Imposta valore completo
-      input.value = li.textContent || '';
-      // Mantiene focus e caret alla fine
-      input.focus();
-      try { const len = input.value.length; input.setSelectionRange?.(len, len); } catch {}
-      // Notifica gli eventi standard
-      input.dispatchEvent(new InputEvent('input', { bubbles: true }));
-      input.dispatchEvent(new Event('change', { bubbles: true }));
-      input.dispatchEvent(new Event('click', { bubbles: true }));
-      // Nasconde la lista
-      ul.style.display = 'none';
-    },
-    getStyle(){
-      // crea un elemento nel dom <style> e lo appende al <head>
-      const style = document.createElement('style');
-      style.textContent =`
-        /* Autocomplete dropdown */
-        ul[autocomplete] {
-          position: absolute;
-          z-index: 1000;
-          list-style: none;
-          margin: 2px 0 0 0;
-          padding: 0;
-          background: var(--input);
-          border: 1px solid var(--bordo-tratteggiato);
-          border-radius: 4px;
-          width: 100%;
-          left: 0;
-          max-height: 180px;
-          overflow: auto;
-          display: none;
-          text-transform: none; /* override h4 uppercase */
-        }
-        ul[autocomplete] > li {
-          padding: 4px 8px;
-          cursor: pointer;
-          text-transform: none; /* ensure item text case preserved */
-        }
-        ul[autocomplete] > li:hover {
-          background: var(--sfondo-chiaro);
-        }
-      `;
-      document.head.appendChild(style);
-    },
-    _bound: false, // per evitare di bindare più volte
-    init(){
-      if (Autocomplete._bound) return;
-      Autocomplete._bound = true;
-      Autocomplete.getStyle()
-      // Delegated input -> filtro
-      document.addEventListener('input', (e) => Autocomplete.handleChange(e));
-      // Delegated focusin -> mostra e filtra
-      document.addEventListener('focusin', (e) => Autocomplete.handleFocusin(e));
-      // Delegated focusout -> nascondi
-      document.addEventListener('focusout', (e) => Autocomplete.handleFocusout(e));
-      // Delegated mousedown on suggestions (prima del blur)
-      document.addEventListener('mousedown', (e) => {
-        const li = e.target;
-        if (!(li instanceof HTMLElement)) return;
-        const ul = li.closest('ul[autocomplete]');
-        if (!ul) return;
-        Autocomplete.handleClick(e);
-      });
-      // Riposiziona su scroll/resize in cattura
-      const reflowActive = () => {
-        const active = document.activeElement;
-        if (active && active instanceof HTMLInputElement && active.type === 'search') {
-          const listEl = active.parentElement?.querySelector(`ul[autocomplete][name="${CSS.escape(active.name)}"]`);
-          if (listEl) Autocomplete.updateListGeometry(active, listEl);
-        }
-      };
-      window.addEventListener('scroll', reflowActive, true);
-      window.addEventListener('resize', reflowActive, true);
+    paste: () => {
+      navigator.clipboard.readText()
+        .then(text => {
+          // deve contenere '{', '}', ']' e '['
+          const requiredChars = ['{', '}', '[', ']', ':'];
+          const hasRequiredChars = requiredChars.every(char => text.includes(char));
+          if (!hasRequiredChars) {
+            alert("Il contenuto degli appunti non sembra essere un JSON valido.");
+            return;
+          }
+          this.character = JSON.parse(text);
+          this.render();
+        })
+        .catch(err => console.error('Error pasting character:', err));
     }
   }
 
+  // Autocomplete component (inspired by 'Autocomplete')
+  async init() {
+    this.character = this.initCharacter();
+    await this.local.get();
+    this.render();
+  }
 
-  class App {
-    constructor() {
-      window.app = this;
-      this.init();
-      Autocomplete.init();
-      // Normalizza gli elementi delle liste autocomplete: prima lettera maiuscola
-      document.addEventListener('focusin', (e) => {
-        const el = e.target;
-        if (!(el instanceof HTMLInputElement) || el.type !== 'search') return;
-        const listEl = el.parentElement?.querySelector(`ul[autocomplete][name="${CSS.escape(el.name)}"]`);
-        if (!listEl) return;
-        listEl.querySelectorAll('li').forEach(li => {
-          const txt = (li.textContent || '').trim();
-          if (txt) li.textContent = txt.charAt(0).toUpperCase() + txt.slice(1);
-        });
-      });
-    }
-  
-    local = {
-      get: async () => {
-        const characterData = localStorage.getItem('character');
-        if (characterData) {
-          this.character = JSON.parse(characterData);
-        }
-      },
-      set: () => {
-        localStorage.setItem('character', JSON.stringify(this.character));
-      },
-      copy: () => {
-        const data = JSON.stringify(this.character, null, 2);
-        navigator.clipboard.writeText(data);
-      },
-      paste: () => {
-        navigator.clipboard.readText()
-          .then(text => {
-            // deve contenere '{', '}', ']' e '['
-            const requiredChars = ['{', '}', '[', ']', ':'];
-            const hasRequiredChars = requiredChars.every(char => text.includes(char));
-            if (!hasRequiredChars) {
-              alert("Il contenuto degli appunti non sembra essere un JSON valido.");
-              return;
-            }
-            this.character = JSON.parse(text);
-            this.render();
-          })
-          .catch(err => console.error('Error pasting character:', err));
+  initCharacter =_=> ({
+    nome_personaggio: 'Grog Strongjaw',
+    generali: [
+      { key: 'background', value: 'Soldato', type: 'text' },
+      { key: 'nome_giocatore', value: 'Travis', type: 'text' },
+      { key: 'razza', value: 'Goliath', type: 'text' },
+      { key: 'allineamento', value: 'Caotico Neutrale', type: 'text' },
+      { key: 'punti_esperienza', value: 15000, type: 'number' },
+    ],
+
+    // colonna sinistra
+    ispirazione: 1,
+    punteggi: [
+      { key: 'forza', value: 20, abilities: [
+        { key: 'Tiro Salvezza', value: true }, 
+        { key: 'Atletica', value: true }
+      ]},
+      { key: 'destrezza', value: 15, abilities: [
+        { key: 'Tiro Salvezza', value: false }, 
+        { key: 'Acrobatica', value: false }, 
+        { key: 'Rapidità di Mano', value: false }, 
+        { key: 'Furtività', value: false }
+      ]},
+      { key: 'costituzione', value: 18, abilities: [
+        { key: 'Tiro Salvezza', value: true }
+      ]},
+      { key: 'intelligenza', value: 6, abilities: [
+        { key: 'Tiro Salvezza', value: false }, 
+        { key: 'Arcano', value: false }, 
+        { key: 'Indagare', value: false }, 
+        { key: 'Natura', value: false }, 
+        { key: 'Religione', value: false }, 
+        { key: 'Storia', value: false }
+      ]},
+      { key: 'saggezza', value: 12, abilities: [
+        { key: 'Tiro Salvezza', value: false }, 
+        { key: 'Addestrare Animali', value: true }, 
+        { key: 'Intuizione', value: false }, 
+        { key: 'Medicina', value: false }, 
+        { key: 'Percezione', value: true }, 
+        { key: 'Sopravvivenza', value: false }
+      ]},
+      { key: 'carisma', value: 13, abilities: [
+        { key: 'Tiro Salvezza', value: false }, 
+        { key: 'Inganno', value: false }, 
+        { key: 'Intimidire', value: true }, 
+        { key: 'Intrattenere', value: false }, 
+        { key: 'Persuasione', value: false }
+      ]},
+    ],
+    saggezza_passiva: 15,
+    competenze:[
+      {key:'linguaggi', value:'Comune e Gigante'},
+      {key:'armi', value:'Tutte'},
+      {key:'armature', value:'leggere e medie'},
+      {key:'strumenti', value:'Giochi da tavolo'},
+    ],
+    
+    // colonna centrale
+    classe_armatura: 10,
+    punti_ferita_attuali: 10,
+    punti_ferita_temporanei: 10,
+    ts_falliti: 2,
+    ts_successi: 1,
+    attacchi:['ascia bipenne', 'alabarda', 'lancia'],
+    equipaggiamento: [
+      {qta:3, value:'torcia'},
+      {qta:1, value:'acciarino'},
+      {qta:10, value:'razioni'},
+    ],
+    monete: [ 
+      { key: 'rame', value: 5 },
+      { key: 'argento', value: 10 },
+      { key: 'electrum', value: 0 },
+      { key: 'oro', value: 25 },
+      { key: 'platino', value: 1 }
+    ],
+
+    // colonna destra
+    personalita: [
+      {key:'tratti_caratteriali', value:'Mi piace spaccare le cose. Sono diretto e onesto.'},
+      {key:'ideali', value:'La gloria della battaglia è tutto ciò che conta.'},
+      {key:'legami', value:'Proteggerò i miei amici, specialmente Pike.'},
+      {key:'difetti', value:'Non penso mai prima di agire. Mai.'},
+    ],
+    privilegi:['barbaro', 'barbaro', 'stregone', 'barbaro', 'stregone']
+  });
+  character = this.initCharacter();
+
+  handleChange(event) {
+    const { name, value, type, checked } = event.target;
+    // Supporta sia path con punti (es. "punteggi.0.value") sia il nuovo pattern con underscore
+    // per i campi generali (es. "generali_3_value" => ["generali", 3, "value"]).
+    const m = /^generali_(\d+)_value$/.exec(name);
+    const keys = m ? ['generali', m[1], 'value'] : name.split('.');
+    let current = this.character;
+
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (!current[keys[i]]) {
+        current[keys[i]] = isNaN(keys[i + 1]) ? {} : [];
       }
+      current = current[keys[i]];
     }
-  
-    // Autocomplete component (inspired by 'Autocomplete')
-    async init() {
-      this.character = this.initCharacter();
-      await this.local.get();
-      this.render();
-    }
-  
-    initCharacter =_=> ({
-      nome_personaggio: 'Grog Strongjaw',
-      generali: [
-        { key: 'background', value: 'Soldato', type: 'text' },
-        { key: 'nome_giocatore', value: 'Travis', type: 'text' },
-        { key: 'razza', value: 'Goliath', type: 'text' },
-        { key: 'allineamento', value: 'Caotico Neutrale', type: 'text' },
-        { key: 'punti_esperienza', value: 15000, type: 'number' },
-      ],
-  
-      // colonna sinistra
-      ispirazione: 1,
-      punteggi: [
-        { key: 'forza', value: 20, abilities: [
-          { key: 'Tiro Salvezza', value: true }, 
-          { key: 'Atletica', value: true }
-        ]},
-        { key: 'destrezza', value: 15, abilities: [
-          { key: 'Tiro Salvezza', value: false }, 
-          { key: 'Acrobatica', value: false }, 
-          { key: 'Rapidità di Mano', value: false }, 
-          { key: 'Furtività', value: false }
-        ]},
-        { key: 'costituzione', value: 18, abilities: [
-          { key: 'Tiro Salvezza', value: true }
-        ]},
-        { key: 'intelligenza', value: 6, abilities: [
-          { key: 'Tiro Salvezza', value: false }, 
-          { key: 'Arcano', value: false }, 
-          { key: 'Indagare', value: false }, 
-          { key: 'Natura', value: false }, 
-          { key: 'Religione', value: false }, 
-          { key: 'Storia', value: false }
-        ]},
-        { key: 'saggezza', value: 12, abilities: [
-          { key: 'Tiro Salvezza', value: false }, 
-          { key: 'Addestrare Animali', value: true }, 
-          { key: 'Intuizione', value: false }, 
-          { key: 'Medicina', value: false }, 
-          { key: 'Percezione', value: true }, 
-          { key: 'Sopravvivenza', value: false }
-        ]},
-        { key: 'carisma', value: 13, abilities: [
-          { key: 'Tiro Salvezza', value: false }, 
-          { key: 'Inganno', value: false }, 
-          { key: 'Intimidire', value: true }, 
-          { key: 'Intrattenere', value: false }, 
-          { key: 'Persuasione', value: false }
-        ]},
-      ],
-      saggezza_passiva: 15,
-      competenze:[
-        {key:'linguaggi', value:'Comune e Gigante'},
-        {key:'armi', value:'Tutte'},
-        {key:'armature', value:'leggere e medie'},
-        {key:'strumenti', value:'Giochi da tavolo'},
-      ],
-      
-      // colonna centrale
-      classe_armatura: 10,
-      punti_ferita_attuali: 10,
-      punti_ferita_temporanei: 10,
-      ts_falliti: 2,
-      ts_successi: 1,
-      attacchi:['ascia bipenne', 'alabarda', 'lancia'],
-      equipaggiamento: [
-        {qta:3, value:'torcia'},
-        {qta:1, value:'acciarino'},
-        {qta:10, value:'razioni'},
-      ],
-      monete: [ 
-        { key: 'rame', value: 5 },
-        { key: 'argento', value: 10 },
-        { key: 'electrum', value: 0 },
-        { key: 'oro', value: 25 },
-        { key: 'platino', value: 1 }
-      ],
-  
-      // colonna destra
-      personalita: [
-        {key:'tratti_caratteriali', value:'Mi piace spaccare le cose. Sono diretto e onesto.'},
-        {key:'ideali', value:'La gloria della battaglia è tutto ciò che conta.'},
-        {key:'legami', value:'Proteggerò i miei amici, specialmente Pike.'},
-        {key:'difetti', value:'Non penso mai prima di agire. Mai.'},
-      ],
-      privilegi:['barbaro', 'barbaro', 'stregone', 'barbaro', 'stregone']
-    });
-    character = this.initCharacter();
-  
-    handleChange(event) {
-      const { name, value, type, checked } = event.target;
-      const keys = name.split('.');
-      let current = this.character;
-  
-      for (let i = 0; i < keys.length - 1; i++) {
-        if (!current[keys[i]]) {
-          current[keys[i]] = isNaN(keys[i + 1]) ? {} : [];
-        }
-        current = current[keys[i]];
-      }
-  
-      // Autocomplete required validation: if there's a UL[name] with required and value not in its LIs, block modification
-      const inputEl = event.target;
-      if (inputEl instanceof HTMLInputElement && inputEl.type === 'search') {
-        const listEl = document.querySelector(`ul[autocomplete][name="${CSS.escape(name)}"]`);
-        if (listEl && listEl.hasAttribute('required')) {
-          const options = Array.from(listEl.querySelectorAll('li')).map(li => (li.textContent || '').trim());
-          const isValid = options.includes((value || '').trim());
-          if (!isValid) {
-            // revert UI to previous value and exit without modifying state
-            try {
-              // compute previous value without mutating
-              let prevObj = this.character;
-              for (let i = 0; i < keys.length - 1; i++) prevObj = prevObj[keys[i]];
-              const prev = prevObj ? prevObj[keys[keys.length - 1]] : '';
-              inputEl.value = (prev ?? '').toString();
-            } catch {}
-            return;
-          }
-        }
-      }
-  
-      let finalValue = value;
-      if (type === 'checkbox') {
-        finalValue = checked;
-      } else if (!isNaN(parseFloat(value)) && isFinite(value) && value.trim() !== '') {
-        finalValue = parseFloat(value);
-      }
-  
-      current[keys[keys.length - 1]] = finalValue;
-      this.local.set();
-      this.render();
-    }
-  
-    /**
-     * Rimuove un elemento da una lista del personaggio (es. attacchi, equipaggiamento, privilegi)
-     * @param {keyof typeof this.character} listName - Nome della proprietà array dentro this.character
-     * @param {number} index - Posizione dell'elemento da rimuovere
-     * @returns {void}
-     */
-    deleteFromList(listName, index) {
-      if (this.character[listName] && Array.isArray(this.character[listName])) {
-        // rimuove l'elemento in posizione 'index'
-        this.character[listName].splice(index, 1);
-        // persiste e aggiorna la UI
-        this.local.set();
-        this.render();
-      } else {
-        console.error(`List ${listName} not found or not an array.`);
-      }
-    }
-  
-    /**
-     * Imposta il numero di successi/fallimenti dei TS morte in base al checkbox cliccato
-     * @param {'ts_successi'|'ts_falliti'} field
-     * @param {1|2|3} index
-     * @param {boolean} checked
-     * @returns {void}
-     */
-    setDeathSave(field, index, checked) {
-      // index è 1..3. Se spunto il 2°, valore=2; se lo deseleziono, valore=1
-      const value = checked ? index : (index - 1);
-      this.character[field] = value;
-      this.local.set();
-      this.render();
-    }
-  
-    /**
-     * Aggiunge un elemento a una lista del character.
-     * Regole speciali:
-     * - equipaggiamento: merge per nome (case-insensitive), incrementando la quantità
-     * - attacchi: evita duplicati (case-insensitive)
-     * @param {string} listName
-     * @param {string|HTMLFormElement} payload - Valore semplice o form di submit
-     * @param {SubmitEvent} [evt]
-     * @returns {void}
-     */
-    addToList(listName, payload, evt) {
-      // 1) Se proviene da un form, previene il submit di default
-      if (evt?.preventDefault) evt.preventDefault();
-  
-      // 2) Helper per persistere e ri-renderizzare
-      const commit = () => { this.local.set(); this.render(); };
-  
-      // Helper: dato un input, se ha UL required e valore non presente tra i LI, blocca
-      const isInputValidPerAutocomplete = (inputEl) => {
-        if (!(inputEl instanceof HTMLInputElement)) return true;
-        if (inputEl.type !== 'search') return true;
-        const name = inputEl.name;
-        const listEl = document.querySelector(`ul[autocomplete][name="${CSS.escape(name)}"]`);
-        if (!listEl) return true;
-        if (!listEl.hasAttribute('required')) return true;
-        const val = (inputEl.value || '').trim();
+
+    // Autocomplete required validation: se c'è un UL[autocomplete] con required e il valore non è tra le LI, blocca
+    const inputEl = event.target;
+    if (inputEl instanceof HTMLInputElement && inputEl.type === 'search') {
+      const scope = inputEl.parentElement || document;
+      const listEl = scope.querySelector(`ul[autocomplete="${CSS.escape(name)}"]`);
+      if (listEl && listEl.hasAttribute('required')) {
         const options = Array.from(listEl.querySelectorAll('li')).map(li => (li.textContent || '').trim());
-        return options.includes(val);
-      };
-  
-      // 3) Se la lista non esiste, inizializzala come array
-      if (!Array.isArray(this.character[listName])) this.character[listName] = [];
-  
-      // 4) Helper interno: aggiunge/merga un oggetto di equipaggiamento
-      //    - normalizza il nome (trim + lowercase)
-      //    - se esiste, somma la quantità; altrimenti pusha un nuovo oggetto {qta, value}
-      const addEquip = (name, qtaToAdd = 1) => {
-        const key = (name || '').trim().toLowerCase();
-        if (!key) return false;
-        const list = this.character.equipaggiamento;
-        const existing = list.find(it => (it.value || '').trim().toLowerCase() === key);
-        if (existing) {
-          existing.qta = (parseFloat(existing.qta) || 0) + (parseFloat(qtaToAdd) || 0);
-        } else {
-          list.push({ qta: (parseFloat(qtaToAdd) || 1), value: name.trim() });
+        const isValid = options.includes((value || '').trim());
+        if (!isValid) {
+          // revert UI to previous value and exit without modifying state
+          try {
+            // compute previous value without mutating
+            let prevObj = this.character;
+            for (let i = 0; i < keys.length - 1; i++) prevObj = prevObj[keys[i]];
+            const prev = prevObj ? prevObj[keys[keys.length - 1]] : '';
+            inputEl.value = (prev ?? '').toString();
+          } catch {}
+          return;
         }
-        return true;
-      };
-  
-      // 5) Gestione invio FORM (es. equipaggiamento)
-      if (payload?.tagName === 'FORM') {
-        const form = payload;
-        const qtyInput = form.querySelector('input[type="number"]');
-        const nameInput = form.querySelector('input[type="search"], input[type="text"]');
-        const qta = parseFloat(qtyInput?.value) || 1;
-        const name = (nameInput?.value || '').trim();
-  
-        if (listName === 'equipaggiamento') {
-          // equipaggiamento: se il nome è vuoto, non aggiunge
-          if (!name) return;
-          if (!isInputValidPerAutocomplete(nameInput)) return; // blocca se non corrisponde alle opzioni richieste
-          addEquip(name, qta);
-          try { form.reset(); } catch {}
-          return commit();
-        }
-  
-        // per liste diverse: pusha il valore se non vuoto
+      }
+    }
+
+    let finalValue = value;
+    if (type === 'checkbox') {
+      finalValue = checked;
+    } else if (!isNaN(parseFloat(value)) && isFinite(value) && value.trim() !== '') {
+      finalValue = parseFloat(value);
+    }
+
+    current[keys[keys.length - 1]] = finalValue;
+    this.local.set();
+    this.render();
+    this.toast('Modificato');
+  }
+
+  /**
+   * Rimuove un elemento da una lista del personaggio (es. attacchi, equipaggiamento, privilegi)
+   * @param {keyof typeof this.character} listName - Nome della proprietà array dentro this.character
+   * @param {number} index - Posizione dell'elemento da rimuovere
+   * @returns {void}
+   */
+  deleteFromList(listName, index) {
+    if (this.character[listName] && Array.isArray(this.character[listName])) {
+      // rimuove l'elemento in posizione 'index'
+      this.character[listName].splice(index, 1);
+      // persiste e aggiorna la UI
+      this.local.set();
+      this.render();
+      this.toast('Modificato');
+    } else {
+      console.error(`List ${listName} not found or not an array.`);
+    }
+  }
+
+  /**
+   * Imposta il numero di successi/fallimenti dei TS morte in base al checkbox cliccato
+   * @param {'ts_successi'|'ts_falliti'} field
+   * @param {1|2|3} index
+   * @param {boolean} checked
+   * @returns {void}
+   */
+  setDeathSave(field, index, checked) {
+    // index è 1..3. Se spunto il 2°, valore=2; se lo deseleziono, valore=1
+    const value = checked ? index : (index - 1);
+    this.character[field] = value;
+    this.local.set();
+    this.render();
+    this.toast('Modificato');
+  }
+
+  /**
+   * Aggiunge un elemento a una lista del character.
+   * Regole speciali:
+   * - equipaggiamento: merge per nome (case-insensitive), incrementando la quantità
+   * - attacchi: evita duplicati (case-insensitive)
+   * @param {string} listName
+   * @param {string|HTMLFormElement} payload - Valore semplice o form di submit
+   * @param {SubmitEvent} [evt]
+   * @returns {void}
+   */
+  addToList(listName, payload, evt) {
+    // 1) Se proviene da un form, previene il submit di default
+    if (evt?.preventDefault) evt.preventDefault();
+
+    // 2) Helper per persistere e ri-renderizzare
+    const commit = () => { this.local.set(); this.render(); };
+
+    // Helper: dato un input, se ha UL required e valore non presente tra i LI, blocca
+    const isInputValidPerAutocomplete = (inputEl) => {
+      if (!(inputEl instanceof HTMLInputElement)) return true;
+      if (inputEl.type !== 'search') return true;
+      const name = inputEl.name;
+      const listEl = document.querySelector(`ul[autocomplete][name="${CSS.escape(name)}"]`);
+      if (!listEl) return true;
+      if (!listEl.hasAttribute('required')) return true;
+      const val = (inputEl.value || '').trim();
+      const options = Array.from(listEl.querySelectorAll('li')).map(li => (li.textContent || '').trim());
+      return options.includes(val);
+    };
+
+    // 3) Se la lista non esiste, inizializzala come array
+    if (!Array.isArray(this.character[listName])) this.character[listName] = [];
+
+    // 4) Helper interno: aggiunge/merga un oggetto di equipaggiamento
+    //    - normalizza il nome (trim + lowercase)
+    //    - se esiste, somma la quantità; altrimenti pusha un nuovo oggetto {qta, value}
+    const addEquip = (name, qtaToAdd = 1) => {
+      const key = (name || '').trim().toLowerCase();
+      if (!key) return false;
+      const list = this.character.equipaggiamento;
+      const existing = list.find(it => (it.value || '').trim().toLowerCase() === key);
+      if (existing) {
+        existing.qta = (parseFloat(existing.qta) || 0) + (parseFloat(qtaToAdd) || 0);
+      } else {
+        list.push({ qta: (parseFloat(qtaToAdd) || 1), value: name.trim() });
+      }
+      return true;
+    };
+
+    // 5) Gestione invio FORM (es. equipaggiamento)
+    if (payload?.tagName === 'FORM') {
+      const form = payload;
+      const qtyInput = form.querySelector('input[type="number"]');
+      const nameInput = form.querySelector('input[type="search"], input[type="text"]');
+      const qta = parseFloat(qtyInput?.value) || 1;
+      const name = (nameInput?.value || '').trim();
+
+      if (listName === 'equipaggiamento') {
+        // equipaggiamento: se il nome è vuoto, non aggiunge
         if (!name) return;
-        if (!isInputValidPerAutocomplete(nameInput)) return; // blocca se non valido rispetto all'autocomplete
-        if (listName === 'attacchi') {
-          // evita duplicati: confronta case-insensitive
-          const exists = (this.character.attacchi || []).some(a => (a || '').toString().trim().toLowerCase() === name.toLowerCase());
-          if (!exists) this.character.attacchi.push(name);
-          try { form.reset(); } catch {}
-          return commit();
-        }
-        this.character[listName].push(name);
+        if (!isInputValidPerAutocomplete(nameInput)) return; // blocca se non corrisponde alle opzioni richieste
+        addEquip(name, qta);
         try { form.reset(); } catch {}
         return commit();
       }
-  
-      // 6) Gestione valore semplice (string) da input text/search
-      const val = (typeof payload === 'string') ? payload.trim() : '';
-      if (!val) return;
-      // Se proviene da un input "add", tenta di validare contro il relativo UL required
-      let sourceInput = null;
-      try {
-        sourceInput = document.querySelector(`input.add[name="${CSS.escape(listName)}"]`) || document.querySelector(`input.add#${CSS.escape(listName)}`);
-      } catch {}
-      if (sourceInput) {
-        const listEl = document.querySelector(`ul[autocomplete][name="${CSS.escape(sourceInput.name)}"]`);
-        if (listEl && listEl.hasAttribute('required')) {
-          const options = Array.from(listEl.querySelectorAll('li')).map(li => (li.textContent || '').trim());
-          if (!options.includes(val)) return; // blocca aggiunta
-        }
-      }
-      if (listName === 'equipaggiamento') { addEquip(val, 1); return commit(); }
-      if (listName === 'privilegi') {
-        const list = Array.isArray(this.character.privilegi) ? this.character.privilegi : (this.character.privilegi = []);
-        const text = val;
-        const cls = text.split(' ')[0]?.toLowerCase();
-        if (!cls) return;
-        const dupIndex = list.findIndex((it) => (it || '').toString().trim().toLowerCase().startsWith(cls + ' '));
-        if (dupIndex >= 0) {
-          const existing = (list[dupIndex] || '').toString().trim().toLowerCase();
-          const want = text.toLowerCase();
-          if (existing !== want) {
-            // stessa classe ma sottoclasse diversa: annulla inserimento e pulisci input di aggiunta
-            const addInput = document.querySelector('input#privilegi.add, input[name="privilegi"].add');
-            if (addInput) addInput.value = '';
-            return; // no commit
-          }
-          // stessa coppia: consenti inserimento (duplice intenzionale)
-          list.push(text);
-        } else {
-          list.push(text); // classe diversa: inserisci
-        }
-        return commit();
-      }
+
+      // per liste diverse: pusha il valore se non vuoto
+      if (!name) return;
+      if (!isInputValidPerAutocomplete(nameInput)) return; // blocca se non valido rispetto all'autocomplete
       if (listName === 'attacchi') {
         // evita duplicati: confronta case-insensitive
-        const exists = (this.character.attacchi || []).some(a => (a || '').toString().trim().toLowerCase() === val.toLowerCase());
-        if (!exists) this.character.attacchi.push(val);
+        const exists = (this.character.attacchi || []).some(a => (a || '').toString().trim().toLowerCase() === name.toLowerCase());
+        if (!exists) this.character.attacchi.push(name);
+        try { form.reset(); } catch {}
         return commit();
       }
-      // default: aggiunge in coda
-      this.character[listName].push(val);
+      this.character[listName].push(name);
+      try { form.reset(); } catch {}
       return commit();
     }
-  
-    //head
-    /**
-     * Aggrega le classi a partire dall'array 'privilegi'.
-     * Un privilegio può essere solo la classe (es. "barbaro") oppure "classe sottoclasse" (es. "barbaro cammino del berserker").
-     * Se 'privilegi' è omesso o vuoto, usa this.character.privilegi.
-     * @param {string[]=} privilegi
-     * @returns {{classe:string, sottoclasse:string, livello:number}[]}
-     */
-    classi(privilegi = ['']) {
-      const result = [{ classe: '', sottoclasse: '', livello: 0 }];
-      const source = (Array.isArray(privilegi) && privilegi.length)
-        ? privilegi
-        : this.character.privilegi;
-      source.forEach(val => {
-        const first = String(val || '').split(' ')[0].
-          replace(/^[a-z]/, c => c.toUpperCase()); // la prima lettera è maiuscola
-        const second = String(val || '').split(' ').slice(1).join(' ');
-        if (!first) return;
-        const found = result.find(c => c.classe === first);
-        if (found) found.livello++;
-        else       result.push({ classe: first, sottoclasse: second, livello: 1 });
-      });
-      return result .filter(c => c.classe && c.livello);
-    }
-    //!colonna sinistra
-    /**
-     * Calcola il modificatore di caratteristica
-     * @param {number} score
-     * @returns {number}
-     */
-    mod =(score)=> Math.floor((score - 10) / 2);
-    /**
-     * Calcola il bonus per un'abilità in funzione della caratteristica e della competenza
-     * @param {number} punteggioCaratteristica
-     * @param {boolean} checkAbilita
-     * @returns {string|number} Valore con segno quando positivo
-     */
-    abilityMod(punteggioCaratteristica, checkAbilita){
-      let result = this.mod(punteggioCaratteristica);
-      if(checkAbilita){
-        result += this.BC();
+
+    // 6) Gestione valore semplice (string) da input text/search
+    const val = (typeof payload === 'string') ? payload.trim() : '';
+    if (!val) return;
+    // Se proviene da un input "add", tenta di validare contro il relativo UL required
+    let sourceInput = null;
+    try {
+      sourceInput = document.querySelector(`input.add[name="${CSS.escape(listName)}"]`) || document.querySelector(`input.add#${CSS.escape(listName)}`);
+    } catch {}
+    if (sourceInput) {
+      const listEl = document.querySelector(`ul[autocomplete][name="${CSS.escape(sourceInput.name)}"]`);
+      if (listEl && listEl.hasAttribute('required')) {
+        const options = Array.from(listEl.querySelectorAll('li')).map(li => (li.textContent || '').trim());
+        if (!options.includes(val)) return; // blocca aggiunta
       }
-      return result>0 ?`+${result}` :result;
     }
-    /**
-     * Calcola il livello del personaggio in base ai PE
-     * @param {string[]=} privilegi
-     * @returns {number}
-     */
-    L(privilegi) {
-      const pe = this.character.generali.find(g => g.key === 'punti_esperienza')?.value;
-      if (typeof pe !== 'number') return 404;
-  
-      // Soglie dei PE per ogni livello
-      const thresholds = [
-        0,      // livello 1
-        300,    // 2
-        900,    // 3
-        2700,   // 4
-        6500,   // 5
-        14000,  // 6
-        23000,  // 7
-        34000,  // 8
-        48000,  // 9
-        64000,  // 10
-        85000,  // 11
-        100000, // 12
-        120000, // 13
-        140000, // 14
-        165000, // 15
-        195000, // 16
-        225000, // 17
-        265000, // 18
-        305000, // 19
-        355000  // 20
-      ];
-  
-      // Trova ultimo livello in cui pe >= soglia
-      for (let lvl = thresholds.length; lvl > 0; lvl--) {
-        if (pe >= thresholds[lvl - 1]) {
-          return lvl;
+    if (listName === 'equipaggiamento') { addEquip(val, 1); return commit(); }
+    if (listName === 'privilegi') {
+      const list = Array.isArray(this.character.privilegi) ? this.character.privilegi : (this.character.privilegi = []);
+      const text = val;
+      const cls = text.split(' ')[0]?.toLowerCase();
+      if (!cls) return;
+      const dupIndex = list.findIndex((it) => (it || '').toString().trim().toLowerCase().startsWith(cls + ' '));
+      if (dupIndex >= 0) {
+        const existing = (list[dupIndex] || '').toString().trim().toLowerCase();
+        const want = text.toLowerCase();
+        if (existing !== want) {
+          // stessa classe ma sottoclasse diversa: annulla inserimento e pulisci input di aggiunta
+          const addInput = document.querySelector('input#privilegi.add, input[name="privilegi"].add');
+          if (addInput) addInput.value = '';
+          return; // no commit
         }
+        // stessa coppia: consenti inserimento (duplice intenzionale)
+        list.push(text);
+      } else {
+        list.push(text); // classe diversa: inserisci
       }
-      return 1; // fallback (non dovrebbe mai arrivarci)
+      return commit();
     }
-    /**
-     * Bonus di Competenza derivato dal livello corrente
-     * @returns {number}
-     */
-    BC() {
-      const livello = this.L(this.character.privilegi); // chiama la funzione liv()
-      if (typeof livello !== 'number' || livello < 1) return 404;
-  
-      return 2 + Math.floor((livello - 1) / 4);
+    if (listName === 'attacchi') {
+      // evita duplicati: confronta case-insensitive
+      const exists = (this.character.attacchi || []).some(a => (a || '').toString().trim().toLowerCase() === val.toLowerCase());
+      if (!exists) this.character.attacchi.push(val);
+      return commit();
     }
-  
-    /**
-     * Utility:
-     * - Se chiamata come renderPrivilegi(arr): raggruppa per classe base e ritorna tutti i privilegi di classe per ciascun livello raggiunto (conteggio occorrenze sottoclasse).
-     * - Se chiamata come renderPrivilegi(arr, voce, i): ritorna i privilegi dal livello 1 fino al livello cumulativo della classe alla posizione i.
-     * @param {string[]} [characterPrivilegi]
-     * @param {string} [voce]
-     * @param {number} [voceIndex]
-     * @returns {object[]|''}
-     */
-    renderPrivilegi(characterPrivilegi = [], voce='', voceIndex=0) {
-      // Modalità gruppo: solo array passato, nessuna voce specifica
-      if (!voce && (voceIndex === undefined || voceIndex === null)) {
-        const levelsByClass = {};
-        (characterPrivilegi || []).forEach(v => {
-          const cls = String(v || '').split(' ')[0].trim().toLowerCase();
-          if (!cls) return;
-          levelsByClass[cls] = (levelsByClass[cls] || 0) + 1;
-        });
-        const out = [];
-        Object.entries(levelsByClass).forEach(([cls, cnt]) => {
-          for (let L = 1; L <= cnt; L++) {
-            const base = Classi.classi.find(p => p.class === cls && p.level === L);
-            if (base) out.push(base);
-          }
-        });
-        return out;
+    // default: aggiunge in coda
+    this.character[listName].push(val);
+    return commit();
+  }
+
+  //head
+  /**
+   * Aggrega le classi a partire dall'array 'privilegi'.
+   * Un privilegio può essere solo la classe (es. "barbaro") oppure "classe sottoclasse" (es. "barbaro cammino del berserker").
+   * Se 'privilegi' è omesso o vuoto, usa this.character.privilegi.
+   * @param {string[]=} privilegi
+   * @returns {{classe:string, sottoclasse:string, livello:number}[]}
+   */
+  classi(privilegi = ['']) {
+    const result = [{ classe: '', sottoclasse: '', livello: 0 }];
+    const source = (Array.isArray(privilegi) && privilegi.length)
+      ? privilegi
+      : this.character.privilegi;
+    source.forEach(val => {
+      const first = String(val || '').split(' ')[0].
+        replace(/^[a-z]/, c => c.toUpperCase()); // la prima lettera è maiuscola
+      const second = String(val || '').split(' ').slice(1).join(' ');
+      if (!first) return;
+      const found = result.find(c => c.classe === first);
+      if (found) found.livello++;
+      else       result.push({ classe: first, sottoclasse: second, livello: 1 });
+    });
+    return result .filter(c => c.classe && c.livello);
+  }
+  //!colonna sinistra
+  /**
+   * Calcola il modificatore di caratteristica
+   * @param {number} score
+   * @returns {number}
+   */
+  mod =(score)=> Math.floor((score - 10) / 2);
+  /**
+   * Calcola il bonus per un'abilità in funzione della caratteristica e della competenza
+   * @param {number} punteggioCaratteristica
+   * @param {boolean} checkAbilita
+   * @returns {string|number} Valore con segno quando positivo
+   */
+  abilityMod(punteggioCaratteristica, checkAbilita){
+    let result = this.mod(punteggioCaratteristica);
+    if(checkAbilita){
+      result += this.BC();
+    }
+    return result>0 ?`+${result}` :result;
+  }
+  /**
+   * Calcola il livello del personaggio in base ai PE
+   * @param {string[]=} privilegi
+   * @returns {number}
+   */
+  L(privilegi) {
+    const pe = this.character.generali.find(g => g.key === 'punti_esperienza')?.value;
+    if (typeof pe !== 'number') return 404;
+
+    // Soglie dei PE per ogni livello
+    const thresholds = [
+      0,      // livello 1
+      300,    // 2
+      900,    // 3
+      2700,   // 4
+      6500,   // 5
+      14000,  // 6
+      23000,  // 7
+      34000,  // 8
+      48000,  // 9
+      64000,  // 10
+      85000,  // 11
+      100000, // 12
+      120000, // 13
+      140000, // 14
+      165000, // 15
+      195000, // 16
+      225000, // 17
+      265000, // 18
+      305000, // 19
+      355000  // 20
+    ];
+
+    // Trova ultimo livello in cui pe >= soglia
+    for (let lvl = thresholds.length; lvl > 0; lvl--) {
+      if (pe >= thresholds[lvl - 1]) {
+        return lvl;
       }
-  
-      const parts = String(voce || '').split(' ');
-      const classe = parts.shift() || '';
-      const sottoclasse = parts.join(' ') || '';
-      // normalizzazione case-insensitive
-      const classeKey = classe.trim().toLowerCase();
-      const sottoclasseKey = sottoclasse.trim().toLowerCase() || undefined;
-      // livello cumulativo: conta le occorrenze della classe fino a voceIndex (incluso)
-      const livelloCount = (characterPrivilegi || [])
-        .slice(0, Math.max(0, (voceIndex ?? 0) + 1))
-        .reduce((acc, v) => {
-          const first = String(v || '').split(' ')[0].trim().toLowerCase();
-          return acc + (first === classeKey ? 1 : 0);
-        }, 0);
-      const livello = livelloCount > 0 ? livelloCount : 1;
-  
-      // Recupera l'elenco dei privilegi per livelli 1..livello,
-      // provando prima la sottoclasse tramite getPrivilegio; se assente o nullo,
-      // fallback al privilegio di classe base (Classi.classi)
-      const lista = Array.from({ length: livello }, (_, k) => {
-          const L = k + 1;
-          const fromMethod = Classi.getPrivilegio(classeKey, sottoclasseKey, L);
-          if (fromMethod) return fromMethod;
-          // se non c'è sottoclasse o non trovato, usa il base
-          return Classi.classi.find(p => p.class === classeKey && p.level === L) || null;
-        })
-        .filter(Boolean);
-      if (!lista.length) return '';
-      return lista;
     }
-  
-    //!COLONNA CENTRALE
-    /**
-     * Iniziativa = modificatore di Destrezza, formattato con segno se positivo
-     * @returns {string|number}
-     */
-    iniziativa(){
-      const destrezza = this.character.punteggi.find(p => p.key === 'destrezza');
-      if (!destrezza) return 404;
-      const value =this.mod(destrezza.value);
-      return value>0?`+${value}`:value;
-    }
-  
-    /**
-     * Ritorna l'array velocità per la razza del personaggio
-     * @returns {{key:string, value:number}[]|404}
-     */
-    velocita() {
-      const razza = this.character.generali.find(g => g.key === 'razza');
-      if (!razza) return 404;
-  
-      const value = razza.value;
-  
-      // Mappa delle velocità complete per ogni razza
-      const velocitaRazze = {
-        "Elfo": [
-          { key: "camminare", value: 9 },
-          { key: "nuotare", value: 4.5 },
-          { key: "scalare", value: 4.5 },
-        ],
-        "Elfo dei Boschi": [
-          { key: "camminare", value: 10.5 },
-          { key: "nuotare", value: 5 },
-          { key: "scalare", value: 5 },
-        ],
-        "Mezzelfo": [
-          { key: "camminare", value: 9 },
-          { key: "nuotare", value: 4.5 },
-          { key: "scalare", value: 4.5 },
-        ],
-        "Umano": [
-          { key: "camminare", value: 9 },
-          { key: "nuotare", value: 4.5 },
-          { key: "scalare", value: 4.5 },
-        ],
-        "Dragonide": [
-          { key: "camminare", value: 9 },
-          { key: "nuotare", value: 4.5 },
-          { key: "scalare", value: 4.5 },
-        ],
-        "Tiefling": [
-          { key: "camminare", value: 9 },
-          { key: "nuotare", value: 4.5 },
-          { key: "scalare", value: 4.5 },
-        ],
-        "Halfling": [
-          { key: "camminare", value: 7.5 },
-          { key: "nuotare", value: 3 },
-          { key: "scalare", value: 3 },
-        ],
-        "Nano": [
-          { key: "camminare", value: 7.5 },
-          { key: "nuotare", value: 3 },
-          { key: "scalare", value: 3 },
-        ],
-        "Gnomo": [
-          { key: "camminare", value: 7.5 },
-          { key: "nuotare", value: 3 },
-          { key: "scalare", value: 3 },
-        ],
-        "Mezzorco": [
-          { key: "camminare", value: 9 },
-          { key: "nuotare", value: 4.5 },
-          { key: "scalare", value: 4.5 },
-        ]
-      };
-  
-      // Restituisci la velocità della razza, oppure un default
-      return velocitaRazze[value] ?? [
-        { key: "camminare", value: 9 },
-        { key: "nuotare", value: 4.5 },
-        { key: "scalare", value: 4.5 },
-      ];
-    }
-  
-    /**
-     * Dato il nome di una classe, restituisce il suo dado vita (X in dX).
-     * Se la classe non è riconosciuta, usa 6 come default (d6).
-     * @param {string} nomeClasse
-     * @returns {number}
-     */
-    dado_vita(nomeClasse) {
-      const dadiVita = {
-        'barbaro': 12,
-        'guerriero': 10,
-        'paladino': 10,
-        'ranger': 10,
-        'chierico': 8,
-        'druido': 8,
-        'monaco': 8,
-        'ladro': 8,
-        'bardo': 8,
-        'stregone': 6,
-        'mago': 6,
-      };
-      return dadiVita[nomeClasse.toLowerCase()] || 6; // Ritorna 6 come default
-    }
-    /**
-     * Restituisce i dadi vita combinati per il personaggio.
-     * Output: array di oggetti { livello: n, dado: X } per formattare "n dX".
-     * @returns {{livello:number, dado:number}[]}
-     */
-    dadi_vita() {
-      const privilegi = this.character.privilegi;
-      const result = this.classi(privilegi).map(c => ({
-        livello: c.livello,
-        dado: this.dado_vita(c.classe),
-      }));
-      return result.filter(r => r.dado !== 0 && r.livello !== 0);
-    }
-  
-    /**
-     * Calcola i PF massimi in base ai dadi vita per livello e al modificatore di Costituzione
-     * @returns {number}
-     */
-    puntiFeritaMassimi() {
-      const costituzione = this.character.punteggi.find(p => p.key === 'costituzione').value;
-      const conMod = this.mod(costituzione);
-      let pfTotali = 0;
-  
-      const a = this.character.privilegi;
-      a.forEach((nomeClasse, index) => {
-        const dadoVita = this.dado_vita(nomeClasse);
-  
-        if (index === 0) {
-          // 1° livello: Massimo del dado vita + modificatore di Costituzione
-          pfTotali += dadoVita + conMod;
-        } else {
-          // Livelli successivi: Media del dado vita + modificatore di Costituzione
-          const mediaDadoVita = (dadoVita / 2) + 1;
-          pfTotali += mediaDadoVita + conMod;
+    return 1; // fallback (non dovrebbe mai arrivarci)
+  }
+  /**
+   * Bonus di Competenza derivato dal livello corrente
+   * @returns {number}
+   */
+  BC() {
+    const livello = this.L(this.character.privilegi); // chiama la funzione liv()
+    if (typeof livello !== 'number' || livello < 1) return 404;
+
+    return 2 + Math.floor((livello - 1) / 4);
+  }
+
+  /**
+   * Utility:
+   * - Se chiamata come renderPrivilegi(arr): raggruppa per classe base e ritorna tutti i privilegi di classe per ciascun livello raggiunto (conteggio occorrenze sottoclasse).
+   * - Se chiamata come renderPrivilegi(arr, voce, i): ritorna i privilegi dal livello 1 fino al livello cumulativo della classe alla posizione i.
+   * @param {string[]} [characterPrivilegi]
+   * @param {string} [voce]
+   * @param {number} [voceIndex]
+   * @returns {object[]|''}
+   */
+  renderPrivilegi(characterPrivilegi = [], voce='', voceIndex=0) {
+    // Modalità gruppo: solo array passato, nessuna voce specifica
+    if (!voce && (voceIndex === undefined || voceIndex === null)) {
+      const levelsByClass = {};
+      (characterPrivilegi || []).forEach(v => {
+        const cls = String(v || '').split(' ')[0].trim().toLowerCase();
+        if (!cls) return;
+        levelsByClass[cls] = (levelsByClass[cls] || 0) + 1;
+      });
+      const out = [];
+      Object.entries(levelsByClass).forEach(([cls, cnt]) => {
+        for (let L = 1; L <= cnt; L++) {
+          const base = DND.classi.find(p => p.class === cls && p.level === L);
+          if (base) out.push(base);
         }
       });
-  
-      return pfTotali;
+      return out;
     }
-  
-    /**
-     * Calcola il bonus all'attacco per un'arma, applicando competenza e caratteristica corretta
-     * @param {string} [nomeArma]
-     * @returns {string} Formattato con segno, oppure '—' se non calcolabile
-     */
-    bonusAttacco(nomeArma =''){
-      const arma = oggetti.dati.find(d => String(nomeArma || '').toLowerCase().trim().includes(String(d.key || '').toLowerCase().trim()));
-      const puntiForza =this.character.punteggi.find(p => p.key === 'forza');  
-      const puntiDestrezza =this.character.punteggi.find(p => p.key === 'destrezza');
-      if(!arma || !puntiForza || !puntiDestrezza) return '—';
-  
-      // Ranged weapons use Dexterity; otherwise apply finesse logic
-      const isRanged = (arma.arma || '').includes('a distanza');
-      const hasFinesse = String(arma.proprietà || '').includes('accurata');
-      let abilitaBase = isRanged
-        ? puntiDestrezza.value
-        : (hasFinesse && puntiDestrezza.value > puntiForza.value
-            ? puntiDestrezza.value
-            : puntiForza.value);
-      const result =(_=>{ 
-        const modificatore =this.mod(abilitaBase) + this.BC();
-        return modificatore >=0 ? `+${modificatore}` : modificatore.toString();
-      })()
-      return result;
-    }
-  
-    /**
-     * Calcola il danno dell'arma aggiungendo il modificatore caratteristica, es. "d8+3 tagliente"
-     * @param {string} nomeArma
-     * @returns {string} Stringa danno oppure '—' se non calcolabile
-     */
-    bonusDanno(nomeArma){
-      const arma = oggetti.dati.find(d => String(nomeArma || '').toLowerCase().trim().includes(String(d.key || '').toLowerCase().trim()));
-      const puntiForza =this.character.punteggi.find(p => p.key === 'forza');  
-      const puntiDestrezza =this.character.punteggi.find(p => p.key === 'destrezza');
-      if(!arma || !puntiForza || !puntiDestrezza) return '—';
-  
-      // Ranged weapons use Dexterity; otherwise apply finesse logic
-      const isRanged = (arma.arma || '').includes('a distanza');
-      const hasFinesse = String(arma.proprietà || '').includes('accurata');
-      let abilitaBase = isRanged
-        ? puntiDestrezza.value
-        : (hasFinesse && puntiDestrezza.value > puntiForza.value
-            ? puntiDestrezza.value
-            : puntiForza.value);
-      let mod = this.mod(abilitaBase)
-      mod =mod>0  ?`+${mod}`  :mod==0 ?''  :mod;
-      
-      let [dadi, tipo] = arma.danno.split(' ');
-      if(dadi.startsWith('1')) dadi = dadi.slice(1);// se dadi comincia con 1, rimuovilo
-      return  dadi ? `${dadi}${mod} ${tipo}` : '—'; 
-    }
-  
-    // calcola il peso attuale (tenendo conto della quantità di ogni item)
-    /**
-     * Calcola il peso totale trasportato
-     * @returns {number} peso totale (kg)
-     */
-    pesoAttuale = _ => (this.character.equipaggiamento || []).reduce((acc, e) => {
-      const q = Number(e.qta) || 1;
-      return acc + q * oggetti.peso(e.value);
-    }, 0)
-    // calcola il peso massimo
-    /**
-     * Calcola il peso massimo trasportabile in base alla FOR
-     * @returns {number} peso massimo (kg) oppure 404 se dati non validi
-     */
-    pesoMassimo(){   
-      const forzaEntry = this.character.punteggi.find(p => p.key =='forza');
-      if(!forzaEntry) return 404;
-      const n = Number(forzaEntry.value);
-      if(Number.isNaN(n)) return 404;
-      const maxPeso = n * 7.5;
-      return maxPeso;
-    }
-  
-    //COLONNA DESTRA
-    /**
-     * Elemento privilegi mappati per render
-     * @typedef {Object} MappedPrivilegio
-     * @property {string} classe
-     * @property {string} sottoclasse
-     * @property {{privilege: string, description?: string, level: number}[]} privilegi
-     * @property {number} livello
-     */
-    
-    /**
-     * Mappa `this.character.privilegi` in oggetti con livello progressivo e privilegi risolti
-     * @returns {MappedPrivilegio[]}
-     */
-    privilegiMappati(){
-      const contatori = new Map();
-      const privilegi = this.character.privilegi.map(p => {
-        const [classe, ...rest] = p.split(' ');
-        const sottoclasse = rest.join(' ');
-        const count = (contatori.get(p) || 0) + 1; // livello: quante volte questa IDENTICA stringa è già comparsa (inclusa)
-        contatori.set(p, count);
-        const privilegi = Classi.getPrivilegi(classe, sottoclasse, count);
-        return { classe, sottoclasse, privilegi, livello: count};
+
+    const parts = String(voce || '').split(' ');
+    const classe = parts.shift() || '';
+    const sottoclasse = parts.join(' ') || '';
+    // normalizzazione case-insensitive
+    const classeKey = classe.trim().toLowerCase();
+    const sottoclasseKey = sottoclasse.trim().toLowerCase() || undefined;
+    // livello cumulativo: conta le occorrenze della classe fino a voceIndex (incluso)
+    const livelloCount = (characterPrivilegi || [])
+      .slice(0, Math.max(0, (voceIndex ?? 0) + 1))
+      .reduce((acc, v) => {
+        const first = String(v || '').split(' ')[0].trim().toLowerCase();
+        return acc + (first === classeKey ? 1 : 0);
+      }, 0);
+    const livello = livelloCount > 0 ? livelloCount : 1;
+
+    // Recupera l'elenco dei privilegi per livelli 1..livello,
+    // provando prima la sottoclasse tramite getPrivilegio; se assente o nullo,
+    // fallback al privilegio di classe base (DND.classi)
+    const lista = Array.from({ length: livello }, (_, k) => {
+        const L = k + 1;
+        const fromMethod = DND.getPrivilegio(classeKey, sottoclasseKey, L);
+        if (fromMethod) return fromMethod;
+        // se non c'è sottoclasse o non trovato, usa il base
+        return DND.classi.find(p => p.class === classeKey && p.level === L) || null;
       })
-      return privilegi;
-    }
+      .filter(Boolean);
+    if (!lista.length) return '';
+    return lista;
+  }
+
+  //!COLONNA CENTRALE
+  /**
+   * Iniziativa = modificatore di Destrezza, formattato con segno se positivo
+   * @returns {string|number}
+   */
+  iniziativa(){
+    const destrezza = this.character.punteggi.find(p => p.key === 'destrezza');
+    if (!destrezza) return 404;
+    const value =this.mod(destrezza.value);
+    return value>0?`+${value}`:value;
+  }
+
+  /**
+   * Ritorna l'array velocità per la razza del personaggio
+   * @returns {{key:string, value:number}[]|404}
+   */
+  velocita() {
+    const razzaPersonaggio = String(this.character.generali.find(g => g.key === 'razza')?.value || '').trim().toLowerCase();
+    if (!razzaPersonaggio) return [];
+    const lista = Array.isArray(DND.sottorazze) ? DND.sottorazze : [];
+    const razza = lista.find(r => {
+      const n = String(r?.nome || '').trim().toLowerCase();
+      if (!n) return false;
+      return n === razzaPersonaggio || n.includes(razzaPersonaggio) || razzaPersonaggio.includes(n);
+    });
+    if (!razza) return [];
+    return Array.isArray(razza.velocita) ? razza.velocita : [];
+  }
+
+  /**
+   * Dato il nome di una classe, restituisce il suo dado vita (X in dX).
+   * Se la classe non è riconosciuta, usa 6 come default (d6).
+   * @param {string} nomeClasse
+   * @returns {number}
+   */
+  dado_vita(nomeClasse) {
+    const dadiVita = {
+      'barbaro': 12,
+      'guerriero': 10,
+      'paladino': 10,
+      'ranger': 10,
+      'chierico': 8,
+      'druido': 8,
+      'monaco': 8,
+      'ladro': 8,
+      'bardo': 8,
+      'stregone': 6,
+      'mago': 6,
+    };
+    return dadiVita[nomeClasse.toLowerCase()] || 6; // Ritorna 6 come default
+  }
+  /**
+   * Restituisce i dadi vita combinati per il personaggio.
+   * Output: array di oggetti { livello: n, dado: X } per formattare "n dX".
+   * @returns {{livello:number, dado:number}[]}
+   */
+  dadi_vita() {
+    const privilegi = this.character.privilegi;
+    const result = this.classi(privilegi).map(c => ({
+      livello: c.livello,
+      dado: this.dado_vita(c.classe),
+    }));
+    return result.filter(r => r.dado !== 0 && r.livello !== 0);
+  }
+
+  /**
+   * Calcola i PF massimi in base ai dadi vita per livello e al modificatore di Costituzione
+   * @returns {number}
+   */
+  puntiFeritaMassimi() {
+    const costituzione = this.character.punteggi.find(p => p.key === 'costituzione').value;
+    const conMod = this.mod(costituzione);
+    let pfTotali = 0;
+
+    const a = this.character.privilegi;
+    a.forEach((nomeClasse, index) => {
+      const dadoVita = this.dado_vita(nomeClasse);
+
+      if (index === 0) {
+        // 1° livello: Massimo del dado vita + modificatore di Costituzione
+        pfTotali += dadoVita + conMod;
+      } else {
+        // Livelli successivi: Media del dado vita + modificatore di Costituzione
+        const mediaDadoVita = (dadoVita / 2) + 1;
+        pfTotali += mediaDadoVita + conMod;
+      }
+    });
+
+    return pfTotali;
+  }
+
+  /**
+   * Calcola il bonus all'attacco per un'arma, applicando competenza e caratteristica corretta
+   * @param {string} [nomeArma]
+   * @returns {string} Formattato con segno, oppure '—' se non calcolabile
+   */
+  bonusAttacco(nomeArma =''){
+    const arma = DND.oggetti.find(d => String(nomeArma || '').toLowerCase().trim().includes(String(d.key || '').toLowerCase().trim()));
+    const puntiForza =this.character.punteggi.find(p => p.key === 'forza');  
+    const puntiDestrezza =this.character.punteggi.find(p => p.key === 'destrezza');
+    if(!arma || !puntiForza || !puntiDestrezza) return '—';
+
+    // Ranged weapons use Dexterity; otherwise apply finesse logic
+    const isRanged = (arma.arma || '').includes('a distanza');
+    const hasFinesse = String(arma.proprietà || '').includes('accurata');
+    let abilitaBase = isRanged
+      ? puntiDestrezza.value
+      : (hasFinesse && puntiDestrezza.value > puntiForza.value
+          ? puntiDestrezza.value
+          : puntiForza.value);
+    const result =(_=>{ 
+      const modificatore =this.mod(abilitaBase) + this.BC();
+      return modificatore >=0 ? `+${modificatore}` : modificatore.toString();
+    })()
+    return result;
+  }
+
+  /**
+   * Calcola il danno dell'arma aggiungendo il modificatore caratteristica, es. "d8+3 tagliente"
+   * @param {string} nomeArma
+   * @returns {string} Stringa danno oppure '—' se non calcolabile
+   */
+  bonusDanno(nomeArma){
+    const arma = DND.oggetti.find(d => String(nomeArma || '').toLowerCase().trim().includes(String(d.key || '').toLowerCase().trim()));
+    const puntiForza =this.character.punteggi.find(p => p.key === 'forza');  
+    const puntiDestrezza =this.character.punteggi.find(p => p.key === 'destrezza');
+    if(!arma || !puntiForza || !puntiDestrezza) return '—';
+
+    // Ranged weapons use Dexterity; otherwise apply finesse logic
+    const isRanged = (arma.arma || '').includes('a distanza');
+    const hasFinesse = String(arma.proprietà || '').includes('accurata');
+    let abilitaBase = isRanged
+      ? puntiDestrezza.value
+      : (hasFinesse && puntiDestrezza.value > puntiForza.value
+          ? puntiDestrezza.value
+          : puntiForza.value);
+    let mod = this.mod(abilitaBase)
+    mod =mod>0  ?`+${mod}`  :mod==0 ?''  :mod;
     
-    /**
-     * Gestisce le modifiche degli input del form (binding by name path)
-     * @param {Event & { target: HTMLInputElement }} event
-     * @returns {void}
-     */
-    handleChange(event){
-      const { name, value, type, checked } = event.target;
-      const keys = name.split('.');
+    let [dadi, tipo] = arma.danno.split(' ');
+    if(dadi.startsWith('1')) dadi = dadi.slice(1);// se dadi comincia con 1, rimuovilo
+    return  dadi ? `${dadi}${mod} ${tipo}` : '—'; 
+  }
+
+  // calcola il peso attuale (tenendo conto della quantità di ogni item)
+  /**
+   * Calcola il peso totale trasportato
+   * @returns {number} peso totale (kg)
+   */
   
-      let current = this.character;
-      for (let i = 0; i < keys.length - 1; i++) {
-        if (!current[keys[i]]) {
-          current[keys[i]] = isNaN(keys[i+1]) ? {} : [];
-        }
-        current = current[keys[i]];
+  // calcola il peso attuale e massimo
+  trasporto(){
+    // peso attuale
+    const att =this.character.equipaggiamento
+      .reduce((acc, e) => {
+        const q = Number(e.qta) || 1;
+        return acc + q * DND.peso(e.value);
+      }, 0)
+    // massimo peso trasportabile
+    const max =this.character.punteggi
+      .find(p => p.key =='forza').value *7.5 ||0;
+    return att +' / '+ max
+  }
+
+  //COLONNA DESTRA
+  /**
+   * Mappa `this.character.privilegi` in oggetti con livello progressivo e privilegi risolti
+   * @returns {{name:string, privileges:PrivilegioItem[], level:number, srcIndex?:number}[]}
+   */
+  privilegiMappati(){
+    const result =[{ name: '', privileges: [{ privilege: '', description: '', level: 0 }], level: 0, srcIndex: 0 }].filter(r => r.name);
+
+    // 1) Privilegi di Razza (pattern richiesto)
+    try {
+      const characterRace = (this.character.generali || []).find(g => g.key === 'razza')?.value;
+      const allRaces = (_=> DND.sottorazze)();
+      const match = allRaces?.find(race => race.nome.toLowerCase().includes(characterRace?.toLowerCase()));
+      if (!characterRace || !allRaces || !match?.privilegi?.length) {
+        // no push
+      } else {
+        result.push({
+          name: 'Razza',
+          privileges: match.privilegi.map(p => ({ privilege: p.name, description: p.description })),
+          level: 0,
+        });
       }
-  
-      // Se l'utente svuota un attacco o la descrizione di un equipaggiamento, ripristina il valore precedente
-      const lastKey = keys[keys.length - 1];
-      const prevBefore = current[lastKey];
-      const isAttack = keys[0] === 'attacchi';
-      const isEquipValue = keys[0] === 'equipaggiamento' && lastKey === 'value';
-      const typedText = (typeof value === 'string') ? value.trim() : value;
-      if ((isAttack || isEquipValue) && (typedText === '' || typedText === undefined || typedText === null)) {
-        try { event.target.value = (prevBefore ?? ''); } catch {}
-        return; // non aggiornare lo stato se vuoto
+    } catch {}
+
+    // 2) Privilegi di Background (stesso pattern)
+    try {
+      const characterBackground = (this.character.generali || []).find(g => g.key === 'background')?.value;
+      const match = (DND.background || []).find(x => String(x.name || '').toLowerCase().includes(String(characterBackground || '').toLowerCase()));
+      if (!characterBackground || !match?.privilegi?.length) {
+        // no push
+      } else {
+        result.push({
+          name: 'Background',
+          privileges: match.privilegi.map(p => ({ privilege: p.name, description: p.description })),
+          level: 0,
+        });
       }
-  
-      // Normalizzazione e coercizione numerica robusta (gestisce anche virgola come separatore decimale)
-      const coerceNumber = (v) => {
-        if (typeof v !== 'string') return v;
-        const s = v.trim().replace(',', '.');
-        if (s === '') return v;
-        const n = Number(s);
-        return Number.isFinite(n) ? n : v;
+    } catch {}
+
+    // 3) Privilegi di Classe
+    const contatori = new Map();
+    const classEntries = (this.character.privilegi || []).map((p, srcIndex) => {
+      const raw = String(p || '');
+      const rawLower = raw.toLowerCase();
+      const [classe, ...rest] = raw.split(' ');
+      const sottoclasse = rest.join(' ');
+      const classeKey = String(classe || '').toLowerCase();
+      const sottoclasseKey = String(sottoclasse || '').toLowerCase();
+      const count = (contatori.get(rawLower) || 0) + 1; // case-insensitive counter
+      contatori.set(rawLower, count);
+      const privileges = DND.getPrivilegi(classeKey, sottoclasseKey, count);
+      const name = [classe, sottoclasse].filter(Boolean).join(' ');
+      return { name, privileges, level: count, srcIndex };
+    });
+
+    return result.concat(classEntries);
+  }
+
+  // Stato di apertura delle sezioni (<details>)
+  details = [true, true, true, true, true, true, true];
+
+  // Applica lo stato dei <details> e gestisce il comportamento responsive
+  applyDetails(){
+    const wide = window.innerWidth > 500;
+    const nodes = Array.from(document.querySelectorAll('section > details'));
+    if (!nodes.length) return;
+    // Allinea la lunghezza dell'array stato se necessario
+    if (!Array.isArray(this.details) || this.details.length !== nodes.length) {
+      this.details = nodes.map(() => true);
+    }
+    nodes.forEach((el, i) => {
+      // Imposta apertura in base alla larghezza schermo
+      el.open = wide ? true : !!this.details[i];
+      // Rimuovi eventuale handler precedente e riaggancia
+      if (el._appHandler) el.removeEventListener('toggle', el._appHandler);
+      const handler = () => {
+        // Aggiorna lo stato solo su schermi piccoli; su larghe resta sempre aperto
+        if (!wide) this.details[i] = el.open;
       };
+      el._appHandler = handler;
+      el.addEventListener('toggle', handler);
+    });
+  }
   
-      let finalValue = value;
-      if (type === 'checkbox') {
-        finalValue = checked;
-      } else if (type === 'number') {
-        const s = String(value).trim().replace(',', '.');
-        const n = Number(s);
-        finalValue = Number.isFinite(n) ? n : 0;
-      } else if (typeof value === 'string') {
-        finalValue = coerceNumber(value);
+  /**
+   * Gestisce le modifiche degli input del form (binding by name path)
+   * @param {Event & { target: HTMLInputElement }} event
+   * @returns {void}
+   */
+  handleChange(event){
+    const { name, value, type, checked } = event.target;
+    // Supporta path con punti e il nuovo pattern generali_#_value
+    const m = /^generali_(\d+)_value$/.exec(name);
+    const keys = m ? ['generali', m[1], 'value'] : name.split('.');
+
+    let current = this.character;
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (!current[keys[i]]) {
+        current[keys[i]] = isNaN(keys[i+1]) ? {} : [];
       }
-  
-      // Regole speciali per privilegi: unicità sottoclasse per classe e rimozione su vuoto
-      if (keys[0] === 'privilegi') {
-        const idx = Number(keys[1]);
-        const list = Array.isArray(this.character.privilegi) ? this.character.privilegi : (this.character.privilegi = []);
-        const text = String(finalValue ?? '').trim();
-        const inputEl = event.target;
-        const prevValue = (!Number.isNaN(idx) && idx >= 0 && idx < list.length) ? (list[idx] || '') : '';
-        // Se vuoto: elimina l'item e aggiorna
-        if (!text) {
-          if (!Number.isNaN(idx)) {
-            list.splice(idx, 1);
-            this.local.set();
-            this.render();
-            return;
-          }
-        } else {
-          // Estrai la classe (prima parola) e applica regola:
-          // - Se esiste già UNA classe uguale con SOTTOCLASSE diversa -> ANNULLA
-          // - Se esiste già la stessa coppia classe+sottoclasse -> CONSENTI
-          const cls = text.split(' ')[0]?.toLowerCase();
-          if (cls) {
-            const dupIndex = list.findIndex((it, i) => i !== idx && (it || '').toString().trim().toLowerCase().startsWith(cls + ' '));
-            if (dupIndex >= 0) {
-              const existing = (list[dupIndex] || '').toString().trim().toLowerCase();
-              const want = text.toLowerCase();
-              if (existing !== want) {
-                // stessa classe ma sottoclasse diversa: annulla e ripristina il valore precedente
-                if (inputEl) inputEl.value = prevValue;
-                return;
-              }
-              // stessa classe e stessa sottoclasse: permetti
+      current = current[keys[i]];
+    }
+
+    // Se l'utente svuota un attacco o la descrizione di un equipaggiamento, ripristina il valore precedente
+    const lastKey = keys[keys.length - 1];
+    const prevBefore = current[lastKey];
+    const isAttack = keys[0] === 'attacchi';
+    const isEquipValue = keys[0] === 'equipaggiamento' && lastKey === 'value';
+    const typedText = (typeof value === 'string') ? value.trim() : value;
+    if ((isAttack || isEquipValue) && (typedText === '' || typedText === undefined || typedText === null)) {
+      try { event.target.value = (prevBefore ?? ''); } catch {}
+      return; // non aggiornare lo stato se vuoto
+    }
+
+    // Normalizzazione e coercizione numerica robusta (gestisce anche virgola come separatore decimale)
+    const coerceNumber = (v) => {
+      if (typeof v !== 'string') return v;
+      const s = v.trim().replace(',', '.');
+      if (s === '') return v;
+      const n = Number(s);
+      return Number.isFinite(n) ? n : v;
+    };
+
+    let finalValue = value;
+    if (type === 'checkbox') {
+      finalValue = checked;
+    } else if (type === 'number') {
+      const s = String(value).trim().replace(',', '.');
+      const n = Number(s);
+      finalValue = Number.isFinite(n) ? n : 0;
+    } else if (typeof value === 'string') {
+      finalValue = coerceNumber(value);
+    }
+
+    // Regole speciali per privilegi: unicità sottoclasse per classe e rimozione su vuoto
+    if (keys[0] === 'privilegi') {
+      const idx = Number(keys[1]);
+      const list = Array.isArray(this.character.privilegi) ? this.character.privilegi : (this.character.privilegi = []);
+      const text = String(finalValue ?? '').trim();
+      const inputEl = event.target;
+      const prevValue = (!Number.isNaN(idx) && idx >= 0 && idx < list.length) ? (list[idx] || '') : '';
+      // Se vuoto: elimina l'item e aggiorna
+      if (!text) {
+        if (!Number.isNaN(idx)) {
+          list.splice(idx, 1);
+          this.local.set();
+          this.render();
+          this.toast('Modificato');
+          return;
+        }
+      } else {
+        // Estrai la classe (prima parola) e applica regola:
+        // - Se esiste già UNA classe uguale con SOTTOCLASSE diversa -> ANNULLA
+        // - Se esiste già la stessa coppia classe+sottoclasse -> CONSENTI
+        const cls = text.split(' ')[0]?.toLowerCase();
+        if (cls) {
+          const dupIndex = list.findIndex((it, i) => i !== idx && (it || '').toString().trim().toLowerCase().startsWith(cls + ' '));
+          if (dupIndex >= 0) {
+            const existing = (list[dupIndex] || '').toString().trim().toLowerCase();
+            const want = text.toLowerCase();
+            if (existing !== want) {
+              // stessa classe ma sottoclasse diversa: annulla e ripristina il valore precedente
+              if (inputEl) inputEl.value = prevValue;
+              return;
             }
-          }
-          // Imposta il valore (se idx non è valido, aggiungi in coda)
-          if (!Number.isNaN(idx) && idx >= 0 && idx < list.length) {
-            list[idx] = text;
-          } else {
-            list.push(text);
+            // stessa classe e stessa sottoclasse: permetti
           }
         }
-        this.local.set();
-        this.render();
-        return;
+        // Imposta il valore (se idx non è valido, aggiungi in coda)
+        if (!Number.isNaN(idx) && idx >= 0 && idx < list.length) {
+          list[idx] = text;
+        } else {
+          list.push(text);
+        }
       }
-  
-      current[keys[keys.length - 1]] = finalValue;
-  
       this.local.set();
       this.render();
+      this.toast('Modificato');
+      return;
     }
-  
-    render() {
-      const c = this.character;
-      const sagg_passiva = () => {
-        const sagg = c.punteggi.find(p => p.key === 'saggezza').value;
-        return 10 + this.mod(sagg);
-      };
-      
-      document.title = `Scheda di ${c.nome_personaggio}`;
-      document.body.innerHTML = `
-        <article>
-          <header>
+
+    current[keys[keys.length - 1]] = finalValue;
+
+    this.local.set();
+    this.render();
+    this.toast('Modificato');
+  }
+
+  toast(message) {
+    const toast = document.getElementById('toast');
+    if (toast) {
+      toast.textContent = message;
+      toast.classList.remove('hide');
+      setTimeout(() => {
+        toast.classList.add('hide');
+      }, 2000);
+    }
+  }
+
+  render() {
+    const c = this.character;
+    const sagg_passiva = () => {
+      const sagg = c.punteggi.find(p => p.key === 'saggezza').value;
+      return 10 + this.mod(sagg);
+    };
+    
+    document.title = `Scheda di ${c.nome_personaggio}`;
+    document.body.innerHTML = `
+      <article>
+        <header>
+          <div class="score">
+            <input value="${c.nome_personaggio}" onchange="app.handleChange(event)" name="nome_personaggio" id="nome_personaggio" type="text">
+            <label for="nome_personaggio">Nome Personaggio</label>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 5px;">
             <div class="score">
-              <input value="${c.nome_personaggio}" onchange="app.handleChange(event)" name="nome_personaggio" id="nome_personaggio" type="text">
-              <label for="nome_personaggio">Nome Personaggio</label>
+              <div class="input">${this.classi(c.privilegi).map(c=>`${c.classe} ${c.livello}`).join(', ') ||'-'}</div>
+              <label for="classe">Classe</label>
             </div>
-  
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 5px;">
+            <div class="score">
+              <div class="input">${this.L(c.privilegi) || '-'}</div>
+              <label for="livello">Livello</label>
+            </div>
+            ${c.generali.map((g, i) => g.key ==='allineamento' ?`
               <div class="score">
-                <div class="input">${this.classi(c.privilegi).map(c=>`${c.classe} ${c.livello}`).join(', ')}</div>
-                <label for="classe">Classe</label>
+                <select onchange="app.handleChange(event)" name="generali_${i}_value" id="${g.key}">
+                  ${['Caotico buono','Caotico neutrale','Caotico malvagio','Neutrale buono','Neutrale','Neutrale malvagio','Legale buono','Legale neutrale','Legale malvagio'].map(a=>`
+                    <option ${g.value===a?'selected':''} value="${a}">${a}</option>
+                  `).join('')}
+                </select>
+                <label for="${g.key}">${g.key.replace(/_/g, ' ')}</label>
               </div>
+
+            `:g.key === 'background'?`
               <div class="score">
-                <div class="input">${this.L(c.privilegi)}</div>
-                <label for="livello">Livello</label>
+                <select onchange="app.handleChange(event)" name="generali_${i}_value" id="${g.key}">
+                  ${DND.background.map(b=>{ const a=b.name; const L=a.charAt(0).toUpperCase()+a.slice(1); return `<option ${((g.value||'').toLowerCase()===a.toLowerCase())?'selected':''} value="${L}">${L}</option>`; }).join('')}
+                </select>
+                <label for="${g.key}">${g.key.replace(/_/g, ' ')}</label>
               </div>
-              ${c.generali.map((g, i) => g.key ==='allineamento' ?`
-                <div class="score">
-                  <select onchange="app.handleChange(event)" name="generali.${i}.value" id="${g.key}">
-                    ${['Caotico buono','Caotico neutrale','Caotico malvagio','Neutrale buono','Neutrale','Neutrale malvagio','Legale buono','Legale neutrale','Legale malvagio'].map(a=>`
-                      <option ${g.value===a?'selected':''} value="${a}">${a}</option>
+
+            `:g.key === 'razza'?`
+              <div class="score">
+                <input
+                  value="${g.value}"
+                  onchange="app.handleChange(event)"
+                  name="generali_${i}_value"
+                  id="${g.key}"
+                  type="search"
+                >
+                <ul autocomplete="generali_${i}_value">
+                  ${DND.sottorazze.map(r=>`
+                    <li>${r.nome.charAt(0).toUpperCase()+r.nome.slice(1)}</li>
+                  `).join('')}
+                </ul>
+                <label for="${g.key}">${g.key.replace(/_/g, ' ')}</label>
+              </div>
+            
+            `/*DEFAULT*/:`
+              <div class="score">
+                <input value="${g.value}" onchange="app.handleChange(event)" name="generali_${i}_value" id="${g.key}" type="${g.key==='ispirazione' ? 'number' : g.type}" ${g.key==='ispirazione' ? 'inputmode=\"numeric\" step=\"1\" min=\"0\"' : ''}>
+                <label for="${g.key}">${g.key.replace(/_/g, ' ')}</label>
+              </div>
+            `).join('')}
+          </div>
+        </header>
+
+        <!--SINISTRA-->
+        <section>
+          <details open>
+            <summary>Punteggi</summary>
+            <main style="display: flex; flex-direction: column; gap: 10px;">
+              <div class="mono">
+                <label for="ispirazione">Ispirazione:</label> 
+                <input value="${c.ispirazione}" onchange="app.handleChange(event)" 
+                       name="ispirazione" id="ispirazione" type="number" inputmode="numeric" step="1" min="0">
+              </div>
+              <div class="mono">
+                <label>Bonus Competenza:</label> 
+                <b>+${this.BC()}</b>
+              </div>
+              ${c.punteggi.map((p, i) => `
+                <div style="display:grid; grid-template-columns: auto 1fr;">
+                  <div class="punteggi">
+                    <label for="${p.key}">${p.key}</label> 
+                    <label for="${p.key}">${this.mod(p.value)>0?`+${this.mod(p.value)}`: this.mod(p.value)}</label>
+                    <input value="${p.value}" onchange="app.handleChange(event)" name="punteggi.${i}.value" id="${p.key}" type="text" max="25">
+                  </div>
+                  <ul>
+                    ${p.abilities.map((a, j) => `
+                      <li style="display: grid; grid-template-columns: auto 1fr; align-items: center;">
+                        <div>
+                          <input ${a.value ? 'checked' : ''} type="checkbox" id="${p.key}_${a.key}" name="punteggi.${i}.abilities.${j}.value" onchange="app.handleChange(event)"> 
+                          <b style="padding-right: 5px;">${this.abilityMod(p.value, a.value)}</b>
+                        </div>
+                        <label for="${p.key}_${a.key}">${a.key}</label>
+                      </li>
                     `).join('')}
-                  </select>
-                  <label for="${g.key}">${g.key.replace(/_/g, ' ')}</label>
-                </div>
-              `/*DEFAULT*/:`
-                <div class="score">
-                  <input value="${g.value}" onchange="app.handleChange(event)" name="generali.${i}.value" id="${g.key}" type="${g.key==='ispirazione' ? 'number' : g.type}" ${g.key==='ispirazione' ? 'inputmode="numeric" step="1" min="0"' : ''}>
-                  <label for="${g.key}">${g.key.replace(/_/g, ' ')}</label>
+                  </ul>
                 </div>
               `).join('')}
-            </div>
-          </header>
-  
-          <!--SINISTRA-->
-          <section>
-            <details open>
-              <summary>Punteggi</summary>
-              <main style="display: flex; flex-direction: column; gap: 10px;">
-                <div class="mono">
-                  <label for="ispirazione">Ispirazione:</label> 
-                  <input value="${c.ispirazione}" onchange="app.handleChange(event)" 
-                         name="ispirazione" id="ispirazione" type="number" inputmode="numeric" step="1" min="0">
+              <div class="mono"><i>Saggezza Passiva (Percezione):</i> <b>${sagg_passiva()}</b></div>
+            </main>
+          </details>
+
+          <details open>
+            <summary>Competenze e Linguaggi</summary>
+            <main>
+              <div style="display:grid; grid-template-columns: auto 1fr; gap: 5px;">
+                ${c.competenze.map((c, i) => `
+                  <label for="${c.key}">${c.key}:</label>
+                  <textarea onchange="app.handleChange(event)" name="competenze.${i}.value" id="${c.key}">${c.value}</textarea>
+                `).join('')}
+              </div>
+            </main>
+          </details>
+        </section>
+
+        <!--CENTRO-->
+        <section>
+          <details open>
+            <summary>Combattimento</summary>
+            <main>
+              <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px">
+                <div class="score">
+                  <label for="ca">Classe armatura</label>
+                  <input value="${this.character.classe_armatura}" onchange="app.handleChange(event)" name="ca" id="ca" type="number">
                 </div>
-                <div class="mono">
-                  <label>Bonus Competenza:</label> 
-                  <b>+${this.BC()}</b>
+                <div class="score">
+                  <label>Iniziativa</label>
+                  <div class="input">${this.iniziativa()}</div>
                 </div>
-                ${c.punteggi.map((p, i) => `
-                  <div style="display:grid; grid-template-columns: auto 1fr;">
-                    <div class="punteggi">
-                      <label for="${p.key}">${p.key}</label> 
-                      <label for="${p.key}">${this.mod(p.value)>0?`+${this.mod(p.value)}`: this.mod(p.value)}</label>
-                      <input value="${p.value}" onchange="app.handleChange(event)" name="punteggi.${i}.value" id="${p.key}" type="text" max="25">
-                    </div>
-                    <ul>
-                      ${p.abilities.map((a, j) => `
-                        <li style="display: grid; grid-template-columns: auto 1fr; align-items: center;">
-                          <div>
-                            <input ${a.value ? 'checked' : ''} type="checkbox" id="${p.key}_${a.key}" name="punteggi.${i}.abilities.${j}.value" onchange="app.handleChange(event)"> 
-                            <b style="padding-right: 5px;">${this.abilityMod(p.value, a.value)}</b>
-                          </div>
-                          <label for="${p.key}_${a.key}">${a.key}</label>
-                        </li>
+                <div class="score">
+                  <label>Velocità</label>
+                  ${this.velocita() .filter(v=>v.value) .map(v=>`
+                    <span>${v.key.replace(/\b\w/g, l => l.toUpperCase())}: <b>${v.value}m</b></span>
+                  `).join('')}
+                </div>
+              </div>
+
+              <label>Punti Ferita</label>
+              <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;">
+                <div class="score">
+                  <label for="pfm">Massimi</label>
+                  <div class="input">${this.puntiFeritaMassimi()}</div>
+                </div>
+                <div class="score">
+                  <label for="pfa">Attuali</label>
+                  <input value="${c.punti_ferita_attuali}" onchange="app.handleChange(event)" name="punti_ferita_attuali" id="pfa" type="number">
+                </div>
+                <div class="score">
+                  <label for="pft">Temporanei</label>
+                  <input value="${c.punti_ferita_temporanei}" onchange="app.handleChange(event)" name="punti_ferita_temporanei" id="pft" type="number">
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; justify-items: center; gap: 5px;">
+                <div class="score">
+                  <label>Dadi Vita</label>
+                  <div class="input">${this.dadi_vita().map(dv=>`${dv.livello}d${dv.dado}`).join(', ') ||'-'}</div>
+                </div>
+                <div class="score">
+                  <label>Tiri Salvezza</label>
+                  <div style="display:grid; grid-template-columns: 1fr auto auto auto;">
+                    <label>Successi</label>
+                    <input type="checkbox" ${c.ts_successi > 0 ? 'checked' : ''} onclick="app.setDeathSave('ts_successi', 1, this.checked)">
+                    <input type="checkbox" ${c.ts_successi > 1 ? 'checked' : ''} onclick="app.setDeathSave('ts_successi', 2, this.checked)">
+                    <input type="checkbox" ${c.ts_successi > 2 ? 'checked' : ''} onclick="app.setDeathSave('ts_successi', 3, this.checked)">
+                    <label>Falliti</label>
+                    <input type="checkbox" ${c.ts_falliti > 0 ? 'checked' : ''} onclick="app.setDeathSave('ts_falliti', 1, this.checked)">
+                    <input type="checkbox" ${c.ts_falliti > 1 ? 'checked' : ''} onclick="app.setDeathSave('ts_falliti', 2, this.checked)">
+                    <input type="checkbox" ${c.ts_falliti > 2 ? 'checked' : ''} onclick="app.setDeathSave('ts_falliti', 3, this.checked)">
+                  </div>
+                </div>
+              </div>
+            </main>
+          </details>
+
+          <details open>
+            <summary>Attacchi e Incantesimi</summary>
+            <main>
+              <form onsubmit="app.addToList('attacchi', this)" class="row">
+                <button type="submit" class="add" aria-label="Aggiungi attacco"><span class="material-symbols-outlined">add</span></button>
+                <input name="attacchi" id="attacchi" type="search" placeholder="Aggiungi attacco" class="add">
+                <ul autocomplete="attacchi">
+                  ${DND.oggetti.filter(d=>d.arma).map(arma=>`
+                    <li>${arma.key.charAt(0).toUpperCase()+arma.key.slice(1)}</li>
+                  `).join('')}
+                </ul>
+              </form>
+              <div style="display:grid; grid-template-columns: auto 100px auto 1fr; align-items: center; gap: 5px; text-align: center;">
+                <i></i><b>Nome</b> <b>Attacco</b> <b>Danno</b>
+                ${c.attacchi.map((attacco, i) => `
+                  <button class="delete" onclick="app.deleteFromList('attacchi', ${i})"><span class="material-symbols-outlined">close</span></button>
+                  <div style="position: relative; display: inline-block;">
+                    <input value="${attacco}" type="search" id="attacchi.${i}" name="attacchi.${i}" onchange="app.handleChange(event)">
+                    <ul autocomplete="attacchi.${i}">
+                      ${DND.oggetti.filter(d=>d.arma).map(arma=>`
+                        <li>${arma.key.charAt(0).toUpperCase()+arma.key.slice(1)}</li>
                       `).join('')}
                     </ul>
                   </div>
+                  <label for="${attacco}">${this.bonusAttacco(attacco)}</label>
+                  <label for="${attacco}">${this.bonusDanno(attacco)}</label>
                 `).join('')}
-                <div class="mono"><i>Saggezza Passiva (Percezione):</i> <b>${sagg_passiva()}</b></div>
-              </main>
-            </details>
-  
-            <details open>
-              <summary>Competenze e Linguaggi</summary>
-              <main>
-                <div style="display:grid; grid-template-columns: auto 1fr; gap: 5px;">
-                  ${c.competenze.map((c, i) => `
-                    <label for="${c.key}">${c.key}:</label>
-                    <textarea onchange="app.handleChange(event)" name="competenze.${i}.value" id="${c.key}">${c.value}</textarea>
-                  `).join('')}
-                </div>
-              </main>
-            </details>
-          </section>
-  
-          <!--CENTRO-->
-          <section>
-            <details open>
-              <summary>Combattimento</summary>
-              <main>
-                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px">
-                  <div class="score">
-                    <label for="ca">Classe armatura</label>
-                    <input value="${this.character.classe_armatura}" onchange="app.handleChange(event)" name="ca" id="ca" type="number">
-                  </div>
-                  <div class="score">
-                    <label>Iniziativa</label>
-                    <div class="input">${this.iniziativa()}</div>
-                  </div>
-                  <div class="score">
-                    <label>Velocità</label>
-                    ${this.velocita() .filter(v=>v.value) .map(v=>`
-                      <span>${v.key.replace(/\b\w/g, l => l.toUpperCase())}: <b>${v.value}m</b></span>
-                    `).join('')}
-                  </div>
-                </div>
-  
-                <label>Punti Ferita</label>
-                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;">
-                  <div class="score">
-                    <label for="pfm">Massimi</label>
-                    <div class="input">${this.puntiFeritaMassimi()}</div>
-                  </div>
-                  <div class="score">
-                    <label for="pfa">Attuali</label>
-                    <input value="${c.punti_ferita_attuali}" onchange="app.handleChange(event)" name="punti_ferita_attuali" id="pfa" type="number">
-                  </div>
-                  <div class="score">
-                    <label for="pft">Temporanei</label>
-                    <input value="${c.punti_ferita_temporanei}" onchange="app.handleChange(event)" name="punti_ferita_temporanei" id="pft" type="number">
-                  </div>
-                </div>
-  
-                <div style="display:grid; grid-template-columns: 1fr 1fr; justify-items: center; gap: 5px;">
-                  <div class="score">
-                    <label>Dadi Vita</label>
-                    <div class="input">${this.dadi_vita().map(dv=>`${dv.livello}d${dv.dado}`).join(', ')}</div>
-                  </div>
-                  <div class="score">
-                    <label>Tiri Salvezza</label>
-                    <div style="display:grid; grid-template-columns: 1fr auto auto auto;">
-                      <label>Successi</label>
-                      <input type="checkbox" ${c.ts_successi > 0 ? 'checked' : ''} onclick="app.setDeathSave('ts_successi', 1, this.checked)">
-                      <input type="checkbox" ${c.ts_successi > 1 ? 'checked' : ''} onclick="app.setDeathSave('ts_successi', 2, this.checked)">
-                      <input type="checkbox" ${c.ts_successi > 2 ? 'checked' : ''} onclick="app.setDeathSave('ts_successi', 3, this.checked)">
-                      <label>Falliti</label>
-                      <input type="checkbox" ${c.ts_falliti > 0 ? 'checked' : ''} onclick="app.setDeathSave('ts_falliti', 1, this.checked)">
-                      <input type="checkbox" ${c.ts_falliti > 1 ? 'checked' : ''} onclick="app.setDeathSave('ts_falliti', 2, this.checked)">
-                      <input type="checkbox" ${c.ts_falliti > 2 ? 'checked' : ''} onclick="app.setDeathSave('ts_falliti', 3, this.checked)">
-                    </div>
-                  </div>
-                </div>
-              </main>
-            </details>
-  
-            <details open>
-              <summary>Attacchi e Incantesimi</summary>
-              <main>
-                <form onsubmit="app.addToList('attacchi', this)" class="row">
-                  <button type="submit" class="add" aria-label="Aggiungi attacco"><span class="material-symbols-outlined">add</span></button>
-                  <input name="attacchi" id="attacchi" type="search" placeholder="Aggiungi attacco" class="add">
-                  <ul id="attacchiList" name="attacchi" autocomplete>
-                    ${oggetti.getArmiKeys().map(nome=>`
-                      <li>${nome}</li>
+              </div>
+            </main>
+          </details>
+
+          <details open>
+            <summary>Equipaggiamento — ${this.trasporto()}kg</summary>
+            <main>
+              <form style="display:grid; grid-template-columns: auto 40px 1fr; align-items: center; gap: 5px"
+                    onsubmit="app.addToList('equipaggiamento', this, event)">
+                <button type="submit" class="add"><span class="material-symbols-outlined">add</span></button>
+                <input type="number" placeholder="Quantità">
+                <div style="position: relative; display: inline-block;">
+                  <input type="search" placeholder="Aggiungi equipaggiamento" id="add_equip" name="equipaggiamento.add">
+                  <ul autocomplete="equipaggiamento.add">
+                    ${(DND.oggetti || []).map(o=>`
+                      <li>${o.key.charAt(0).toUpperCase()+o.key.slice(1)}</li>
                     `).join('')}
                   </ul>
-                </form>
-                <div style="display:grid; grid-template-columns: auto 100px auto 1fr; align-items: center; gap: 5px; text-align: center;">
-                <i></i><b>Nome</b> <b>Attacco</b> <b>Danno</b>
-                ${c.attacchi.map((a, i) => `
-                  <button class="delete" onclick="app.deleteFromList('attacchi', ${i})"><span class="material-symbols-outlined">close</span></button>
-                  <div style="position: relative; display: inline-block;">
-                    <input value="${a}" type="search" id="attacchi.${i}" name="attacchi.${i}" onchange="app.handleChange(event)">
-                    <ul id="attacchi.${i}List" name="attacchi.${i}" autocomplete>\n${oggetti.getArmiKeys().map(nome=>`                    <li>${nome}</li>`).join('\n')}\n                  </ul>
-                  </div>
-                  <label for="${a}">${this.bonusAttacco(a)}</label>
-                  <label for="${a}">${this.bonusDanno(a)}</label>
-                `).join('')}
                 </div>
-              </main>
-            </details>
-  
-            <details open>
-              <summary>Equipaggiamento — ${this.pesoAttuale()} / ${this.pesoMassimo()}kg</summary>
-              <main>
-                <form style="display:grid; grid-template-columns: auto 40px 1fr; align-items: center; gap: 5px"
-                      onsubmit="app.addToList('equipaggiamento', this, event)">
-                  <button type="submit" class="add"><span class="material-symbols-outlined">add</span></button>
-                  <input type="number" placeholder="Quantità">
-                  <div style="position: relative; display: inline-block;">
-                    <input type="search" placeholder="Aggiungi equipaggiamento" id="add_equip" name="equipaggiamento.add">
-                    <ul id="equipaggiamento.addList" name="equipaggiamento.add" autocomplete>
-                      ${(oggetti.dati || []).map(o=>`<li>${o.key}</li>`).join('')}
-                    </ul>
-                  </div>
-                </form>
-                <div style="display:grid; grid-template-columns: auto 40px 1fr auto; align-items: center; gap: 5px">
-                ${c.equipaggiamento.map((e, i) => `
-                  <button class="delete" onclick="app.deleteFromList('equipaggiamento', ${i})"><span class="material-symbols-outlined">close</span></button>
-                  <input value="${e.qta || 1}" onchange="app.handleChange(event)" name="equipaggiamento.${i}.qta" id="equipaggiamento.${i}.qta" type="number">
-                  <div style="position: relative; display: inline-block;"> 
-                    <input value="${e.value || ''}" onchange="app.handleChange(event)" name="equipaggiamento.${i}.value" id="equipaggiamento.${i}.value" type="search" placeholder="Nome oggetto">
-                    <ul id="equipaggiamento.${i}.valueList" name="equipaggiamento.${i}.value" autocomplete>\n${(oggetti.dati || []).map(o=>`                    <li>${o.key}</li>`).join('\n')}\n                  </ul>
-                  </div>
-                  <label for="${e.value}">${(Number(e.qta)||1) * oggetti.peso(e.value)}kg</label>
-                `).join('')}
+              </form>
+              <div style="display:grid; grid-template-columns: auto 40px 1fr auto; align-items: center; gap: 5px">
+              ${c.equipaggiamento.map((e, i) => `
+                <button class="delete" onclick="app.deleteFromList('equipaggiamento', ${i})"><span class="material-symbols-outlined">close</span></button>
+                <input value="${e.qta || 1}" onchange="app.handleChange(event)" name="equipaggiamento.${i}.qta" id="equipaggiamento.${i}.qta" type="number">
+                <div style="position: relative; display: inline-block;"> 
+                  <input value="${e.value || ''}" onchange="app.handleChange(event)" name="equipaggiamento.${i}.value" id="equipaggiamento.${i}.value" type="search" placeholder="Nome oggetto">
+                  <ul autocomplete="equipaggiamento.${i}.value">
+                    ${(DND.oggetti || []).map(o=>`
+                      <li>${o.key.charAt(0).toUpperCase()+o.key.slice(1)}</li>
+                    `).join('')}
+                  </ul>
                 </div>
-              </main>
-            </details>
-          </section>
-  
-          <!--DESTRA-->
-          <section>
-            <details open>
-              <summary>Personalità</summary>
-              <main>
-              ${c.personalita.map((p, i)=>`
-                <div class="score">
-                  <label for="${p.key}">${p.key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</label>
-                  <textarea onchange="app.handleChange(event)" name="personalita.${i}.value" id="${p.key}">${p.value}</textarea>
-                </div>
+                <label for="${e.value}">${(Number(e.qta)||1) * DND.peso(e.value)}kg</label>
               `).join('')}
-              </main>
-            </details>
-  
-            <details open>
-              <summary>Tratti e Privilegi</summary>
-              <main>
-                <form onsubmit="app.addToList('privilegi', this)" class="row">
-                  <button type="submit" class="add" aria-label="Aggiungi classe"><span class="material-symbols-outlined">add</span></button>
-                  <input name="privilegi" id="privilegi"
-                      type="search" placeholder="Aggiungi classe" class="add">
-                  <ul id="privilegiList" name="privilegi" autocomplete required>
-                    ${Classi.getSottoclasse(true).map(classe=>`
-                      <li>${classe}</li>
-                    `).join('')}
-                  </ul>
-                </form>
-                <div>
-                ${this.privilegiMappati().map(({classe, sottoclasse, livello, privilegi}, i)=>`
+              </div>
+            </main>
+          </details>
+        </section>
+
+        <!--DESTRA-->
+        <section>
+          <details open>
+            <summary>Personalità</summary>
+            <main>
+            ${c.personalita.map((p, i)=>`
+              <div class="score">
+                <label for="${p.key}">${p.key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</label>
+                <textarea onchange="app.handleChange(event)" name="personalita.${i}.value" id="${p.key}">${p.value}</textarea>
+              </div>
+            `).join('')}
+            </main>
+          </details>
+
+          <details open class="privilegi">
+            <summary>Tratti e Privilegi</summary>
+            <main>
+              <div>
+                ${this.privilegiMappati().filter(it => it.level === 0).map(({name, privileges})=>`
                   <div>
-                    <section style="display: grid; grid-template-columns: auto 1fr; gap: 5px; padding: 5px 0;">
-                      <button class="delete" onclick="app.deleteFromList('privilegi', ${i})"><span class="material-symbols-outlined">close</span></button>
-                      <div style="position: relative; display: inline-block;">
-                        <input value="${classe} ${sottoclasse}" onchange="app.handleChange(event)"
-                              name="privilegi.${i}" id="privilegi.${i}" type="search">
-                        <ul id="privilegi.${i}List" name="privilegi.${i}" autocomplete required>
-                          ${Classi.getSottoclasse(true).map(classe=>`
-                            <li>${classe}</li>
-                          `).join('')}
-                        </ul>
-                      </div>
+                    <section style="display: grid; grid-template-columns: 1fr; gap: 5px; padding: 5px 0;">
+                      <div class="input">${name}</div>
                     </section>
                     <section>
                       <ul style="margin: 0 0 10px 25px; display: grid; gap: 8px;">
-                        ${privilegi.map((p) => `
+                        ${Array.isArray(privileges) ? privileges.map((p) => `
                           <li style="list-style: disc;">
                             <div><b>${p.privilege}</b>${p.description ? `: ${p.description}` : ''}</div>
                           </li>
-                        `).join('')}
+                        `).join('') : ''}
                       </ul>
                     </section>
                   </div>
                 `).join('')}
+              </div>
+
+              <form onsubmit="app.addToList('privilegi', this)" class="row">
+                <button type="submit" class="add" aria-label="Aggiungi classe"><span class="material-symbols-outlined">add</span></button>
+                <input name="privilegi" id="privilegi"
+                    type="search" placeholder="Aggiungi classe" class="add">
+                <ul autocomplete="privilegi" required>
+                  ${DND.getSottoclasse(true).map(classe=>`
+                    <li>${classe.charAt(0).toUpperCase()+classe.slice(1)}</li>
+                  `).join('')}
+                </ul>
+              </form>
+
+              <div>
+              ${this.privilegiMappati().filter(it => it.level > 0).map(({name, privileges, level, srcIndex})=>`
+                <div>
+                  <section style="display: grid; grid-template-columns: auto 1fr; gap: 5px; padding: 5px 0;">
+                    <button class="delete" onclick="app.deleteFromList('privilegi', ${srcIndex})"><span class="material-symbols-outlined">close</span></button>
+                    <div style="position: relative; display: inline-block;">
+                      <input value="${name}" onchange="app.handleChange(event)"
+                             type="search" id="privilegi.${srcIndex}" name="privilegi.${srcIndex}">
+                      <ul autocomplete="privilegi.${srcIndex}">
+                        ${DND.getSottoclasse(true).map(classe=>`
+                          <li>${classe.charAt(0).toUpperCase()+classe.slice(1)}</li>
+                        `).join('')}
+                      </ul>
+                    </div>
+                  </section>
+                  <section>
+                    <ul style="margin: 0 0 10px 25px; display: grid; gap: 8px;">
+                      ${Array.isArray(privileges) ? privileges.map((p) => `
+                        <li style="list-style: disc;">
+                          <div><b>${p.privilege}</b>${p.description ? `: ${p.description}` : ''}</div>
+                        </li>
+                      `).join('') : ''}
+                    </ul>
+                  </section>
                 </div>
-              </main>
-            </details>
-          </section>
-        </article>
-      `;
-    }
+                `).join('')}
+               </div>
+            </main>
+          </details>
+        </section>
+      </article>
+      <div id="toast" class="toast hide" role="status" aria-live="polite">Modificato</div>
+    `;
+    // Dopo il render, applica lo stato dei <details> e i listener
+    this.applyDetails();
   }
-  new App();
-  </script>
-  </html>
+
+}
+new App();
+</script>
+</html>
